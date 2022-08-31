@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour 
+public class PlayerController : Unit 
 {
 
     private float horizontalInput;
@@ -9,6 +9,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
 
     private float speed = 7;
+
+    private void Start()
+    {
+        Title = "Mushroom Farmer";
+        Health = 50;
+    }
 
     private void Update()
     {
