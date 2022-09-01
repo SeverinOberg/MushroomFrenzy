@@ -78,6 +78,9 @@ public class Enemy : Unit
 
     private void ScanForTarget()
     {
+        float distanceFromHit = 0;
+        float closestDistanceFromHit = 0;
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, circleScanRadius);
         foreach (Collider2D hit in hits)
         {
@@ -89,8 +92,13 @@ public class Enemy : Unit
             Unit unit = hit.transform.GetComponent<Unit>();
             if (unit != null && !unit.isDead)
             {
-                selectedTarget = unit;
-                break;
+                distanceFromHit = Vector2.Distance(transform.position, unit.transform.position);
+
+                if (distanceFromHit <= closestDistanceFromHit || closestDistanceFromHit == 0)
+                {
+                    closestDistanceFromHit = distanceFromHit;
+                    selectedTarget = unit;
+                }
             }
         }
     }
