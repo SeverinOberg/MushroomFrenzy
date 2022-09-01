@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Unit : MonoBehaviour 
@@ -23,8 +24,8 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private int health = 1;
-    protected int Health { get => health; set => health = value; }
+    private float health = 1;
+    protected float Health { get => health; set => health = value; }
 
     private int faction = 0;
     public int Faction { 
@@ -43,7 +44,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damageAmount)
+    public void TakeDamage(float damageAmount)
     {
         if (!isDead)
         {
@@ -53,15 +54,30 @@ public class Unit : MonoBehaviour
             {
                 Die();
             }
-
-            Debug.Log("Took " + damageAmount + " damage. Has " + health + " left.");
+            Debug.Log(title + " took " + damageAmount + " damage. Has " + health + " left.");
         }
     }
 
     public virtual void Die()
     {
-        Debug.Log(Title + " has died.");
+        Debug.Log(title + " has died.");
         isDead = true;
+
+        if (gameObject.CompareTag("Player") == false)
+        {
+            StartCoroutine(DeathDelay());
+        }
+
+        if (gameObject.CompareTag("Player") || gameObject.CompareTag("Farm"))
+        {
+            GameManager.Instance.LoseGame();
+        }
+    }
+
+    private IEnumerator DeathDelay()
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(gameObject);
     }
 
 }

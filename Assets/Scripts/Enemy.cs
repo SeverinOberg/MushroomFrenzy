@@ -2,6 +2,7 @@ using UnityEngine;
 using Pathfinding;
 using System.Collections;
 using System.IO;
+using Unity.Burst.CompilerServices;
 
 public class Enemy : Unit 
 {
@@ -11,14 +12,14 @@ public class Enemy : Unit
     private float circleScanRadius = 15;
     private float distanceFromTarget;
 
-    private float maxChaseDistance = 15;
+    private float maxChaseDistance = 16;
 
     private float attackRange = 1.5f;
     private float attackCooldown = 2;
     private float timeSinceLastAttack;
     private bool isWithinAttackRange;
 
-    private float scanCooldown = 1;
+    private float scanCooldown = 1f;
     private float timeSinceLastScan;
 
     private Transform initialTarget;
@@ -30,38 +31,46 @@ public class Enemy : Unit
 
         aiPath = GetComponent<AIPath>();
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
-        initialTarget = FindObjectOfType<Farm>().transform;
+        initialTarget = GameObject.Find("Patrol Point").transform;
         aiDestinationSetter.target = initialTarget;
     }
 
     private void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         timeSinceLastAttack += Time.deltaTime;
         timeSinceLastScan += Time.deltaTime;
 
-        distanceFromTarget = Vector2.Distance(transform.position, aiDestinationSetter.target.position);
-        isWithinAttackRange = distanceFromTarget <= attackRange;
-
-        if (selectedTarget != null && selectedTarget.isDead)
+        if (selectedTarget == null)
         {
-            ResetTarget();
-        }
-        
-        if (selectedTarget == null && timeSinceLastScan >= scanCooldown)
-        {
-            timeSinceLastScan = 0;
-            ScanForTarget();
+            if (timeSinceLastScan >= scanCooldown)
+            {
+                timeSinceLastScan = 0;
+                ScanForTarget();
+            }
+            return;
         }
 
-        if (selectedTarget != null && !isWithinAttackRange)
+        distanceFromTarget = Vector2.Distance(transform.position, selectedTarget.transform.position);
+        isWithinAttackRange = distanceFromTarget <= attackRange + selectedTarget.transform.localScale.x / 2;
+
+        if (!isWithinAttackRange)
         {
-            if (!aiPath.canMove)
+            if (!aiPath.canMove && !isDead)
             {
                 aiPath.canMove = true;
             }
-            Chase();
+
+            if (distanceFromTarget >= maxChaseDistance && aiDestinationSetter.target != initialTarget)
+            {
+                ResetTarget();
+            }
         }
-        else if (selectedTarget != null && isWithinAttackRange)
+        else if (isWithinAttackRange)
         {
             if (aiPath.canMove)
             {
@@ -78,53 +87,56 @@ public class Enemy : Unit
 
     private void ScanForTarget()
     {
-        float distanceFromHit = 0;
         float closestDistanceFromHit = 0;
+        Unit closestUnit = null;
 
+        // Find closest target
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, circleScanRadius);
         foreach (Collider2D hit in hits)
         {
-            if (hit.transform.CompareTag("Enemy"))
-            {
-                return;
-            }
-
             Unit unit = hit.transform.GetComponent<Unit>();
-            if (unit != null && !unit.isDead)
+            if (unit == null || unit.isDead || hit.transform.CompareTag("Enemy"))
             {
-                distanceFromHit = Vector2.Distance(transform.position, unit.transform.position);
+                continue;
+            }
 
-                if (distanceFromHit <= closestDistanceFromHit || closestDistanceFromHit == 0)
-                {
-                    closestDistanceFromHit = distanceFromHit;
-                    selectedTarget = unit;
-                }
+            float distanceFromHit = Vector2.Distance(transform.position, unit.transform.position);
+
+            if (closestDistanceFromHit == 0)
+            {
+                closestDistanceFromHit = distanceFromHit;
+            }
+
+            if (distanceFromHit <= closestDistanceFromHit)
+            {
+                closestDistanceFromHit = distanceFromHit;
+                closestUnit = unit;
             }
         }
-    }
 
-    private void Chase()
-    {
-        if (aiDestinationSetter.target != selectedTarget.transform)
+        // Assign new target once closest target has been found
+        if (closestUnit != null)
         {
+            selectedTarget = closestUnit;
             aiDestinationSetter.target = selectedTarget.transform;
-        }
-        else if (distanceFromTarget >= maxChaseDistance && aiDestinationSetter.target == selectedTarget.transform)
-        {
-            ResetTarget();
         }
     }
 
     private void ResetTarget()
     {
-        aiPath.canMove = true;
-        aiDestinationSetter.target = initialTarget;
         selectedTarget = null;
+        aiDestinationSetter.target = initialTarget;
     }
 
     public virtual void Attack(int attackDamage)
     {
         selectedTarget.TakeDamage(attackDamage);
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        aiPath.canMove = false;
     }
 
 }
