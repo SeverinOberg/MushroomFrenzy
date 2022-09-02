@@ -3,6 +3,8 @@ using UnityEngine;
 public class Pebblepoker : Turret 
 {
 
+    [SerializeField] ParticleSystem pebbleShotEffect;
+
     private Unit target = null;
     private Unit lastTarget = null;
 
@@ -77,6 +79,7 @@ public class Pebblepoker : Turret
     private void Shoot()
     {
         target.TakeDamage(Random.Range(minDamage, maxDamage));
+        pebbleShotEffect.Play();
     }
 
     private void ResetTarget()
