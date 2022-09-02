@@ -10,12 +10,10 @@ public class PlayerController : Unit
 
     private float speed = 7;
 
-    private Ray mouseDirectionRay;
-
     private float timeSinceLastAttack;
     private float attackCooldown = 1.0f;
-    private float attackRadius = 2.0f;
-    private float attackDistance = 1f;
+    private float attackRadius = 1.8f;
+    private float attackDistance = 0.5f;
     private float offsetPosMultiplier = 1.8f;
     private float attackDamage = 3;
 
@@ -63,7 +61,6 @@ public class PlayerController : Unit
                 continue;
             }
 
-            Debug.Log(hit.transform.name);
             Unit enemy = hit.transform.GetComponent<Unit>();
             if (enemy != null)
             {
