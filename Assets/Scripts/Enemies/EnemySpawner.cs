@@ -43,15 +43,15 @@ public class EnemySpawner : Unit
     {
         for (int i = 0; i < spawnAmount; i++)
         {
-            float randomOffsetX = Random.Range(-2, -4);
-            float randomOffsetY = Random.Range(-2, -4);
+            float randomOffsetX = Random.Range(-1.0f, 3.0f);
+            float randomOffsetY = Random.Range(-1.0f, 3.0f);
             Vector2 spawnLocationOffset = new Vector2
             (
                 transform.localPosition.x - randomOffsetX,
                 transform.localPosition.y - randomOffsetY
             );
-
-            GameObject spawn = Instantiate(GetRandomEnemyPrefab(), spawnLocationOffset, transform.rotation, transform);
+            GameObject enemyPrefab = GetRandomEnemyPrefab();
+            Instantiate(enemyPrefab, spawnLocationOffset, enemyPrefab.transform.rotation, transform);
         }
     }
 

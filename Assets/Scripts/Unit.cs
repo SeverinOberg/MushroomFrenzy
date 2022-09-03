@@ -54,7 +54,7 @@ public class Unit : MonoBehaviour
             {
                 Die();
             }
-            Debug.Log(title + " took " + damageAmount + " damage. Has " + health + " left.");
+            //Debug.Log(title + " took " + damageAmount + " damage. Has " + health + " left.");
         }
     }
 
