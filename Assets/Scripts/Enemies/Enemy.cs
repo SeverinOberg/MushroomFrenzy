@@ -8,6 +8,9 @@ public class Enemy : Unit
 {
     [SerializeField] private ParticleSystem deathParticle;
 
+    [SerializeField] private Resource[] resources;
+
+
     protected AIPath aiPath;
     private AIDestinationSetter aiDestinationSetter;
 
@@ -26,6 +29,8 @@ public class Enemy : Unit
 
     private Transform initialTarget;
     private Unit selectedTarget;
+
+    private int randomResourceIndex;
 
     protected void Start()
     {
@@ -140,6 +145,13 @@ public class Enemy : Unit
         base.Die();
         aiPath.canMove = false;
         Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
+
+        randomResourceIndex = Random.Range(0, resources.Length);
+        if (Random.Range(1, 101) >= 50)
+        {
+            Instantiate(resources[randomResourceIndex], transform.position, resources[randomResourceIndex].transform.rotation);
+        }
+        
     }
 
 }

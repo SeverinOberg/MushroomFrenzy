@@ -6,16 +6,15 @@ public class EnemySpawner : Unit
 
     [SerializeField] private GameObject[] enemyPrefabs;
     // private int minEnemies = 1;
-    private int totalMaxEnemies = 5;
+    [SerializeField] private int totalMaxEnemies = 5;
+    [SerializeField] private float secondsUntilSpawn = 5;
 
     private int enemyAmountToSpawn = 1;
     private int minEnemiesToSpawn = 1;
-    private int maxEnemiesToSpawn = 3;
+    private int maxEnemiesToSpawn = 2;
 
     private float timeSinceLastSpawn;
-    private float spawnCooldown = 2f;
-    private float minSpawnCooldown = 5f;
-    private float maxSpawnCooldown = 10f;
+    [SerializeField] private float spawnCooldown = 2f;
 
     private void Start()
     {
@@ -25,13 +24,17 @@ public class EnemySpawner : Unit
 
     private void Update()
     {
+        if (secondsUntilSpawn >= Time.time)
+        {
+            return;
+        }
+
         timeSinceLastSpawn += Time.deltaTime;
         if (timeSinceLastSpawn >= spawnCooldown)
         {
             if (transform.childCount < totalMaxEnemies)
             {
                 timeSinceLastSpawn = 0;
-                spawnCooldown = Random.Range(minSpawnCooldown, maxSpawnCooldown);
 
                 enemyAmountToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn);
                 SpawnEnemy(enemyAmountToSpawn);

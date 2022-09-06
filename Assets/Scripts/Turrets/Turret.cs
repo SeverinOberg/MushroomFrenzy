@@ -3,7 +3,10 @@ using UnityEngine;
 public class Turret : Building 
 {
 
-    [SerializeField] ParticleSystem pebbleShotEffect;
+    public TurretSO turretSO;
+    public bool isSleeping = true;
+
+    [SerializeField] private ParticleSystem pebbleShotEffect;
 
     private Unit target = null;
 
@@ -30,11 +33,15 @@ public class Turret : Building
     private void Start()
     {
         lastTargetsPosition = transform.position * 2.0f - transform.position;
-        
     }
 
     private void Update()
     {
+        if (isSleeping)
+        {
+            return;
+        }
+
         timeSinceLastScan += Time.deltaTime;
         timeSinceLastShot += Time.deltaTime;
 

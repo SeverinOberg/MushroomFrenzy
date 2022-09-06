@@ -6,7 +6,14 @@ public class Unit : MonoBehaviour
 
     public bool isDead { get; private set; }
 
+    // Backing fields
+    private float health = 1;
     private string title = "Unit";
+    private int faction = 0;
+    // ---
+
+    protected float Health { get => health; set => health = value; }
+
     protected string Title
     {
         get { return title; }
@@ -23,11 +30,7 @@ public class Unit : MonoBehaviour
             }
         }
     }
-
-    private float health = 1;
-    protected float Health { get => health; set => health = value; }
-
-    private int faction = 0;
+    
     public int Faction { 
         get { return faction; } 
         set
@@ -60,7 +63,6 @@ public class Unit : MonoBehaviour
 
     public virtual void Die()
     {
-        Debug.Log(title + " has died.");
         isDead = true;
 
         if (gameObject.CompareTag("Player") == false)
