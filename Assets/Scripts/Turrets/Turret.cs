@@ -3,6 +3,7 @@ using UnityEngine;
 public class Turret : Building 
 {
 
+    protected Animator animator;
     public TurretSO turretSO;
     public bool isSleeping = true;
 
@@ -21,6 +22,11 @@ public class Turret : Building
     private float lookAtFraction = 0;
     private float lookAtFractionMax = 3;
     private float lookAtFractionSpeed = 3;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
@@ -47,10 +53,10 @@ public class Turret : Building
         }
         else
         {
-            if (!LockOnToTarget())
-            {
-                return;
-            }
+            //if (!LockOnToTarget())
+            //{
+            //    return;
+            //}
 
             distanceFromTarget = Vector2.Distance(target.transform.position, transform.position);
             isWithinShootRange = distanceFromTarget <= turretSO.range;
@@ -83,23 +89,23 @@ public class Turret : Building
         }
     }
 
-    private bool LockOnToTarget()
-    {
-        // Lerp rotation towards the target from last target position to new target position
-        if (lookAtFraction < lookAtFractionMax)
-        {
-            lookAtFraction += Time.deltaTime * lookAtFractionSpeed;
-            Vector3 lerpPosLastAndNewTarget = Vector3.Lerp(lastTargetsPosition, target.transform.position, lookAtFraction);
-            transform.up = lerpPosLastAndNewTarget - transform.position;
-            return false;
-        }
-        else
-        {
-            // Lock on to target once finished lerp rotating
-            transform.up = target.transform.position - transform.position;
-            return true;
-        }
-    }
+    //private bool LockOnToTarget()
+    //{
+    //    // Lerp rotation towards the target from last target position to new target position
+    //    if (lookAtFraction < lookAtFractionMax)
+    //    {
+    //        lookAtFraction += Time.deltaTime * lookAtFractionSpeed;
+    //        Vector3 lerpPosLastAndNewTarget = Vector3.Lerp(lastTargetsPosition, target.transform.position, lookAtFraction);
+    //        transform.up = lerpPosLastAndNewTarget - transform.position;
+    //        return false;
+    //    }
+    //    else
+    //    {
+    //        // Lock on to target once finished lerp rotating
+    //        transform.up = target.transform.position - transform.position;
+    //        return true;
+    //    }
+    //}
 
     private void ClearTarget(ref Unit targetToClear)
     {
@@ -123,6 +129,6 @@ public class Turret : Building
     public virtual void Shoot()
     {
         target.TakeDamage(turretSO.damage);
+        animator.SetTrigger("Shoot");
     }
-
 }

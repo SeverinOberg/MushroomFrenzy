@@ -9,7 +9,7 @@ public class IceCannon : Turret
     public override void Shoot()
     {
         base.Shoot();
-        shootEffect.Play();
+        // shootEffect.Play();
     }
 
 }
