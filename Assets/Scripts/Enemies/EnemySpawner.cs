@@ -24,12 +24,13 @@ public class EnemySpawner : Unit
 
     private void Update()
     {
+        timeSinceLastSpawn += Time.deltaTime;
+
         if (secondsUntilSpawn >= Time.time)
         {
             return;
         }
 
-        timeSinceLastSpawn += Time.deltaTime;
         if (timeSinceLastSpawn >= spawnCooldown)
         {
             if (transform.childCount < totalMaxEnemies)

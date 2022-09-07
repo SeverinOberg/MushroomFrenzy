@@ -16,7 +16,9 @@ MonoBehaviour:
   title: Flamethrower
   woodCost: 10
   stoneCost: 10
-  Damage: 2
-  AttackSpeed: 1
-  SlowPercentage: 0
-  Range: 10
+  damage: 1
+  attackSpeed: 1
+  range: 8
+  slowPercentage: 0
+  slowDuration: 0
+  shootCooldown: 1

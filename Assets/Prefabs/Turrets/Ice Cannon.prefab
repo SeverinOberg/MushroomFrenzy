@@ -156,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
   m_Color: {r: 0.4862745, g: 0.73333335, b: 0.9137255, a: 1}
   m_FlipX: 0
@@ -178,8 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9124117133434891502}
   - component: {fileID: 3290010015989213649}
-  - component: {fileID: 6661206909775937749}
-  - component: {fileID: -2920791908638167480}
+  - component: {fileID: 6450017539711544292}
   m_Layer: 10
   m_Name: Ice Cannon
   m_TagString: Untagged
@@ -231,7 +230,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6661206909775937749
+--- !u!114 &6450017539711544292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -240,23 +239,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4365776368011592592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efcfe756a59ec1b438e8e3eaaad297ae, type: 3}
+  m_Script: {fileID: 11500000, guid: f367cfae67de4c745a8df4cd310a585b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   turretSO: {fileID: 11400000, guid: 28227f003919b844e9a3b14b9eee60b6, type: 2}
-  pebbleShotEffect: {fileID: 5496057344187391572}
---- !u!114 &-2920791908638167480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365776368011592592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b922f8c90858d76409a7cd60fd6ee3e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  isSleeping: 1
+  shootEffect: {fileID: 5496057344187391572}
 --- !u!1 &7074944883239995397
 GameObject:
   m_ObjectHideFlags: 0

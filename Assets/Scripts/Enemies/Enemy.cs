@@ -1,8 +1,5 @@
 using UnityEngine;
 using Pathfinding;
-using System.Collections;
-using System.IO;
-using Unity.Burst.CompilerServices;
 
 public class Enemy : Unit 
 {
@@ -32,11 +29,22 @@ public class Enemy : Unit
 
     private int randomResourceIndex;
 
+    private void OnEnable()
+    {
+        OnMovementSpeedChanged += UpdateMovementSpeed;
+    }
+
+    private void OnDisable()
+    {
+        OnMovementSpeedChanged -= UpdateMovementSpeed;
+    }
+
     protected void Start()
     {
         Faction = 1;
 
         aiPath = GetComponent<AIPath>();
+        aiPath.maxSpeed = MovementSpeed;
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
         initialTarget = GameObject.Find("Patrol Point").transform;
         aiDestinationSetter.target = initialTarget;
@@ -87,7 +95,7 @@ public class Enemy : Unit
             if (timeSinceLastAttack >= attackCooldown)
             {
                 timeSinceLastAttack = 0.0f;
-                Attack(1);
+                Attack(0);
             }
         }
     }
@@ -129,17 +137,27 @@ public class Enemy : Unit
         }
     }
 
+    // Privates
     private void ResetTarget()
     {
         selectedTarget = null;
         aiDestinationSetter.target = initialTarget;
     }
 
+    private void UpdateMovementSpeed(Unit unit, float movementSpeed)
+    {
+        if (unit != this.unit) { return; }
+        aiPath.maxSpeed = movementSpeed;
+    }
+
+    // Virtuals
     public virtual void Attack(int attackDamage)
     {
         selectedTarget.TakeDamage(attackDamage);
     }
 
+    
+    // Overrides
     public override void Die()
     {
         base.Die();

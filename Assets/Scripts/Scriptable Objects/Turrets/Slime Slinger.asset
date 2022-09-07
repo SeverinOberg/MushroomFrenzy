@@ -16,7 +16,9 @@ MonoBehaviour:
   title: Slime Slinger
   woodCost: 5
   stoneCost: 10
-  Damage: 5
-  AttackSpeed: 4
-  SlowPercentage: 100
-  Range: 20
+  damage: 1
+  attackSpeed: 1
+  range: 15
+  slowPercentage: 100
+  slowDuration: 3
+  shootCooldown: 7

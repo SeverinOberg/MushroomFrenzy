@@ -11,8 +11,10 @@ public class TurretSO : ScriptableObject
     public int stoneCost = 5;
 
     // Set
-    public float Damage = 1;
-    public float AttackSpeed = 1;
-    public float SlowPercentage = 0;
-    public float Range = 15;
+    public float health = 10;
+    public float damage = 1;
+    public float range = 15;
+    public float slowPercentage = 0;
+    public float slowDuration = 0;
+    public float shootCooldown = 2;
 }

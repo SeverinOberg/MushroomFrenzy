@@ -16,7 +16,9 @@ MonoBehaviour:
   title: Ice Cannon
   woodCost: 10
   stoneCost: 5
-  Damage: 5
-  AttackSpeed: 2.5
-  SlowPercentage: 50
-  Range: 15
+  damage: 1
+  attackSpeed: 1
+  range: 15
+  slowPercentage: 50
+  slowDuration: 3
+  shootCooldown: 2

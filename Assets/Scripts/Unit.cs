@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour 
 {
+    protected Unit unit;
 
     public bool isDead { get; private set; }
 
@@ -10,7 +11,17 @@ public class Unit : MonoBehaviour
     private float health = 1;
     private string title = "Unit";
     private int faction = 0;
+    private float movementSpeed = 2;
     // ---
+
+    protected System.Action<Unit, float> OnMovementSpeedChanged;
+    public float InitialMovementSpeed { get; private set; }
+    
+    private void Awake()
+    {
+        unit = this;
+        InitialMovementSpeed = movementSpeed;
+    }
 
     protected float Health { get => health; set => health = value; }
 
@@ -44,6 +55,22 @@ public class Unit : MonoBehaviour
             {
                 faction = value;
             }
+        }
+    }
+
+    public float MovementSpeed
+    {
+        get { return movementSpeed; }
+        set
+        {
+            if (value < 0)
+            {
+                movementSpeed = 0;
+                return;
+            }
+
+            movementSpeed = value;
+            OnMovementSpeedChanged?.Invoke(this, movementSpeed);
         }
     }
 

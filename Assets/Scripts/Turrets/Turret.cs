@@ -6,25 +6,17 @@ public class Turret : Building
     public TurretSO turretSO;
     public bool isSleeping = true;
 
-    [SerializeField] private ParticleSystem pebbleShotEffect;
-
     private Unit target = null;
 
     private Vector3 lastTargetsPosition;
 
     private float timeSinceLastScan;
     private float scanCooldown = 1.0f;
-    private float scanRadius = 15.0f;
 
     private bool isWithinShootRange;
     private float distanceFromTarget;
-    private float maxShootRange = 15.0f;
 
     private float timeSinceLastShot;
-    private float shootCooldown = 2;
-
-    private float minDamage = 1;
-    private float maxDamage = 2;
 
     private float lookAtFraction = 0;
     private float lookAtFractionMax = 3;
@@ -32,7 +24,10 @@ public class Turret : Building
 
     private void Start()
     {
-        lastTargetsPosition = transform.position * 2.0f - transform.position;
+        Health = turretSO.health;
+        timeSinceLastScan = scanCooldown;
+        timeSinceLastShot = turretSO.shootCooldown;
+        //lastTargetsPosition = transform.position * 2.0f - transform.position;
     }
 
     private void Update()
@@ -45,6 +40,7 @@ public class Turret : Building
         timeSinceLastScan += Time.deltaTime;
         timeSinceLastShot += Time.deltaTime;
 
+   
         if (!target)
         {
             ScanForTarget();
@@ -57,11 +53,11 @@ public class Turret : Building
             }
 
             distanceFromTarget = Vector2.Distance(target.transform.position, transform.position);
-            isWithinShootRange = distanceFromTarget <= maxShootRange;
+            isWithinShootRange = distanceFromTarget <= turretSO.range;
 
             if (isWithinShootRange && !target.isDead)
             {
-                if (IsCooldownReady(ref timeSinceLastShot, shootCooldown))
+                if (IsCooldownReady(ref timeSinceLastShot, turretSO.shootCooldown))
                 {
                     Shoot();
                 }
@@ -78,7 +74,7 @@ public class Turret : Building
         bool isScanReady = IsCooldownReady(ref timeSinceLastScan, scanCooldown);
         if (isScanReady)
         {
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, scanRadius, Vector2.zero, 0.0f, LayerMask.GetMask("Enemy"));
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, turretSO.range, Vector2.zero, 0.0f, LayerMask.GetMask("Enemy"));
             if (hit)
             {
                 lookAtFraction = 0;
@@ -105,12 +101,6 @@ public class Turret : Building
         }
     }
 
-    private void Shoot()
-    {
-        target.TakeDamage(Random.Range(minDamage, maxDamage));
-        pebbleShotEffect.Play();
-    }
-
     private void ClearTarget(ref Unit targetToClear)
     {
         lastTargetsPosition = targetToClear.transform.position;
@@ -128,6 +118,11 @@ public class Turret : Building
         {
             return false;
         }
+    }
+
+    public virtual void Shoot()
+    {
+        target.TakeDamage(turretSO.damage);
     }
 
 }

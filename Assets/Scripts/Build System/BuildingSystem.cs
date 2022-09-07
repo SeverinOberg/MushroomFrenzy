@@ -13,8 +13,6 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private Tilemap mainTilemap;
     [SerializeField] private TileBase whiteTile;
 
-    private PlaceableObject objectToPlace;
-
     #endregion
 
     #region Unity Methods
@@ -44,12 +42,11 @@ public class BuildingSystem : MonoBehaviour
         Vector3 position = SnapCoordinateToGrid(Utilities.GetMouseWorldPosition());
 
         GameObject obj = Instantiate(prefab, position, Quaternion.identity);
-        objectToPlace = obj.GetComponent<PlaceableObject>();
 
         var objDrag = obj.AddComponent<ObjectDrag>();
 
         objDrag.turret = obj.GetComponent<Turret>();
-        objDrag.SetBuildMode(true);
+        objDrag.SetDragMode(true);
     }
 
     #endregion

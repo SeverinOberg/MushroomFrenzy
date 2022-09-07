@@ -48,6 +48,8 @@ public class ResourceManager : MonoBehaviour
     {
         if (Wood >= woodCost && Stone >= stoneCost)
         {
+            Wood -= woodCost;
+            Stone -= stoneCost;
             return true;
         }
         return false;

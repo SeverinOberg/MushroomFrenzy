@@ -25,8 +25,6 @@ public class PlayerController : Unit
 
     private void Update()
     {
-        timeSinceLastAttack += Time.deltaTime;
-
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
@@ -34,6 +32,7 @@ public class PlayerController : Unit
 
         transform.Translate(movement * speed * Time.deltaTime);
 
+        timeSinceLastAttack += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Mouse0) && timeSinceLastAttack >= attackCooldown)
         {
             timeSinceLastAttack = 0;

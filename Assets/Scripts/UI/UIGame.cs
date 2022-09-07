@@ -10,6 +10,8 @@ public class UIGame : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stoneResourceText;
     [SerializeField] private TextMeshProUGUI infoText;
 
+    [SerializeField] private GameObject escapeMenu;
+
     #region Subscriptions
 
     private void OnEnable()
@@ -27,6 +29,23 @@ public class UIGame : MonoBehaviour
     }
 
     #endregion
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!escapeMenu.activeSelf)
+            {
+                escapeMenu.SetActive(true);
+            }
+            else 
+            {
+                escapeMenu.SetActive(false);
+            }
+        }
+    }
+
 
     private void SetInfoText(string text)
     {

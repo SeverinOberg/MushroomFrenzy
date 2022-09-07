@@ -18,4 +18,6 @@ MonoBehaviour:
   stoneCost: 5
   Damage: 1
   AttackSpeed: 1
+  Range: 15
   SlowPercentage: 0
+  ShootCooldown: 1.5

@@ -156,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
   m_Color: {r: 0.31764707, g: 0.74509805, b: 0.21568628, a: 1}
   m_FlipX: 0
@@ -178,8 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9124117133434891502}
   - component: {fileID: 3290010015989213649}
-  - component: {fileID: 6661206909775937749}
-  - component: {fileID: -79740696238255327}
+  - component: {fileID: 7817572067318692045}
   m_Layer: 10
   m_Name: Slime Slinger
   m_TagString: Untagged
@@ -231,7 +230,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6661206909775937749
+--- !u!114 &7817572067318692045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -240,23 +239,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4365776368011592592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efcfe756a59ec1b438e8e3eaaad297ae, type: 3}
+  m_Script: {fileID: 11500000, guid: af0eb41455a5b424cbc034ccd35d2657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   turretSO: {fileID: 11400000, guid: 075873fc37b465e40ac49c88e579aa02, type: 2}
-  pebbleShotEffect: {fileID: 5496057344187391572}
---- !u!114 &-79740696238255327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365776368011592592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b922f8c90858d76409a7cd60fd6ee3e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  isSleeping: 1
+  shootEffect: {fileID: 5496057344187391572}
+  projectile: {fileID: 6839394828159480126, guid: f5a5433541974c147be12238d42d0a43, type: 3}
 --- !u!1 &7074944883239995397
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8577775760623235862}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -458,7 +447,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.6
+      scalar: 0.3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -511,7 +500,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 0.2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -627,7 +616,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1209,7 +1198,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 12
+      scalar: 15
       minScalar: 10
       maxCurve:
         serializedVersion: 2

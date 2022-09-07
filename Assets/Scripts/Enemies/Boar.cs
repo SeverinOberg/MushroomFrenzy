@@ -8,7 +8,6 @@ public class Boar : Enemy
         base.Start();
         Title = "Boar";
         Health = 5;
-        aiPath.maxSpeed = 2;
     }
 
     public override void Attack(int attackDamage)

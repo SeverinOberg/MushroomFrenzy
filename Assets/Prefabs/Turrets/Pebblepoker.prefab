@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 9124117133434891502}
   - component: {fileID: 3290010015989213649}
   - component: {fileID: 6661206909775937749}
-  - component: {fileID: -79740696238255327}
   m_Layer: 10
   m_Name: Pebblepoker
   m_TagString: Untagged
@@ -160,19 +159,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretSO: {fileID: 11400000, guid: 0f55c9c278d89e345af480396026da1a, type: 2}
-  pebbleShotEffect: {fileID: 5496057344187391572}
---- !u!114 &-79740696238255327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365776368011592592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b922f8c90858d76409a7cd60fd6ee3e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  isSleeping: 1
+  shootEffect: {fileID: 5496057344187391572}
 --- !u!1 &4795656601620740494
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +342,7 @@ GameObject:
   - component: {fileID: 5496057344187391572}
   - component: {fileID: 4899287053306496167}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Pebblepoker Shoot Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

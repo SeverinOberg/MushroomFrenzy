@@ -11,32 +11,29 @@ public class ObjectDrag : MonoBehaviour
     private SpriteRenderer _highlightSprite;
     private BoxCollider2D _collider;
 
-    private bool _buildMode;
+    private bool _dragMode;
 
     private Vector2 _mousePosition;
 
     private void Awake()
     {
+
         _highlightSprite = GetComponentsInChildren<SpriteRenderer>()[0];
 
        _collider = GetComponent<BoxCollider2D>();
 
-        
-    }
-
-    private void Start()
-    {
-        turret.isSleeping = true;
     }
 
     private void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1) && _buildMode)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && _dragMode)
         {
+            ResourceManager.Instance.Wood += turret.turretSO.woodCost;
+            ResourceManager.Instance.Stone += turret.turretSO.stoneCost;
             Destroy(gameObject);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && _buildMode)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && _dragMode)
         {
             transform.position = BuildingSystem.current.SnapCoordinateToGrid(_mousePosition);
 
@@ -48,12 +45,11 @@ public class ObjectDrag : MonoBehaviour
             }
 
             turret.isSleeping = false;
-            SetBuildMode(false);
-            ResourceManager.Instance.Wood -= turret.turretSO.woodCost;
-            ResourceManager.Instance.Stone -= turret.turretSO.stoneCost;
+            SetDragMode(false);
+            Destroy(this);
         }
 
-        if (_buildMode)
+        if (_dragMode)
         {
             _mousePosition = Utilities.GetMouseWorldPosition();
             transform.position = Vector3.Lerp(transform.position, BuildingSystem.current.SnapCoordinateToGrid(_mousePosition), Time.deltaTime * 15);
@@ -67,10 +63,10 @@ public class ObjectDrag : MonoBehaviour
         _highlightSprite.enabled = false;
     }
 
-    public void SetBuildMode(bool boolean)
+    public void SetDragMode(bool boolean)
     {
-        _buildMode = boolean;
-        if (_buildMode)
+        _dragMode = boolean;
+        if (_dragMode)
         {
             _collider.enabled = false;
         }
