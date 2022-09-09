@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4597718234008849685}
   - component: {fileID: 9058662541949348553}
   - component: {fileID: 927783302426516565}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Troll Nest
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -126,3 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 7903604297683440050, guid: cb6f96aa39b7e094486b5b393e521f25, type: 3}
+  totalMaxEnemies: 5
+  secondsUntilSpawn: 5
+  spawnCooldown: 2

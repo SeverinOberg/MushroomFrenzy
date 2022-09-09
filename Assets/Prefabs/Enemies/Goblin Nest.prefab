@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3956713018853812430}
   - component: {fileID: 8399675440919858962}
   - component: {fileID: 8920857764705736552}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Goblin Nest
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -126,3 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 6070259322269241642, guid: 6aa8d65c873d14647a73ac410ef93be1, type: 3}
+  totalMaxEnemies: 5
+  secondsUntilSpawn: 5
+  spawnCooldown: 2

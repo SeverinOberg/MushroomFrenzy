@@ -1,7 +1,12 @@
+using Pathfinding;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : Unit 
 {
+    [SerializeField] Animator attackAnimator;
+
+    [SerializeField] Transform arm;
 
     private float horizontalInput;
     private float verticalInput;
@@ -23,6 +28,8 @@ public class PlayerController : Unit
         Health = 50;
     }
 
+    private Enemy currentEnemy;
+
     private void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
@@ -39,7 +46,7 @@ public class PlayerController : Unit
             MainAttack();
         }
     }
-
+    
     private void MainAttack()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -49,6 +56,9 @@ public class PlayerController : Unit
             transform.position.x + mouseDirectionFromPlayer.x * offsetPosMultiplier,
             transform.position.y + mouseDirectionFromPlayer.y * offsetPosMultiplier
         );
+
+        arm.up = mouseDirectionFromPlayer;
+        attackAnimator.SetTrigger("Attack");
 
         Debug.DrawRay(offsetPos, mouseDirectionFromPlayer * (attackDistance + attackRadius), Color.red, 1);
 
@@ -60,10 +70,18 @@ public class PlayerController : Unit
                 continue;
             }
 
-            Unit enemy = hit.transform.GetComponent<Unit>();
+            Enemy enemy = hit.transform.GetComponent<Enemy>();
             if (enemy != null)
             {
                 enemy.TakeDamage(Random.Range(attackDamage / 2, attackDamage * 2));
+                enemy.rb.AddForce(mouseDirectionFromPlayer * 10, ForceMode2D.Impulse);
+
+                if (!enemy.isDead)
+                {
+                    enemy.BlinkRed();
+                }
+                
+                enemy.PauseAI(0.2f);
             }
         }
     }

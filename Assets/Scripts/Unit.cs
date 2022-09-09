@@ -4,6 +4,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour 
 {
     protected Unit unit;
+    protected SpriteRenderer spriteRenderer;
 
     public bool isDead { get; private set; }
 
@@ -14,6 +15,8 @@ public class Unit : MonoBehaviour
     private float movementSpeed = 2;
     // ---
 
+    private Color defaultColor;
+
     protected System.Action<Unit, float> OnMovementSpeedChanged;
     public float InitialMovementSpeed { get; private set; }
     
@@ -21,6 +24,9 @@ public class Unit : MonoBehaviour
     {
         unit = this;
         InitialMovementSpeed = movementSpeed;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        defaultColor = spriteRenderer.color;
     }
 
     protected float Health { get => health; set => health = value; }
@@ -107,6 +113,17 @@ public class Unit : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         Destroy(gameObject);
+    }
+
+    public void BlinkRed()
+    {
+        spriteRenderer.color = Color.red;
+        Invoke("MakeDefaultColor", 0.2f);
+    }
+
+    private void MakeDefaultColor()
+    {
+        spriteRenderer.color = defaultColor;
     }
 
 }

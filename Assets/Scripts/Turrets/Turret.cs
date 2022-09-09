@@ -19,9 +19,11 @@ public class Turret : Building
 
     private float timeSinceLastShot;
 
-    private float lookAtFraction = 0;
-    private float lookAtFractionMax = 3;
-    private float lookAtFractionSpeed = 3;
+    private bool flippedRight = true;
+
+    //private float lookAtFraction = 0;
+    //private float lookAtFractionMax = 3;
+    //private float lookAtFractionSpeed = 3;
 
     private void Awake()
     {
@@ -58,6 +60,8 @@ public class Turret : Building
             //    return;
             //}
 
+            FlipByTargetPosition();
+
             distanceFromTarget = Vector2.Distance(target.transform.position, transform.position);
             isWithinShootRange = distanceFromTarget <= turretSO.range;
 
@@ -75,6 +79,27 @@ public class Turret : Building
         }
     }
 
+    private void FlipByTargetPosition()
+    {
+        float xDirectionToTarget = target.transform.position.x - transform.position.x;
+
+        if (flippedRight && xDirectionToTarget < -0.5)
+        {
+            flippedRight = false;
+            Flip();
+        }
+        else if (!flippedRight && xDirectionToTarget > 0.5)
+        {
+            flippedRight = true;
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        transform.Rotate(transform.rotation.x, flippedRight ? 0.0f : 180.0f, transform.rotation.z);
+    }
+
     private void ScanForTarget()
     {
         bool isScanReady = IsCooldownReady(ref timeSinceLastScan, scanCooldown);
@@ -83,7 +108,7 @@ public class Turret : Building
             RaycastHit2D hit = Physics2D.CircleCast(transform.position, turretSO.range, Vector2.zero, 0.0f, LayerMask.GetMask("Enemy"));
             if (hit)
             {
-                lookAtFraction = 0;
+                //lookAtFraction = 0;
                 target = hit.transform.GetComponent<Unit>();
             }
         }

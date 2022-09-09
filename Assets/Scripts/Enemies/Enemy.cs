@@ -1,5 +1,6 @@
 using UnityEngine;
 using Pathfinding;
+using System.Collections;
 
 public class Enemy : Unit 
 {
@@ -7,6 +8,7 @@ public class Enemy : Unit
 
     [SerializeField] private Resource[] resources;
 
+    public Rigidbody2D rb;
 
     protected AIPath aiPath;
     private AIDestinationSetter aiDestinationSetter;
@@ -42,7 +44,8 @@ public class Enemy : Unit
     protected void Start()
     {
         Faction = 1;
-
+  
+        rb = GetComponent<Rigidbody2D>();
         aiPath = GetComponent<AIPath>();
         aiPath.maxSpeed = MovementSpeed;
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
@@ -56,6 +59,7 @@ public class Enemy : Unit
         {
             return;
         }
+
 
         timeSinceLastAttack += Time.deltaTime;
         timeSinceLastScan += Time.deltaTime;
@@ -75,11 +79,6 @@ public class Enemy : Unit
 
         if (!isWithinAttackRange)
         {
-            if (!aiPath.canMove && !isDead)
-            {
-                aiPath.canMove = true;
-            }
-
             if (distanceFromTarget >= maxChaseDistance && aiDestinationSetter.target != initialTarget)
             {
                 ResetTarget();
@@ -87,11 +86,6 @@ public class Enemy : Unit
         }
         else if (isWithinAttackRange)
         {
-            if (aiPath.canMove)
-            {
-                aiPath.canMove = false;
-            }
-
             if (timeSinceLastAttack >= attackCooldown)
             {
                 timeSinceLastAttack = 0.0f;
@@ -155,21 +149,38 @@ public class Enemy : Unit
     {
         selectedTarget.TakeDamage(attackDamage);
     }
-
     
     // Overrides
     public override void Die()
     {
         base.Die();
-        aiPath.canMove = false;
+
+        aiDestinationSetter.target = transform;
         Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 
         randomResourceIndex = Random.Range(0, resources.Length);
         if (Random.Range(1, 101) >= 50)
         {
-            Instantiate(resources[randomResourceIndex], transform.position, resources[randomResourceIndex].transform.rotation);
-        }
-        
+            Instantiate(resources[randomResourceIndex], transform.position, resources[randomResourceIndex].transform.rotation, transform);
+        } 
+    }
+
+    public void PauseAI(float pauseForSeconds)
+    {
+        SetAIState(false);
+        StartCoroutine(ResumeAIDelay(pauseForSeconds));
+    }
+
+    private IEnumerator ResumeAIDelay(float pauseForSeconds)
+    {
+        yield return new WaitForSeconds(pauseForSeconds);
+        SetAIState(true);
+    }
+
+    private void SetAIState(bool state)
+    {
+        aiDestinationSetter.enabled = state;
+        aiPath.enabled = state;
     }
 
 }

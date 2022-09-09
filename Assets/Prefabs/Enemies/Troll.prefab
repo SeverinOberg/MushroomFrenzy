@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7903604297683440050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -131,6 +131,7 @@ MonoBehaviour:
   resources:
   - {fileID: 548507470978393450, guid: e1eb72618dc3b2641b56807813a09aa4, type: 3}
   - {fileID: 548507470978393450, guid: 4fe2bfe793a8b2b45b8da90528fa8956, type: 3}
+  rb: {fileID: 0}
 --- !u!114 &692147727245479133
 MonoBehaviour:
   m_ObjectHideFlags: 0

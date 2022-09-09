@@ -55,7 +55,8 @@ public class EnemySpawner : Unit
                 transform.localPosition.y - randomOffsetY
             );
             GameObject enemyPrefab = GetRandomEnemyPrefab();
-            Instantiate(enemyPrefab, spawnLocationOffset, enemyPrefab.transform.rotation, transform);
+            var e = Instantiate(enemyPrefab, spawnLocationOffset, enemyPrefab.transform.rotation);
+            e.transform.SetParent(transform, true);
         }
     }
 

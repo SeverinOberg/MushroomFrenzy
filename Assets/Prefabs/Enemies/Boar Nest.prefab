@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7274811256627516208}
   - component: {fileID: 2778131094399349996}
   - component: {fileID: 4405267999997971087}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Boar Nest
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -126,3 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 4550206164777577080, guid: 9fa46ba928a86384188fde85269fd2ab, type: 3}
+  totalMaxEnemies: 5
+  secondsUntilSpawn: 5
+  spawnCooldown: 2
