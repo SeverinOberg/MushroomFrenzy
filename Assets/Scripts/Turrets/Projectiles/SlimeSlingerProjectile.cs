@@ -37,7 +37,7 @@ public class SlimeSlingerProjectile : MonoBehaviour
     {
         if (collision.transform.TryGetComponent<Enemy>(out var enemy) && !enemy.isDead)
         {
-            Invoke("DestroyProjectile", turret.turretSO.slowDuration);
+            Invoke("DestroyProjectile", turret.turretData.slowDuration);
 
             projectile.SetActive(false);
             goo.SetActive(true);
@@ -45,18 +45,27 @@ public class SlimeSlingerProjectile : MonoBehaviour
             rb.bodyType = RigidbodyType2D.Kinematic;
             rb.velocity = Vector2.zero;
 
-            if (turret.turretSO.slowPercentage == 100)
+            if (turret.turretData.slowPercentage == 100)
             {
-                enemy.MovementSpeed = 0;
+                enemy.SetMovementSpeed(0);
             }
-            else if (turret.turretSO.slowPercentage == 0)
+            else if (turret.turretData.slowPercentage == 0)
             {
                 // Do nothing. If slowPercentage is 0 then movementSpeed doesn't change.
             }
             else
             {
-                enemy.MovementSpeed = enemy.InitialMovementSpeed * (turret.turretSO.slowPercentage / 100);
+                var slowPercentage = enemy.movementSpeed * (turret.turretData.slowPercentage / 100);
+                enemy.SetMovementSpeed(slowPercentage);
             }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.TryGetComponent<Enemy>(out var enemy))
+        {
+            enemy.SetMovementSpeed(enemy.movementSpeed);
         }
     }
 
@@ -64,14 +73,6 @@ public class SlimeSlingerProjectile : MonoBehaviour
     {
         rb.simulated = false;
         Destroy(gameObject);
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.transform.TryGetComponent<Enemy>(out var enemy))
-        {
-            enemy.MovementSpeed = enemy.InitialMovementSpeed;
-        }
     }
 
 }

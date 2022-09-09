@@ -22,12 +22,6 @@ public class PlayerController : Unit
     private float offsetPosMultiplier = 1.8f;
     private float attackDamage = 3;
 
-    private void Start()
-    {
-        Title = "Mushroom Farmer";
-        Health = 50;
-    }
-
     private Enemy currentEnemy;
 
     private void Update()

@@ -10,8 +10,6 @@ public class ResourceManager : MonoBehaviour
         Instance = this;
     }
 
-    [SerializeField] private UIGame uiGame;
-
     public static System.Action<int> OnWoodChanged;
     public static System.Action<int> OnStoneChanged;
 

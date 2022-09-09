@@ -28,8 +28,8 @@ public class ObjectDrag : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse1) && _dragMode)
         {
-            ResourceManager.Instance.Wood += turret.turretSO.woodCost;
-            ResourceManager.Instance.Stone += turret.turretSO.stoneCost;
+            ResourceManager.Instance.Wood += turret.turretData.woodCost;
+            ResourceManager.Instance.Stone += turret.turretData.stoneCost;
             Destroy(gameObject);
         }
 

@@ -9,16 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b405d1ddc5a4305479c1126e49f6c3f4, type: 3}
-  m_Name: Slime Slinger
+  m_Script: {fileID: 11500000, guid: a597550af1005e948a3ba0a72747ee6a, type: 3}
+  m_Name: Unit_SlimeSlinger
   m_EditorClassIdentifier: 
   prefab: {fileID: 4365776368011592592, guid: 45e3a31658fd1d54998ae87fe3f1a56b, type: 3}
   title: Slime Slinger
-  woodCost: 5
-  stoneCost: 10
-  damage: 1
-  attackSpeed: 1
-  range: 15
-  slowPercentage: 100
-  slowDuration: 3
-  shootCooldown: 7
+  faction: 0
+  health: 10
+  movementSpeed: 0

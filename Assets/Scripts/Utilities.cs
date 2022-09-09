@@ -1,7 +1,10 @@
 using UnityEngine;
 
+public enum Factions { Player, Enemy, Neutral }
+
 public static class Utilities 
 {
+    
 
     public static Vector3 GetMouseWorldPosition()
     {

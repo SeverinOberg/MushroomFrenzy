@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 313d89ad2144d7f4b9c8b24d3bddf546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitData: {fileID: 11400000, guid: cc46c4f04ef65c14eb7b1514061b092e, type: 2}
   enemyPrefabs:
   - {fileID: 7903604297683440050, guid: cb6f96aa39b7e094486b5b393e521f25, type: 3}
   totalMaxEnemies: 5

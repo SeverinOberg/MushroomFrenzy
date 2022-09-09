@@ -5,7 +5,6 @@ public class EnemySpawner : Unit
 {
 
     [SerializeField] private GameObject[] enemyPrefabs;
-    // private int minEnemies = 1;
     [SerializeField] private int totalMaxEnemies = 5;
     [SerializeField] private float secondsUntilSpawn = 5;
 
@@ -15,12 +14,6 @@ public class EnemySpawner : Unit
 
     private float timeSinceLastSpawn;
     [SerializeField] private float spawnCooldown = 2f;
-
-    private void Start()
-    {
-        Title = "Nest";
-        Health = 30;
-    }
 
     private void Update()
     {

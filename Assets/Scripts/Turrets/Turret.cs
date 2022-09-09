@@ -1,15 +1,14 @@
 using UnityEngine;
 
-public class Turret : Building 
+public class Turret : Building
 {
+    public TurretSO turretData;
 
     protected Animator animator;
-    public TurretSO turretSO;
+    
     public bool isSleeping = true;
 
     private Unit target = null;
-
-    private Vector3 lastTargetsPosition;
 
     private float timeSinceLastScan;
     private float scanCooldown = 1.0f;
@@ -21,21 +20,16 @@ public class Turret : Building
 
     private bool flippedRight = true;
 
-    //private float lookAtFraction = 0;
-    //private float lookAtFractionMax = 3;
-    //private float lookAtFractionSpeed = 3;
-
     private void Awake()
     {
         animator = GetComponent<Animator>();
     }
 
-    private void Start()
+    protected override void Start()
     {
-        Health = turretSO.health;
+        base.Start();
         timeSinceLastScan = scanCooldown;
-        timeSinceLastShot = turretSO.shootCooldown;
-        //lastTargetsPosition = transform.position * 2.0f - transform.position;
+        timeSinceLastShot = turretData.attackSpeed;
     }
 
     private void Update()
@@ -55,19 +49,13 @@ public class Turret : Building
         }
         else
         {
-            //if (!LockOnToTarget())
-            //{
-            //    return;
-            //}
-
             FlipByTargetPosition();
 
             distanceFromTarget = Vector2.Distance(target.transform.position, transform.position);
-            isWithinShootRange = distanceFromTarget <= turretSO.range;
-
+            isWithinShootRange = distanceFromTarget <= turretData.attackRange;
             if (isWithinShootRange && !target.isDead)
             {
-                if (IsCooldownReady(ref timeSinceLastShot, turretSO.shootCooldown))
+                if (IsCooldownReady(ref timeSinceLastShot, turretData.attackSpeed))
                 {
                     Shoot();
                 }
@@ -105,36 +93,16 @@ public class Turret : Building
         bool isScanReady = IsCooldownReady(ref timeSinceLastScan, scanCooldown);
         if (isScanReady)
         {
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, turretSO.range, Vector2.zero, 0.0f, LayerMask.GetMask("Enemy"));
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, turretData.scanRange, Vector2.zero, 0.0f, LayerMask.GetMask("Enemy"));
             if (hit)
             {
-                //lookAtFraction = 0;
                 target = hit.transform.GetComponent<Unit>();
             }
         }
     }
 
-    //private bool LockOnToTarget()
-    //{
-    //    // Lerp rotation towards the target from last target position to new target position
-    //    if (lookAtFraction < lookAtFractionMax)
-    //    {
-    //        lookAtFraction += Time.deltaTime * lookAtFractionSpeed;
-    //        Vector3 lerpPosLastAndNewTarget = Vector3.Lerp(lastTargetsPosition, target.transform.position, lookAtFraction);
-    //        transform.up = lerpPosLastAndNewTarget - transform.position;
-    //        return false;
-    //    }
-    //    else
-    //    {
-    //        // Lock on to target once finished lerp rotating
-    //        transform.up = target.transform.position - transform.position;
-    //        return true;
-    //    }
-    //}
-
     private void ClearTarget(ref Unit targetToClear)
     {
-        lastTargetsPosition = targetToClear.transform.position;
         targetToClear = null;
     }
 
@@ -153,7 +121,7 @@ public class Turret : Building
 
     public virtual void Shoot()
     {
-        target.TakeDamage(turretSO.damage);
+        target.TakeDamage(turretData.maxDamage);
         animator.SetTrigger("Shoot");
     }
 }

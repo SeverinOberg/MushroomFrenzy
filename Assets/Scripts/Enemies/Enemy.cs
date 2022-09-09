@@ -43,11 +43,9 @@ public class Enemy : Unit
 
     protected void Start()
     {
-        Faction = 1;
-  
         rb = GetComponent<Rigidbody2D>();
         aiPath = GetComponent<AIPath>();
-        aiPath.maxSpeed = MovementSpeed;
+        aiPath.maxSpeed = movementSpeed;
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
         initialTarget = GameObject.Find("Patrol Point").transform;
         aiDestinationSetter.target = initialTarget;
@@ -59,7 +57,6 @@ public class Enemy : Unit
         {
             return;
         }
-
 
         timeSinceLastAttack += Time.deltaTime;
         timeSinceLastScan += Time.deltaTime;
@@ -138,11 +135,16 @@ public class Enemy : Unit
         aiDestinationSetter.target = initialTarget;
     }
 
-    private void UpdateMovementSpeed(Unit unit, float movementSpeed)
+    private void UpdateMovementSpeed(float movementSpeed)
     {
-        if (unit != this.unit) { return; }
         aiPath.maxSpeed = movementSpeed;
     }
+
+    //private void UpdateMovementSpeed(Unit unit, float movementSpeed)
+    //{
+    //    if (unit != this) { return; }
+    //    aiPath.maxSpeed = movementSpeed;
+    //}
 
     // Virtuals
     public virtual void Attack(int attackDamage)
@@ -165,7 +167,7 @@ public class Enemy : Unit
         } 
     }
 
-    public void PauseAI(float pauseForSeconds)
+    public void PauseAI(float pauseForSeconds = 1.0f)
     {
         SetAIState(false);
         StartCoroutine(ResumeAIDelay(pauseForSeconds));
