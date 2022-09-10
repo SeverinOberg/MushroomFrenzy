@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b405d1ddc5a4305479c1126e49f6c3f4, type: 3}
   m_Name: Turret_Flamethrower
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4365776368011592592, guid: fd0194daad3246041bf1a6a34d40c1cb, type: 3}
-  title: Flamethrower
   woodCost: 10
   stoneCost: 10
-  damage: 1
-  attackSpeed: 1
-  range: 8
+  minDamage: 1
+  maxDamage: 2
+  attackSpeed: 0.5
+  attackRange: 8
+  scanCooldown: 1
+  scanRange: 8
   slowPercentage: 0
   slowDuration: 0
-  shootCooldown: 1

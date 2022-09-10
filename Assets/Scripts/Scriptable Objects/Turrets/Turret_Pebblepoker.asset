@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b405d1ddc5a4305479c1126e49f6c3f4, type: 3}
   m_Name: Turret_Pebblepoker
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4365776368011592592, guid: b10034004533c394c9622db27f6cf4a6, type: 3}
-  title: Pebblepoker
   woodCost: 5
   stoneCost: 5
-  Damage: 1
-  AttackSpeed: 1
-  Range: 15
-  SlowPercentage: 0
-  ShootCooldown: 1.5
+  minDamage: 1
+  maxDamage: 2
+  attackSpeed: 1.5
+  attackRange: 15
+  scanCooldown: 1
+  scanRange: 15
+  slowPercentage: 0
+  slowDuration: 0

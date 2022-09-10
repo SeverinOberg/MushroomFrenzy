@@ -4,7 +4,10 @@ public enum Factions { Player, Enemy, Neutral }
 
 public static class Utilities 
 {
-    
+    public static float GetMinMaxDamageRoll(float minDamage, float maxDamage)
+    {
+        return Random.Range(minDamage, maxDamage);
+    }
 
     public static Vector3 GetMouseWorldPosition()
     {

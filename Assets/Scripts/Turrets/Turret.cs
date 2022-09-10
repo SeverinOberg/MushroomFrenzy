@@ -10,12 +10,10 @@ public class Turret : Building
 
     private Unit target = null;
 
-    private float timeSinceLastScan;
-    private float scanCooldown = 1.0f;
-
     private bool isWithinShootRange;
     private float distanceFromTarget;
 
+    private float timeSinceLastScan;
     private float timeSinceLastShot;
 
     private bool flippedRight = true;
@@ -28,8 +26,8 @@ public class Turret : Building
     protected override void Start()
     {
         base.Start();
-        timeSinceLastScan = scanCooldown;
-        timeSinceLastShot = turretData.attackSpeed;
+        timeSinceLastScan += turretData.scanCooldown;
+        timeSinceLastShot += turretData.attackSpeed;
     }
 
     private void Update()
@@ -57,7 +55,7 @@ public class Turret : Building
             {
                 if (IsCooldownReady(ref timeSinceLastShot, turretData.attackSpeed))
                 {
-                    Shoot();
+                    Shoot(target);
                 }
             }
             else
@@ -90,7 +88,7 @@ public class Turret : Building
 
     private void ScanForTarget()
     {
-        bool isScanReady = IsCooldownReady(ref timeSinceLastScan, scanCooldown);
+        bool isScanReady = IsCooldownReady(ref timeSinceLastScan, turretData.scanCooldown);
         if (isScanReady)
         {
             RaycastHit2D hit = Physics2D.CircleCast(transform.position, turretData.scanRange, Vector2.zero, 0.0f, LayerMask.GetMask("Enemy"));
@@ -121,7 +119,13 @@ public class Turret : Building
 
     public virtual void Shoot()
     {
-        target.TakeDamage(turretData.maxDamage);
+        //target.TakeDamage(Random.Range(turretData.minDamage, turretData.maxDamage));
+        animator.SetTrigger("Shoot");
+    }
+
+    public virtual void Shoot(Unit target)
+    {
+        //target.TakeDamage(Random.Range(turretData.minDamage, turretData.maxDamage));
         animator.SetTrigger("Shoot");
     }
 }

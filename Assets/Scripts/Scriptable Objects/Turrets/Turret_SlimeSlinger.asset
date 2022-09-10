@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b405d1ddc5a4305479c1126e49f6c3f4, type: 3}
   m_Name: Turret_SlimeSlinger
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4365776368011592592, guid: 45e3a31658fd1d54998ae87fe3f1a56b, type: 3}
-  title: Slime Slinger
   woodCost: 5
   stoneCost: 10
-  damage: 1
-  attackSpeed: 1
-  range: 15
+  minDamage: 1
+  maxDamage: 2
+  attackSpeed: 8
+  attackRange: 20
+  scanCooldown: 2
+  scanRange: 20
   slowPercentage: 100
   slowDuration: 3
-  shootCooldown: 7

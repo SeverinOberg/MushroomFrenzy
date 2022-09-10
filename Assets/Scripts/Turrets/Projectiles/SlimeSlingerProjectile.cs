@@ -45,19 +45,7 @@ public class SlimeSlingerProjectile : MonoBehaviour
             rb.bodyType = RigidbodyType2D.Kinematic;
             rb.velocity = Vector2.zero;
 
-            if (turret.turretData.slowPercentage == 100)
-            {
-                enemy.SetMovementSpeed(0);
-            }
-            else if (turret.turretData.slowPercentage == 0)
-            {
-                // Do nothing. If slowPercentage is 0 then movementSpeed doesn't change.
-            }
-            else
-            {
-                var slowPercentage = enemy.movementSpeed * (turret.turretData.slowPercentage / 100);
-                enemy.SetMovementSpeed(slowPercentage);
-            }
+            enemy.SetMovementSpeedByPct(turret.turretData.slowPercentage);
         }
     }
 
@@ -65,7 +53,7 @@ public class SlimeSlingerProjectile : MonoBehaviour
     {
         if (collision.transform.TryGetComponent<Enemy>(out var enemy))
         {
-            enemy.SetMovementSpeed(enemy.movementSpeed);
+            enemy.MovementSpeed = enemy.unitData.movementSpeed;
         }
     }
 

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b405d1ddc5a4305479c1126e49f6c3f4, type: 3}
   m_Name: Turret_IceCannon
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4365776368011592592, guid: f2b21ed3cea890b4fb245b1e33aec2fb, type: 3}
-  title: Ice Cannon
   woodCost: 10
   stoneCost: 5
-  damage: 1
-  attackSpeed: 1
-  range: 15
+  minDamage: 1
+  maxDamage: 2
+  attackSpeed: 6
+  attackRange: 12
+  scanCooldown: 2
+  scanRange: 12
   slowPercentage: 50
   slowDuration: 3
-  shootCooldown: 2

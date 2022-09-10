@@ -10,6 +10,7 @@ public class TurretSO : ScriptableObject
     public float    maxDamage;
     public float    attackSpeed;
     public float    attackRange;
+    public float    scanCooldown;
     public float    scanRange;
     public float    slowPercentage;
     public float    slowDuration;

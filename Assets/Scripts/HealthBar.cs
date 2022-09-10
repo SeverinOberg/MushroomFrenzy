@@ -1,3 +1,4 @@
+using Unity.VisualScripting.ReorderableList.Internal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,6 @@ public class HealthBar : MonoBehaviour
     private void Awake()
     {
         unit = GetComponent<Unit>();
-        uiHealth.fillMethod = Image.FillMethod.Horizontal;
     }
 
     private void OnEnable()
@@ -23,14 +23,6 @@ public class HealthBar : MonoBehaviour
     private void OnDisable()
     {
         unit.OnHealthChanged -= UpdateHealthBar;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            unit.TakeDamage(1);
-        }
     }
 
     private void UpdateHealthBar()
@@ -46,16 +38,19 @@ public class HealthBar : MonoBehaviour
             uiUnitCanvas.SetActive(false);
         }
 
-        uiHealth.fillAmount = CalculateHealthPercentage();
+        if (unit.isDead)
+        {
+            uiUnitCanvas.SetActive(false);
+            return;
+        }
 
-        Debug.Log(CalculateHealthPercentage());
-        Debug.Log(unit.unitData.health);
-        Debug.Log(unit.health);
+        uiHealth.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CalculatePercentageNormalized(unit.unitData.health, unit.health));
+ 
     }
 
-    private float CalculateHealthPercentage()
+    private float CalculatePercentageNormalized(float max, float current)
     {
-        return (100.0f / unit.unitData.health) * unit.health;
+        return (100.0f / max) * current / 100.0f;
     }
 
 

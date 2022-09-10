@@ -3,23 +3,15 @@ using UnityEngine;
 public class IceCannon : Turret 
 {
 
+    [SerializeField] private Transform shootPoint;
     [SerializeField] private ParticleSystem shootEffect;
+    [SerializeField] private IceCannonProjectile projectile;
 
-    public override void Shoot()
+    public override void Shoot(Unit target)
     {
         base.Shoot();
-        //shootEffect.Play();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log(health);
-            Debug.Log(movementSpeed);
-            Debug.Log(unitData.title);
-        }
-        //Debug.Log(health);
+        shootEffect.Play();
+        projectile.Spawn(shootPoint.position, turretData, target);
     }
 
 }

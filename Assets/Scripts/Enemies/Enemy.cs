@@ -41,11 +41,13 @@ public class Enemy : Unit
         OnMovementSpeedChanged -= UpdateMovementSpeed;
     }
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
+
         rb = GetComponent<Rigidbody2D>();
         aiPath = GetComponent<AIPath>();
-        aiPath.maxSpeed = movementSpeed;
+        aiPath.maxSpeed = MovementSpeed;
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
         initialTarget = GameObject.Find("Patrol Point").transform;
         aiDestinationSetter.target = initialTarget;
@@ -158,6 +160,7 @@ public class Enemy : Unit
         base.Die();
 
         aiDestinationSetter.target = transform;
+        aiPath.canMove = false;
         Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
 
         randomResourceIndex = Random.Range(0, resources.Length);

@@ -3,20 +3,32 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-#region Variables/Properties
+    #region Variables/Properties
     // Do not set any of the data in this Scriptable Object, only get.
     public UnitSO unitData;
 
     public bool  isDead        { get; private set; }
     public float health        { get; private set; }
-    public float movementSpeed { get; private set; }
+    private float movementSpeed;
+
+    public float MovementSpeed
+    {
+        get { return movementSpeed; }
+        set
+        {
+            movementSpeed = value;
+            OnMovementSpeedChanged?.Invoke(movementSpeed);
+        }
+    }
 
     private SpriteRenderer spriteRenderer;
     private Color          defaultColor;
 
     public System.Action OnHealthChanged;
     protected System.Action<float> OnMovementSpeedChanged;
-#endregion
+
+    
+    #endregion
 
 
     private void Awake()
@@ -32,20 +44,34 @@ public class Unit : MonoBehaviour
     }
 
 
-
     #region Health
-    public void TakeDamage(float damageAmount)
+    public void TakeDamage(float amount)
     {
-        Debug.Log("Take Damage: " + damageAmount);
         if (!isDead)
         {
-            health -= damageAmount;
-            OnHealthChanged?.Invoke();
-
+            health -= amount;
+            
             if (health < 1)
             {
                 Die();
             }
+
+            OnHealthChanged?.Invoke();
+        }
+    }
+
+    public void Heal(float mount)
+    {
+        if (!isDead)
+        {
+            health += mount;
+
+            if (health >= unitData.health)
+            {
+                health = unitData.health;
+            }
+
+            OnHealthChanged?.Invoke();
         }
     }
 
@@ -61,25 +87,17 @@ public class Unit : MonoBehaviour
     }
     #endregion
 
-#region MovementSpeed
+    #region MovementSpeed
 
-    public void SetMovementSpeed(float value)
+    public void SetMovementSpeedByPct(float percent)
     {
-
-        if (value < 0)
-        {
-            movementSpeed = 0;
-            OnMovementSpeedChanged?.Invoke(movementSpeed);
-            return;
-        }
-
-        movementSpeed = value;
-        OnMovementSpeedChanged?.Invoke(value);
+        var slowedMovementSpeed = (unitData.movementSpeed * percent) / 100.0f;
+        movementSpeed = slowedMovementSpeed;
     }
 
-#endregion
+    #endregion
 
-#region Die
+    #region Die
     public virtual void Die()
     {
         isDead = true;
@@ -100,6 +118,6 @@ public class Unit : MonoBehaviour
         yield return new WaitForSeconds(3);
         Destroy(gameObject);
     }
-#endregion
+    #endregion
 
 }
