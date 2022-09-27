@@ -42,14 +42,13 @@ public class ResourceManager : MonoBehaviour
         Stone = 10;
     }
 
-    public bool CanBuild(int woodCost, int stoneCost)
+    public bool HasSufficientResources(int woodCost, int stoneCost)
     {
         if (Wood >= woodCost && Stone >= stoneCost)
         {
-            Wood -= woodCost;
-            Stone -= stoneCost;
             return true;
         }
         return false;
     }
+
 }

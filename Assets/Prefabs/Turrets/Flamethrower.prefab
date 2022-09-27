@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitData: {fileID: 11400000, guid: e4b0d8c060c631447ba1d37f679d2b22, type: 2}
+  buildingData: {fileID: 11400000, guid: b2ade9b0e415764438502f614c51d70f, type: 2}
   turretData: {fileID: 11400000, guid: 55dc0640a6c1ece4cb0e9ba021affd45, type: 2}
   isSleeping: 1
   shootEffect: {fileID: 5496057344187391572}

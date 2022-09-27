@@ -8,9 +8,9 @@ public class Resource : MonoBehaviour
     [SerializeField] private TypeOfResource typeOfResource;
     [SerializeField] private int amount;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             if (typeOfResource == TypeOfResource.wood)
             {

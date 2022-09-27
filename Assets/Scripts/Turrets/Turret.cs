@@ -2,30 +2,36 @@ using UnityEngine;
 
 public class Turret : Building
 {
+
+    #region Variables & Properties
+
     public TurretSO turretData;
+    public bool     isSleeping = true;
 
-    protected Animator animator;
-    
-    public bool isSleeping = true;
+    private Unit           target = null;
+    private Animator       animator;
 
-    private Unit target = null;
-
-    private bool isWithinShootRange;
+    private bool  isWithinShootRange;
     private float distanceFromTarget;
 
     private float timeSinceLastScan;
     private float timeSinceLastShot;
 
-    private bool flippedRight = true;
+    #endregion
 
-    private void Awake()
+    #region Unity
+
+    protected override void Awake()
     {
+        base.Awake();
+
         animator = GetComponent<Animator>();
     }
 
     protected override void Start()
     {
         base.Start();
+
         timeSinceLastScan += turretData.scanCooldown;
         timeSinceLastShot += turretData.attackSpeed;
     }
@@ -47,12 +53,13 @@ public class Turret : Building
         }
         else
         {
-            FlipByTargetPosition();
-
+            
             distanceFromTarget = Vector2.Distance(target.transform.position, transform.position);
             isWithinShootRange = distanceFromTarget <= turretData.attackRange;
             if (isWithinShootRange && !target.isDead)
             {
+                FlipTowardsTargetPosition();
+
                 if (IsCooldownReady(ref timeSinceLastShot, turretData.attackSpeed))
                 {
                     Shoot(target);
@@ -65,25 +72,20 @@ public class Turret : Building
         }
     }
 
-    private void FlipByTargetPosition()
-    {
-        float xDirectionToTarget = target.transform.position.x - transform.position.x;
+    #endregion
 
-        if (flippedRight && xDirectionToTarget < -0.5)
-        {
-            flippedRight = false;
-            Flip();
-        }
-        else if (!flippedRight && xDirectionToTarget > 0.5)
-        {
-            flippedRight = true;
-            Flip();
-        }
-    }
+    #region Methods
 
-    private void Flip()
+    private void FlipTowardsTargetPosition()
     {
-        transform.Rotate(transform.rotation.x, flippedRight ? 0.0f : 180.0f, transform.rotation.z);
+        if (transform.position.x > target.transform.position.x)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+        }
     }
 
     private void ScanForTarget()
@@ -117,15 +119,11 @@ public class Turret : Building
         }
     }
 
-    public virtual void Shoot()
+    public virtual void Shoot(Unit target)
     {
-        //target.TakeDamage(Random.Range(turretData.minDamage, turretData.maxDamage));
         animator.SetTrigger("Shoot");
     }
 
-    public virtual void Shoot(Unit target)
-    {
-        //target.TakeDamage(Random.Range(turretData.minDamage, turretData.maxDamage));
-        animator.SetTrigger("Shoot");
-    }
+    #endregion
+
 }

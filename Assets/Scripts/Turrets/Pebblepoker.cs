@@ -6,10 +6,11 @@ public class Pebblepoker : Turret
     [SerializeField] private ParticleSystem shootEffect;
 
 
-    public override void Shoot()
+    public override void Shoot(Unit target)
     {
-        base.Shoot();
+        base.Shoot(target);
         shootEffect.Play();
+        target.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
     }
 
 }

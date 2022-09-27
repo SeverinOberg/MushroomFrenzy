@@ -1,41 +1,43 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class BuildingSystem : MonoBehaviour 
 {
-    #region Propertes
+    #region Variables & Properties
 
-    public static BuildingSystem current;
+    public static BuildingSystem Instance;
 
     public GridLayout gridLayout;
     private Grid grid;
 
-    [SerializeField] private Tilemap mainTilemap;
-    [SerializeField] private TileBase whiteTile;
+    public static System.Action<bool> OnBuildMode;
 
     #endregion
 
-    #region Unity Methods
+    #region Unity
 
     private void Awake()
     {
-        current = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
         grid = gridLayout.GetComponent<Grid>();
     }
 
     private void OnEnable()
     {
-        BuildButton.OnBuildTurret += InitializeWithObject;
+        BuildButton.OnBuildBuilding += InitializeWithObject;
     }
 
     private void OnDisable()
     {
-        BuildButton.OnBuildTurret -= InitializeWithObject;
+        BuildButton.OnBuildBuilding -= InitializeWithObject;
     }
 
     #endregion
 
-    #region Building Placement
+    #region Methods
 
     public void InitializeWithObject(GameObject prefab)
     {
@@ -43,15 +45,10 @@ public class BuildingSystem : MonoBehaviour
 
         GameObject obj = Instantiate(prefab, position, Quaternion.identity);
 
-        var objDrag = obj.AddComponent<ObjectDrag>();
+        BuildingDrag buildingDrag = obj.AddComponent<BuildingDrag>();
 
-        objDrag.turret = obj.GetComponent<Turret>();
-        objDrag.SetDragMode(true);
+        OnBuildMode?.Invoke(true);
     }
-
-    #endregion
-
-    #region Utilities
 
     public Vector3 SnapCoordinateToGrid(Vector3 position)
     {

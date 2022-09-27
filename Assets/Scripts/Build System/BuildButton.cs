@@ -4,17 +4,20 @@ using UnityEngine.UI;
 public class BuildButton : MonoBehaviour 
 {
 
-#region Variables/Properties
+    #region Variables/Properties
+
     [SerializeField] private UnitSO unitData;
-    [SerializeField] private TurretSO turretData;
+    [SerializeField] private BuildingSO buildingData;
     
 
     private Button button;
-    public static System.Action<GameObject> OnBuildTurret;
+    public static System.Action<GameObject> OnBuildBuilding;
     public static System.Action<string>     OnNotEnoughResources;
-#endregion
 
-#region Unity
+    #endregion
+
+    #region Unity
+
     private void Awake()
     {
         button = GetComponent<Button>();
@@ -29,19 +32,22 @@ public class BuildButton : MonoBehaviour
     {
         button.onClick.RemoveAllListeners();
     }
-#endregion
 
-#region Methods
+    #endregion
+
+    #region Methods
+
     public void BuildButtonClicked()
     {
-        if (ResourceManager.Instance.CanBuild(turretData.woodCost, turretData.stoneCost))
+        if (ResourceManager.Instance.HasSufficientResources(buildingData.woodCost, buildingData.stoneCost))
         {
-            OnBuildTurret?.Invoke(unitData.prefab);
+            OnBuildBuilding?.Invoke(unitData.prefab);
         }
         else
         {
             OnNotEnoughResources?.Invoke($"Not enough resources to build {unitData.title}");
         }  
     }
-#endregion
+
+    #endregion
 }

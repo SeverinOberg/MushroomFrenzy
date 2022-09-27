@@ -41,14 +41,21 @@ public class Enemy : Unit
         OnMovementSpeedChanged -= UpdateMovementSpeed;
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        rb = GetComponent<Rigidbody2D>();
+        aiPath = GetComponent<AIPath>();
+        aiDestinationSetter = GetComponent<AIDestinationSetter>();
+    }
+
     protected override void Start()
     {
         base.Start();
 
-        rb = GetComponent<Rigidbody2D>();
-        aiPath = GetComponent<AIPath>();
-        aiPath.maxSpeed = MovementSpeed;
-        aiDestinationSetter = GetComponent<AIDestinationSetter>();
+        aiPath.maxSpeed = unitData.movementSpeed;
+
         initialTarget = GameObject.Find("Patrol Point").transform;
         aiDestinationSetter.target = initialTarget;
     }
@@ -142,12 +149,6 @@ public class Enemy : Unit
         aiPath.maxSpeed = movementSpeed;
     }
 
-    //private void UpdateMovementSpeed(Unit unit, float movementSpeed)
-    //{
-    //    if (unit != this) { return; }
-    //    aiPath.maxSpeed = movementSpeed;
-    //}
-
     // Virtuals
     public virtual void Attack(int attackDamage)
     {
@@ -162,11 +163,12 @@ public class Enemy : Unit
         aiDestinationSetter.target = transform;
         aiPath.canMove = false;
         Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
+        rb.simulated = false;
 
         randomResourceIndex = Random.Range(0, resources.Length);
         if (Random.Range(1, 101) >= 50)
         {
-            Instantiate(resources[randomResourceIndex], transform.position, resources[randomResourceIndex].transform.rotation, transform);
+            Instantiate(resources[randomResourceIndex], transform.position, resources[randomResourceIndex].transform.rotation);
         } 
     }
 

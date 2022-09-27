@@ -9,7 +9,7 @@ public class IceCannon : Turret
 
     public override void Shoot(Unit target)
     {
-        base.Shoot();
+        base.Shoot(target);
         shootEffect.Play();
         projectile.Spawn(shootPoint.position, turretData, target);
     }

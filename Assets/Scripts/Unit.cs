@@ -4,8 +4,10 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     #region Variables/Properties
+
     // Do not set any of the data in this Scriptable Object, only get.
     public UnitSO unitData;
+    // ---
 
     public bool  isDead        { get; private set; }
     public float health        { get; private set; }
@@ -21,17 +23,17 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
     private Color          defaultColor;
 
-    public System.Action OnHealthChanged;
+    public    System.Action        OnHealthChanged;
     protected System.Action<float> OnMovementSpeedChanged;
 
-    
     #endregion
 
+    #region Unity
 
-    private void Awake()
+    protected virtual void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         defaultColor = spriteRenderer.color;
@@ -40,11 +42,13 @@ public class Unit : MonoBehaviour
     protected virtual void Start()
     {
         health = unitData.health;
-        movementSpeed = unitData.movementSpeed;
+        MovementSpeed = unitData.movementSpeed;
     }
 
+    #endregion
 
-    #region Health
+    #region Methods
+
     public void TakeDamage(float amount)
     {
         if (!isDead)
@@ -85,19 +89,13 @@ public class Unit : MonoBehaviour
     {
         spriteRenderer.color = defaultColor;
     }
-    #endregion
-
-    #region MovementSpeed
 
     public void SetMovementSpeedByPct(float percent)
     {
         var slowedMovementSpeed = (unitData.movementSpeed * percent) / 100.0f;
-        movementSpeed = slowedMovementSpeed;
+        MovementSpeed = slowedMovementSpeed;
     }
 
-    #endregion
-
-    #region Die
     public virtual void Die()
     {
         isDead = true;
@@ -118,6 +116,7 @@ public class Unit : MonoBehaviour
         yield return new WaitForSeconds(3);
         Destroy(gameObject);
     }
+
     #endregion
 
 }

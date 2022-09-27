@@ -1,9 +1,15 @@
 using Pathfinding;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class PlayerController : Unit 
 {
+
+    #region Variables & Properties
+
     [SerializeField] Animator attackAnimator;
 
     [SerializeField] Transform arm;
@@ -22,7 +28,21 @@ public class PlayerController : Unit
     private float offsetPosMultiplier = 1.8f;
     private float attackDamage = 3;
 
-    private Enemy currentEnemy;
+    private bool buildMode;
+
+    #endregion
+
+    #region Unity
+
+    private void OnEnable()
+    {
+        BuildingSystem.OnBuildMode += (value) => buildMode = value;
+    }
+
+    private void OnDisable()
+    {
+        BuildingSystem.OnBuildMode -= (value) => buildMode = value;
+    }
 
     private void Update()
     {
@@ -40,10 +60,19 @@ public class PlayerController : Unit
             MainAttack();
         }
     }
-    
+
+    #endregion
+
+    #region Methods
+
     private void MainAttack()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (buildMode)
+        {
+            return;
+        }
+
+        Vector2 mousePos = Utilities.GetMouseWorldPosition();
         Vector2 mouseDirectionFromPlayer = (mousePos - (Vector2)transform.position).normalized;
         Vector2 offsetPos = new Vector2
         (
@@ -52,6 +81,13 @@ public class PlayerController : Unit
         );
 
         arm.up = mouseDirectionFromPlayer;
+
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        if (pointerEventData.selectedObject)
+        {
+            return;
+        }
+
         attackAnimator.SetTrigger("Attack");
 
         Debug.DrawRay(offsetPos, mouseDirectionFromPlayer * (attackDistance + attackRadius), Color.red, 1);
@@ -59,6 +95,7 @@ public class PlayerController : Unit
         RaycastHit2D[] hits = Physics2D.CircleCastAll(offsetPos, attackRadius, mouseDirectionFromPlayer, attackDistance);
         foreach (RaycastHit2D hit in hits)
         {
+
             if (hit.transform.CompareTag("Enemy") == false)
             {
                 continue;
@@ -68,10 +105,10 @@ public class PlayerController : Unit
             if (enemy != null)
             {
                 enemy.TakeDamage(Random.Range(attackDamage / 2, attackDamage * 2));
-                enemy.rb.AddForce(mouseDirectionFromPlayer * 10, ForceMode2D.Impulse);
 
                 if (!enemy.isDead)
                 {
+                    enemy.rb.AddForce(mouseDirectionFromPlayer * 10, ForceMode2D.Impulse);
                     enemy.BlinkRed();
                 }
                 
@@ -79,4 +116,6 @@ public class PlayerController : Unit
             }
         }
     }
+
+    #endregion
 }

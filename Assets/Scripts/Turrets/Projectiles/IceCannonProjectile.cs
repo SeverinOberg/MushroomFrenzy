@@ -69,13 +69,21 @@ public class IceCannonProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // If projectile has already hit a target, only use slowing logic for any re-entering our collider.
+        if (collision.CompareTag("Enemy") && targetHit)
+        {
+            Unit enemy = collision.GetComponent<Unit>();
+            enemy.SetMovementSpeedByPct(turretData.slowPercentage);
+            return;
+        }
+
         if (collision.CompareTag("Enemy"))
         {
             targetHit = true;
             Invoke("DestroyProjectile", turretData.slowDuration);
             rb.bodyType = RigidbodyType2D.Static;
 
-            var enemy = collision.GetComponent<Unit>();
+            Unit enemy = collision.GetComponent<Unit>();
             enemy.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
             enemy.SetMovementSpeedByPct(turretData.slowPercentage);
             enemy.BlinkRed();
