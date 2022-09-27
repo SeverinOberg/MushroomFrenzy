@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4365776368011592592, guid: fd0194daad3246041bf1a6a34d40c1cb, type: 3}
   title: Flamethrower
+  description: Fire! Set your enemies on fire and cackle at their misery, it's that
+    simple!
   faction: 0
   health: 10
   movementSpeed: 0

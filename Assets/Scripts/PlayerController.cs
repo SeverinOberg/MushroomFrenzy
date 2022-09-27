@@ -29,10 +29,18 @@ public class PlayerController : Unit
     private float attackDamage = 3;
 
     private bool buildMode;
+    private Rigidbody2D rb;
 
     #endregion
 
     #region Unity
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     private void OnEnable()
     {
@@ -52,6 +60,11 @@ public class PlayerController : Unit
         movement = new Vector2(horizontalInput, verticalInput).normalized;
 
         transform.Translate(movement * speed * Time.deltaTime);
+
+        if (rb.velocity.normalized != Vector2.zero)
+        {
+            rb.velocity = rb.velocity * 0.95f;
+        }
 
         timeSinceLastAttack += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Mouse0) && timeSinceLastAttack >= attackCooldown)

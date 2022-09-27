@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4365776368011592592, guid: b10034004533c394c9622db27f6cf4a6, type: 3}
   title: Pebblepoker
+  description: A sturdy little pebble-shooter. This contraption will shoot out little
+    rocks at any intruders who dares approach your farm.
   faction: 0
   health: 10
   movementSpeed: 0

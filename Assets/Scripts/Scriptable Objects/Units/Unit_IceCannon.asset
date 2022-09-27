@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4365776368011592592, guid: f2b21ed3cea890b4fb245b1e33aec2fb, type: 3}
   title: Ice Cannon
+  description: Got ice? Now you do! This 'cool' beauty will lay out the frosting
+    of your winter dreams and slow your enemies in a slippery mess in the process!
   faction: 0
   health: 10
   movementSpeed: 0

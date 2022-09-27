@@ -9,8 +9,8 @@ public class Unit : MonoBehaviour
     public UnitSO unitData;
     // ---
 
-    public bool  isDead        { get; private set; }
-    public float health        { get; private set; }
+    public  bool  isDead        { get; private set; }
+    public  float health        { get; private set; }
     private float movementSpeed;
 
     public float MovementSpeed

@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,11 +8,13 @@ public class BuildButton : MonoBehaviour
 
     #region Variables/Properties
 
+    // Do not edit Scriptable Objects, only for reading!
     [SerializeField] private UnitSO unitData;
     [SerializeField] private BuildingSO buildingData;
-    
+    //--
 
     private Button button;
+
     public static System.Action<GameObject> OnBuildBuilding;
     public static System.Action<string>     OnNotEnoughResources;
 
@@ -47,6 +51,16 @@ public class BuildButton : MonoBehaviour
         {
             OnNotEnoughResources?.Invoke($"Not enough resources to build {unitData.title}");
         }  
+    }
+
+    public void OnMouseEnter()
+    {
+        Tooltip.OnTooltip?.Invoke(unitData.title, unitData.description, $"Wood: {buildingData.woodCost} Stone: {buildingData.stoneCost}");
+    }
+
+    public void OnMouseExit()
+    {
+        Tooltip.OnTooltip?.Invoke("", "", "");
     }
 
     #endregion

@@ -10,6 +10,7 @@ public class Flamethrower : Turret
     {
         base.Shoot(target);
         shootEffect.Play();
+        target.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
     }
 
 }

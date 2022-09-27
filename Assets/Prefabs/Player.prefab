@@ -230,8 +230,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6636241277775967078}
-  - component: {fileID: 6636241277775967077}
   - component: {fileID: 7890296219582883195}
+  - component: {fileID: 6636241277775967077}
   - component: {fileID: 1310340908}
   - component: {fileID: 1310340907}
   - component: {fileID: 6636241277775967076}
@@ -260,6 +260,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &7890296219582883195
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636241277775967083}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 698814ef375fafd4e8b8b61dea17a93a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &6636241277775967077
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -312,26 +332,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &7890296219582883195
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6636241277775967083}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 698814ef375fafd4e8b8b61dea17a93a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!61 &1310340908
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -370,7 +370,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -391,6 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 992693f3e5fcd9e47b0a2d6aef3f48a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitData: {fileID: 11400000, guid: 8c377d1cec6b03b458221cb18840d411, type: 2}
   attackAnimator: {fileID: 3515586312451824239}
   arm: {fileID: 8675380143831340054}
 --- !u!114 &4011275330201016283
@@ -405,4 +406,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3338ff7c777a47a4b85df419b1d29f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiGame: {fileID: 0}

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4365776368011592592, guid: 45e3a31658fd1d54998ae87fe3f1a56b, type: 3}
   title: Slime Slinger
+  description: Enjoy watching your enemies stuck in a sticky goo with this magnificent
+    slime slinging catapult. Goo away!
   faction: 0
   health: 10
   movementSpeed: 0
