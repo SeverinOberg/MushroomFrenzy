@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
 
     public void LoseGame()
     {
-        Debug.Log("Lost game!");
         hasLost = true;
         LostScreen.SetActive(true);
     }

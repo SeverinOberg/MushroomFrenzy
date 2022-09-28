@@ -9,7 +9,6 @@ public class Tooltip : MonoBehaviour
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private TextMeshProUGUI resources;
 
-
     public static System.Action<string, string, string> OnTooltip;
 
     private void OnEnable()

@@ -153,6 +153,7 @@ public class Enemy : Unit
     public virtual void Attack(int attackDamage)
     {
         selectedTarget.TakeDamage(attackDamage);
+        selectedTarget.BlinkRed();
     }
     
     // Overrides

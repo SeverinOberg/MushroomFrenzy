@@ -56,7 +56,7 @@ public class BuildingDrag : MonoBehaviour
         {
             transform.position = BuildingSystem.Instance.SnapCoordinateToGrid(mousePosition);
 
-            Collider2D overlappingCollider = Physics2D.OverlapBox(transform.position, transform.localScale * 0.98f, 0.0f);
+            Collider2D overlappingCollider = Physics2D.OverlapBox(transform.position, transform.localScale * 0.97f, 0.0f);
             if (overlappingCollider)
             {
                 unit.BlinkRed();

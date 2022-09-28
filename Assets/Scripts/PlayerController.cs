@@ -10,7 +10,8 @@ public class PlayerController : Unit
 
     #region Variables & Properties
 
-    [SerializeField] Animator attackAnimator;
+    [SerializeField] Animator animator;
+    [SerializeField] Animator effectsAnimator;
 
     [SerializeField] Transform arm;
 
@@ -30,6 +31,9 @@ public class PlayerController : Unit
 
     private bool buildMode;
     private Rigidbody2D rb;
+
+    Vector2 mousePos;
+    Vector2 mouseDirectionFromPlayer;
 
     #endregion
 
@@ -61,6 +65,30 @@ public class PlayerController : Unit
 
         transform.Translate(movement * speed * Time.deltaTime);
 
+        if (horizontalInput != 0 || verticalInput != 0)
+        {
+            animator.SetFloat("Run", 1);
+        }
+        else
+        {
+            animator.SetFloat("Run", 0);
+        }
+        
+
+        mousePos = Utilities.GetMouseWorldPosition();
+        mouseDirectionFromPlayer = (mousePos - (Vector2)transform.position).normalized;
+
+        // Flip player towards mouse
+        if (mouseDirectionFromPlayer.x < 0 || horizontalInput < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+        }
+
+        // Reduce velocity manually to keep player from gliding
         if (rb.velocity.normalized != Vector2.zero)
         {
             rb.velocity = rb.velocity * 0.95f;
@@ -85,8 +113,6 @@ public class PlayerController : Unit
             return;
         }
 
-        Vector2 mousePos = Utilities.GetMouseWorldPosition();
-        Vector2 mouseDirectionFromPlayer = (mousePos - (Vector2)transform.position).normalized;
         Vector2 offsetPos = new Vector2
         (
             transform.position.x + mouseDirectionFromPlayer.x * offsetPosMultiplier,
@@ -101,7 +127,8 @@ public class PlayerController : Unit
             return;
         }
 
-        attackAnimator.SetTrigger("Attack");
+        effectsAnimator.SetTrigger("Attack");
+        animator.SetTrigger("Attack");
 
         Debug.DrawRay(offsetPos, mouseDirectionFromPlayer * (attackDistance + attackRadius), Color.red, 1);
 
@@ -128,6 +155,12 @@ public class PlayerController : Unit
                 enemy.PauseAI(0.2f);
             }
         }
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        animator.SetTrigger("Dead");
     }
 
     #endregion
