@@ -9,6 +9,8 @@ public class BuildingSystem : MonoBehaviour
     public GridLayout gridLayout;
     private Grid grid;
 
+    private bool buildMode;
+
     public static System.Action<bool> OnBuildMode;
 
     #endregion
@@ -27,11 +29,13 @@ public class BuildingSystem : MonoBehaviour
 
     private void OnEnable()
     {
+        OnBuildMode += (value) => buildMode = value;
         BuildButton.OnBuildBuilding += InitializeWithObject;
     }
 
     private void OnDisable()
     {
+        OnBuildMode -= (value) =>  buildMode = value;
         BuildButton.OnBuildBuilding -= InitializeWithObject;
     }
 
@@ -41,6 +45,12 @@ public class BuildingSystem : MonoBehaviour
 
     public void InitializeWithObject(GameObject prefab)
     {
+        if (buildMode)
+        { 
+            // @TODO: infoText about not being able to place an object when another is already selected
+            return;
+        }
+
         Vector3 position = SnapCoordinateToGrid(Utilities.GetMouseWorldPosition());
 
         GameObject obj = Instantiate(prefab, position, Quaternion.identity);

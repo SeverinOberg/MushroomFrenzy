@@ -49,11 +49,11 @@ public class Unit : MonoBehaviour
 
     #region Methods
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float value)
     {
         if (!isDead)
         {
-            health -= amount;
+            health -= value;
             
             if (health < 1)
             {
@@ -64,11 +64,11 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void Heal(float mount)
+    public void Heal(float value)
     {
         if (!isDead)
         {
-            health += mount;
+            health += value;
 
             if (health >= unitData.health)
             {

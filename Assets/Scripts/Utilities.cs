@@ -19,8 +19,18 @@ public static class Utilities
         return Physics2D.Raycast(GetMouseWorldPosition(), Vector2.zero, 0.0f);
     }
 
+    public static RaycastHit2D[] GetRaycastAllOnMousePoint()
+    {
+        return Physics2D.RaycastAll(GetMouseWorldPosition(), Vector2.zero, 0.0f);
+    }
+
     public static RaycastHit2D GetRaycastOnMousePoint(string layerMask)
     {
         return Physics2D.Raycast(GetMouseWorldPosition(), Vector2.zero, 0.0f, LayerMask.GetMask(layerMask));
+    }
+
+    public static void ResetTimer(ref float timer)
+    {
+        timer = 0;
     }
 }

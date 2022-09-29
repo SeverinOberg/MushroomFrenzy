@@ -43,7 +43,7 @@ public class BuildButton : MonoBehaviour
 
     public void BuildButtonClicked()
     {
-        if (ResourceManager.Instance.HasSufficientResources(buildingData.woodCost, buildingData.stoneCost))
+        if (ResourceManager.Instance.HasSufficientResources(buildingData))
         {
             OnBuildBuilding?.Invoke(unitData.prefab);
         }

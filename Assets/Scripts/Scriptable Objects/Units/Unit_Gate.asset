@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Unit_Gate
   m_EditorClassIdentifier: 
   prefab: {fileID: 4365776368011592592, guid: 9f2248f367f0aff40a19108241a70db9, type: 3}
-  title: Gate
+  title: Mushroom Gate
   description: The gate is great for keeping in friendly mushrooms and keeping out
     unfriendly monsters.
   faction: 0

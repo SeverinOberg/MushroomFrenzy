@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1237119715652524112}
   - component: {fileID: 2747977375059953886}
   - component: {fileID: 3724419563972349601}
-  - component: {fileID: 6506597980331251881}
+  - component: {fileID: 7839210191663375733}
   m_Layer: 0
   m_Name: Mushroom
   m_TagString: Untagged
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054003070885080929}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.03, y: -0.83, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -75,11 +75,11 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
-  m_Color: {r: 0.68412393, g: 0.26312745, b: 0.764151, a: 1}
+  m_Sprite: {fileID: -676812879, guid: 545fa3ea9e1c9094a830dfa439be4453, type: 3}
+  m_Color: {r: 0.93076694, g: 0.5707547, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
+  m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -101,18 +101,18 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
+    border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
-    drawMode: 2
+    drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6506597980331251881
+--- !u!114 &7839210191663375733
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1054003070885080929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f48c4a1f238778e429d358b3614a1629, type: 3}
+  m_Script: {fileID: 11500000, guid: 99e3b5b6200916f43ae786010a0454a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitData: {fileID: 11400000, guid: 84946388c8f070d48a626a73ae8b2eb7, type: 2}
+  buildingData: {fileID: 11400000, guid: 55f92335a97446540b4903b71e4c8f11, type: 2}
+  amount: 10
+  sapling: {fileID: 1297384785, guid: 545fa3ea9e1c9094a830dfa439be4453, type: 3}
+  ripe: {fileID: -41653401, guid: 545fa3ea9e1c9094a830dfa439be4453, type: 3}
