@@ -56,12 +56,19 @@ public class BuildingDrag : MonoBehaviour
         {
             transform.position = BuildingSystem.Instance.SnapCoordinateToGrid(mousePosition);
 
-            Collider2D overlappingCollider = Physics2D.OverlapBox(transform.position, transform.localScale * 0.97f, 0.0f);
-            if (overlappingCollider)
+            Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(transform.position, transform.localScale * 0.97f, 0.0f);
+            foreach (Collider2D collider in overlapColliders)
             {
+                if (collider.isTrigger || collider.gameObject == gameObject)
+                {
+                    continue;
+                }
+
+                // If this is reached, it means we are hitting a collision and will not build here
                 unit.BlinkRed();
                 return;
             }
+
 
             if (TryGetComponent(out Building building))
             {
