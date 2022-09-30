@@ -62,6 +62,8 @@ public class Enemy : Unit
 
     private void Update()
     {
+        Utilities.ForceReduceVelocity(ref rb);
+
         if (isDead)
         {
             return;
@@ -137,7 +139,6 @@ public class Enemy : Unit
         }
     }
 
-    // Privates
     private void ResetTarget()
     {
         selectedTarget = null;
@@ -171,6 +172,11 @@ public class Enemy : Unit
         {
             Instantiate(resources[randomResourceIndex], transform.position, resources[randomResourceIndex].transform.rotation);
         } 
+    }
+
+    public void AddForce(Vector2 direction, float forceMultiplier)
+    {
+        rb.AddForce(direction * forceMultiplier, ForceMode2D.Impulse);
     }
 
     public void PauseAI(float pauseForSeconds = 1.0f)

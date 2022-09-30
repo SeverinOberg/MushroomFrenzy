@@ -4,6 +4,8 @@ public enum Factions { Player, Enemy, Neutral }
 
 public static class Utilities 
 {
+    public static Color DragColor = new Color(0, 1, 1, 0.5f);
+
     public static float GetMinMaxDamageRoll(float minDamage, float maxDamage)
     {
         return Random.Range(minDamage, maxDamage);
@@ -32,5 +34,14 @@ public static class Utilities
     public static void ResetTimer(ref float timer)
     {
         timer = 0;
+    }
+
+    // Force reduce velocity to keep Player from gliding
+    public static void ForceReduceVelocity(ref Rigidbody2D rb)
+    {
+        if (rb.velocity.normalized != Vector2.zero)
+        {
+            rb.velocity = rb.velocity * 0.95f;
+        }
     }
 }

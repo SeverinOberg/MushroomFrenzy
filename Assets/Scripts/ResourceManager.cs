@@ -38,8 +38,8 @@ public class ResourceManager : MonoBehaviour
 
     private void Start()
     {
-        Wood = 10;
-        Stone = 10;
+        Wood = 20;
+        Stone = 20;
     }
 
     public bool HasSufficientResources(BuildingSO building)
@@ -48,6 +48,7 @@ public class ResourceManager : MonoBehaviour
         {
             return true;
         }
+        UIGame.LogToScreen($"Not enough resources");
         return false;
     }
 

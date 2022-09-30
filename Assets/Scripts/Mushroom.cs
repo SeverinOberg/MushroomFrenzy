@@ -5,9 +5,11 @@ public class Mushroom : Building
 {
     #region Variables & Properties
 
-    [SerializeField] private float amount;
+    [SerializeField] private float healAmount = 10f;
     [SerializeField] private Sprite sapling;
     [SerializeField] private Sprite ripe;
+
+    private Animator animator;
 
     enum Stages
     {
@@ -24,8 +26,8 @@ public class Mushroom : Building
     protected override void Start()
     {
         base.Start();
-
-        stage = Stages.seed;
+        
+        animator = GetComponent<Animator>();
         StartCoroutine("Growth");
     }
 
@@ -33,8 +35,7 @@ public class Mushroom : Building
     {
         if (stage != Stages.ripe)
         {
-            // @TODO: Invoke infoText to display "Mushroom isn't quite ready for consumption"
-            Debug.Log($"{unitData.title} is not ripe yet");
+            UIGame.LogToScreen($"{unitData.title} is not ripe yet");
             return;
         }
 
@@ -42,12 +43,11 @@ public class Mushroom : Building
         {
             if (player.health >= player.unitData.health)
             {
-                // @TODO: Invoke infoText to display "Can't pick up while at full health"
-                Debug.Log("Can't pick up while at full health");
+                UIGame.LogToScreen($"Can't pick up {unitData.title} while at full health");
                 return;
             }
 
-            player.Heal(amount);
+            player.Heal(healAmount);
             Destroy(gameObject);
         }
     }
@@ -58,13 +58,19 @@ public class Mushroom : Building
 
     private IEnumerator Growth()
     {
+        stage = Stages.seed;
+        animator.SetTrigger("Seed");
+
         yield return new WaitForSeconds(5);
         stage = Stages.sapling;
-        spriteRenderer.sprite = sapling;
+        animator.SetTrigger("Sapling");
 
         yield return new WaitForSeconds(5);
         stage = Stages.ripe;
-        spriteRenderer.sprite = ripe;
+        animator.SetTrigger("Ripe");
+
+        yield return new WaitForSeconds(1);
+        animator.SetTrigger("Ripe Idle");
     }
 
     #endregion

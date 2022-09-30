@@ -1,21 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class IceCannonProjectile : MonoBehaviour 
+public class IceCannonProjectile : Projectile 
 {
 
     #region Variables
-
-    [SerializeField] private GameObject     projectile;
+    [SerializeField] protected GameObject projectile;
     [SerializeField] private ParticleSystem trailParticle;
-    [SerializeField] private ParticleSystem explosionParticle;
     [SerializeField] private LineRenderer   iceTrailLine;
 
-    private TurretSO    turretData;
-    private Unit        target;
-
-    private BoxCollider2D   boxCollider;
-    private Rigidbody2D     rb;
+    private BoxCollider2D boxCollider;
 
     private bool    targetHit;
     private float   trailLimitSeconds = 3.0f;
@@ -26,16 +20,11 @@ public class IceCannonProjectile : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        boxCollider = GetComponent<BoxCollider2D>();    
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
     {
-        Vector3 targetDirection = (target.transform.position - transform.position).normalized;
-        transform.up = targetDirection;
-        rb.AddForce(targetDirection * 25, ForceMode2D.Impulse);
-
         iceTrailLine.SetPosition(0, transform.position);
 
         Destroy(gameObject, 10.0f);
@@ -88,7 +77,6 @@ public class IceCannonProjectile : MonoBehaviour
             enemy.SetMovementSpeedByPct(turretData.slowPercentage);
             enemy.BlinkRed();
 
-            explosionParticle.Play();
             trailParticle.Stop();
 
             projectile.SetActive(false);

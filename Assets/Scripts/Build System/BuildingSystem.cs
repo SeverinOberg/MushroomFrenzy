@@ -46,8 +46,8 @@ public class BuildingSystem : MonoBehaviour
     public void InitializeWithObject(GameObject prefab)
     {
         if (buildMode)
-        { 
-            // @TODO: infoText about not being able to place an object when another is already selected
+        {
+            UIGame.LogToScreen("Place or cancel your current building to build another");
             return;
         }
 

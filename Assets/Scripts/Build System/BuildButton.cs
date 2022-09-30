@@ -47,10 +47,6 @@ public class BuildButton : MonoBehaviour
         {
             OnBuildBuilding?.Invoke(unitData.prefab);
         }
-        else
-        {
-            OnNotEnoughResources?.Invoke($"Not enough resources to build {unitData.title}");
-        }  
     }
 
     public void OnMouseEnter()

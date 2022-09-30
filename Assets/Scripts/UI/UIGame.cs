@@ -6,57 +6,67 @@ using System.Collections;
 public class UIGame : MonoBehaviour
 {
 
+    #region Variables & Properties
+
+    [SerializeField] private GameObject      escapeMenu;
+    [SerializeField] private GameObject      keybindingsMenu;
     [SerializeField] private TextMeshProUGUI woodResourceText;
     [SerializeField] private TextMeshProUGUI stoneResourceText;
-    [SerializeField] private TextMeshProUGUI infoText;
+    [SerializeField] private TextMeshProUGUI logToScreenText;
 
-    [SerializeField] private GameObject escapeMenu;
+    private static System.Action<string> OnLogToScreen;
+
+    #endregion
+
+    #region Unity
 
     #region Subscriptions
 
     private void OnEnable()
     {
+        OnLogToScreen += SetLogToScreen;
+
         ResourceManager.OnWoodChanged += SetWoodText;
         ResourceManager.OnStoneChanged += SetStoneText;
-        BuildButton.OnNotEnoughResources += SetInfoText;
     }
 
     private void OnDisable()
     {
+        OnLogToScreen -= SetLogToScreen;
+
         ResourceManager.OnWoodChanged -= SetWoodText;
         ResourceManager.OnStoneChanged -= SetStoneText;
-        BuildButton.OnNotEnoughResources -= SetInfoText;
     }
 
     #endregion
-
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!escapeMenu.activeSelf)
-            {
-                escapeMenu.SetActive(true);
-            }
-            else 
-            {
-                escapeMenu.SetActive(false);
-            }
+            TriggerEscapeMenu();
         }
     }
 
+    #endregion
 
-    private void SetInfoText(string text)
+    #region Methods
+
+    public static void LogToScreen(string text)
     {
-        infoText.text = text;
-        StartCoroutine(RemoveInfoText());
+        OnLogToScreen?.Invoke(text);
     }
 
-    private IEnumerator RemoveInfoText()
+    private void SetLogToScreen(string text)
+    {
+        logToScreenText.text = text;
+        StartCoroutine(RemoveLogScreenTextRoutine());
+    }
+
+    private IEnumerator RemoveLogScreenTextRoutine()
     {
         yield return new WaitForSeconds(1);
-        infoText.text = "";
+        logToScreenText.text = "";
     }
 
     public void SetWoodText(int amount)
@@ -69,6 +79,30 @@ public class UIGame : MonoBehaviour
         stoneResourceText.text = $"Stone: {amount}";
     }
 
+    public void TriggerEscapeMenu()
+    {
+        if (!escapeMenu.activeSelf)
+        {
+            escapeMenu.SetActive(true);
+        }
+        else
+        {
+            escapeMenu.SetActive(false);
+        }
+    }
+
+    public void TriggerKeyBindingsMenu()
+    {
+        if (!keybindingsMenu.activeSelf)
+        {
+            keybindingsMenu.SetActive(true);
+        }
+        else
+        {
+            keybindingsMenu.SetActive(false);
+        }
+    }
+
     public static void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -78,5 +112,7 @@ public class UIGame : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    #endregion
 
 }

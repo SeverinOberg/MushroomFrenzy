@@ -1,4 +1,5 @@
 using System.Timers;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -68,7 +69,7 @@ public class PlayerController : Unit
         HandleMovement();
         HandleMouseDirection();
         HandleFlipPlayer();
-        ForceReduceVelocity();
+        Utilities.ForceReduceVelocity(ref rb);
         HandleTimer();
     }
 
@@ -112,15 +113,6 @@ public class PlayerController : Unit
         else
         {
             spriteRenderer.flipX = false;
-        }
-    }
-
-    // Force reduce velocity to keep Player from gliding
-    private void ForceReduceVelocity()
-    {
-        if (rb.velocity.normalized != Vector2.zero)
-        {
-            rb.velocity = rb.velocity * 0.95f;
         }
     }
 
@@ -185,6 +177,7 @@ public class PlayerController : Unit
     private void TakeDamage()
     {
         TakeDamage(10);
+        BlinkRed();
     }
 
     private void DestroyBuilding()
@@ -234,14 +227,13 @@ public class PlayerController : Unit
 
                 if (!ResourceManager.Instance.HasSufficientResources(building.buildingData))
                 {
-                    Debug.Log("Not enough resources to repair this building");
                     return;
                 }
 
                 // If the building has taken damage, the resources returned will be halfed
                 if (building.health >= building.unitData.health)
                 {
-                    Debug.Log("Building is already fully repaired");
+                    UIGame.LogToScreen($"Already fully repaired");
                     return;
                 }
 
@@ -260,10 +252,9 @@ public class PlayerController : Unit
         distanceFromMouse = Vector2.Distance(transform.position, Utilities.GetMouseWorldPosition());
         if (distanceFromMouse >= interactRange)
         {
-            // @TODO: Move debug to infoText instead
-            Debug.Log("Too far away from building to destroy it, try to move closer.");
+            UIGame.LogToScreen($"Too far away");
             return false;
-        }
+            }
 
         return true;
     }

@@ -24,7 +24,7 @@ public class Unit : MonoBehaviour
     }
 
     protected SpriteRenderer spriteRenderer;
-    private   Color          defaultColor;
+    private Color defaultColor;
 
     public    System.Action        OnHealthChanged;
     protected System.Action<float> OnMovementSpeedChanged;
@@ -79,15 +79,25 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void BlinkRed()
+    public void BlinkRed(bool returnToDefaultColor = true)
     {
-        spriteRenderer.color = Color.red;
-        Invoke("SetDefaultColor", 0.2f);
+        if (returnToDefaultColor)
+        {
+            spriteRenderer.color = Color.red;
+            StartCoroutine(SetColorDelay(defaultColor, 0.2f));
+        } 
+        else
+        {
+            Color priorColor = spriteRenderer.color;
+            spriteRenderer.color = Color.red;
+            StartCoroutine(SetColorDelay(priorColor, 0.2f));
+        }
     }
 
-    private void SetDefaultColor()
+    private IEnumerator SetColorDelay(Color color, float seconds)
     {
-        spriteRenderer.color = defaultColor;
+        yield return new WaitForSeconds(seconds);
+        spriteRenderer.color = color;
     }
 
     public void SetMovementSpeedByPct(float percent)

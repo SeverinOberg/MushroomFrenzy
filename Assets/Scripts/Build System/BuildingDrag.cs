@@ -9,6 +9,8 @@ public class BuildingDrag : MonoBehaviour
 
     private Unit unit;
     private BoxCollider2D boxCollider;
+    private Building building;
+    private SpriteRenderer spriteRenderer;
 
     private Vector2 mousePosition;
 
@@ -24,6 +26,12 @@ public class BuildingDrag : MonoBehaviour
     {
         unit = GetComponent<Unit>();
         boxCollider = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        spriteRenderer.color = Utilities.DragColor;
     }
 
     private void OnEnable()
@@ -59,7 +67,7 @@ public class BuildingDrag : MonoBehaviour
         } 
         else if (Input.GetKeyDown(KeyCode.Mouse0) && buildMode)
         {
-            BuildOnce();
+            Build();
         }
 
     }
@@ -68,10 +76,10 @@ public class BuildingDrag : MonoBehaviour
 
     #region Methods
 
-    private void BuildOnce()
+    private void Build()
     {
-        // Do nothing if over UI
-        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        // Do nothing if mouse is over UI
+        PointerEventData pointerEventData = new(EventSystem.current);
         if (pointerEventData.selectedObject)
         {
             return;
@@ -87,14 +95,15 @@ public class BuildingDrag : MonoBehaviour
                 continue;
             }
 
-            // If this is reached, it means we are hitting a collision and will not build here
-            unit.BlinkRed();
+            UIGame.LogToScreen($"Can't build here");
+            unit.BlinkRed(false);
             return;
         }
 
 
         if (TryGetComponent(out Building building))
         {
+            this.building = building;
             ResourceManager.Instance.Wood -= building.buildingData.woodCost;
             ResourceManager.Instance.Stone -= building.buildingData.stoneCost;
         }
@@ -108,6 +117,13 @@ public class BuildingDrag : MonoBehaviour
         {
             turret.isSleeping = false;
         }
+
+        if (TryGetComponent(out Mushroom mushroom))
+        {
+            mushroom.enabled = true;
+        }
+
+        spriteRenderer.color = Color.white;
 
         BuildingSystem.OnBuildMode?.Invoke(false);
         Destroy(this);
@@ -115,49 +131,8 @@ public class BuildingDrag : MonoBehaviour
 
     private void BuildMultiple()
     {
-        // Do nothing if over UI
-        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
-        if (pointerEventData.selectedObject)
-        {
-            return;
-        }
+        Build();
 
-        transform.position = BuildingSystem.Instance.SnapCoordinateToGrid(mousePosition);
-
-        Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(transform.position, transform.localScale * 0.97f, 0.0f);
-        foreach (Collider2D collider in overlapColliders)
-        {
-            if (collider.isTrigger || collider.gameObject == gameObject)
-            {
-                continue;
-            }
-
-            // If this is reached, it means we are hitting a collision and will not build here
-            unit.BlinkRed();
-            return;
-        }
-
-
-        if (TryGetComponent(out Building building))
-        {
-            ResourceManager.Instance.Wood -= building.buildingData.woodCost;
-            ResourceManager.Instance.Stone -= building.buildingData.stoneCost;
-        }
-        else
-        {
-            Debug.LogError("Could not find 'Building' component, this is unexpected");
-            return;
-        }
-
-        if (TryGetComponent(out Turret turret))
-        {
-            turret.isSleeping = false;
-        }
-
-        BuildingSystem.OnBuildMode?.Invoke(false);
-        Destroy(this);
-
-        // If not enough resources, don't build more
         if (!ResourceManager.Instance.HasSufficientResources(building.buildingData))
         { 
             return; 

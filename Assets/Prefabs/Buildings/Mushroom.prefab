@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1237119715652524112}
+  - component: {fileID: -4608587137838090262}
   - component: {fileID: 2747977375059953886}
   - component: {fileID: 3724419563972349601}
   - component: {fileID: 7839210191663375733}
@@ -28,12 +29,32 @@ Transform:
   m_GameObject: {fileID: 1054003070885080929}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &-4608587137838090262
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054003070885080929}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 15cb1e7b851ba7f4994d615560050c1b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &2747977375059953886
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -75,8 +96,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -676812879, guid: 545fa3ea9e1c9094a830dfa439be4453, type: 3}
-  m_Color: {r: 0.93076694, g: 0.5707547, b: 1, a: 1}
+  m_Sprite: {fileID: 1329377339, guid: a60d90a80e31bf74ab49744bdd99c659, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -103,14 +124,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
 --- !u!114 &7839210191663375733
 MonoBehaviour:
@@ -119,13 +140,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054003070885080929}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99e3b5b6200916f43ae786010a0454a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitData: {fileID: 11400000, guid: 84946388c8f070d48a626a73ae8b2eb7, type: 2}
   buildingData: {fileID: 11400000, guid: 55f92335a97446540b4903b71e4c8f11, type: 2}
-  amount: 10
-  sapling: {fileID: 1297384785, guid: 545fa3ea9e1c9094a830dfa439be4453, type: 3}
-  ripe: {fileID: -41653401, guid: 545fa3ea9e1c9094a830dfa439be4453, type: 3}
+  healAmount: 10
+  sapling: {fileID: 1916794971, guid: a60d90a80e31bf74ab49744bdd99c659, type: 3}
+  ripe: {fileID: -34493147, guid: a60d90a80e31bf74ab49744bdd99c659, type: 3}
