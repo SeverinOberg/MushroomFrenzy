@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class PlayerController : Unit
     private float verticalInput;
 
     private Vector2 movement;
+    private bool stopMovement;
 
     private float speed = 7;
 
@@ -66,11 +68,17 @@ public class PlayerController : Unit
 
     private void Update()
     {
-        HandleMovement();
-        HandleMouseDirection();
-        HandleFlipPlayer();
         Utilities.ForceReduceVelocity(ref rb);
         HandleTimer();
+        HandleMouseDirection();
+        HandleFlipPlayer();
+
+        if (stopMovement)
+        {
+            return;
+        }
+
+        HandleMovement();
     }
 
     #endregion
@@ -262,7 +270,41 @@ public class PlayerController : Unit
     public override void Die()
     {
         base.Die();
+        stopMovement = true;
         animator.SetTrigger("Dead");
+    }
+
+    public void SetStopMovement(bool value, float seconds = 0)
+    {
+        if (value == true)
+        {
+            stopMovement = true;
+            if (seconds > 0)
+            {
+                StartCoroutine(StartMovementRoutine(seconds));
+            }
+        }
+        else
+        {
+            stopMovement = false;
+        }
+        
+    }
+
+    private IEnumerator StartMovementRoutine(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        stopMovement = false;
+    }
+
+    public void TriggerAnimation(string trigger)
+    {
+        animator.SetTrigger(trigger);
+    }
+
+    public void SetAnimationBool(string name, bool value)
+    {
+        animator.SetBool(name, value);
     }
 
     #endregion

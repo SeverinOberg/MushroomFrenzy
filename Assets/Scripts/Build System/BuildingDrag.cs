@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -76,13 +75,13 @@ public class BuildingDrag : MonoBehaviour
 
     #region Methods
 
-    private void Build()
+    private bool Build()
     {
         // Do nothing if mouse is over UI
         PointerEventData pointerEventData = new(EventSystem.current);
         if (pointerEventData.selectedObject)
         {
-            return;
+            return false;
         }
 
         transform.position = BuildingSystem.Instance.SnapCoordinateToGrid(mousePosition);
@@ -97,9 +96,8 @@ public class BuildingDrag : MonoBehaviour
 
             UIGame.LogToScreen($"Can't build here");
             unit.BlinkRed(false);
-            return;
+            return false;
         }
-
 
         if (TryGetComponent(out Building building))
         {
@@ -110,7 +108,7 @@ public class BuildingDrag : MonoBehaviour
         else
         {
             Debug.LogError("Could not find 'Building' component, this is unexpected");
-            return;
+            return false;
         }
 
         if (TryGetComponent(out Turret turret))
@@ -123,22 +121,21 @@ public class BuildingDrag : MonoBehaviour
             mushroom.enabled = true;
         }
 
-        spriteRenderer.color = Color.white;
+        unit.StartCoroutine(unit.SetColorDelay(Color.white, 0.3f));
 
         BuildingSystem.OnBuildMode?.Invoke(false);
         Destroy(this);
+        return true;
     }
 
     private void BuildMultiple()
     {
-        Build();
-
-        if (!ResourceManager.Instance.HasSufficientResources(building.buildingData))
+        if (!Build() || !ResourceManager.Instance.HasSufficientResources(building.buildingData))
         { 
             return; 
         }
 
-        BuildingSystem.Instance.InitializeWithObject(unit.gameObject);
+        BuildingSystem.Instance.InitializeWithObject(gameObject);
     }
 
     public void SetBuildMode(bool value)

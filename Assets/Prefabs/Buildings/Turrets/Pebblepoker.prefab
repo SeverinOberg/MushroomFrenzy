@@ -490,7 +490,7 @@ MonoBehaviour:
   turretData: {fileID: 11400000, guid: 0f55c9c278d89e345af480396026da1a, type: 2}
   isSleeping: 1
   shootEffect: {fileID: 5496057344187391572}
-  projectile: {fileID: 899863436537888828, guid: 456bd64e400ab42408763ea42cfdbbf7, type: 3}
+  projectilePrefab: {fileID: 1477133989141385451, guid: 456bd64e400ab42408763ea42cfdbbf7, type: 3}
 --- !u!1 &4399157238098372421
 GameObject:
   m_ObjectHideFlags: 0

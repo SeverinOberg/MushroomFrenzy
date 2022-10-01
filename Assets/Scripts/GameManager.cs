@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour 
@@ -20,6 +21,17 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        StartCoroutine(AstarPathScan(3));
+    }
+
+    private IEnumerator AstarPathScan(float everySeconds)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(everySeconds);
+            AstarPath.active.Scan();
+        }
     }
 
     public void WinGame()

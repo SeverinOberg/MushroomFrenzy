@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour 
@@ -5,19 +6,17 @@ public class Projectile : MonoBehaviour
 
     #region Variables / Properties
 
+    [SerializeField] protected TurretSO       turretData;
     [SerializeField] private ParticleSystem impactParticle;
     [SerializeField] private float shootForceMultiplier = 25f;
     [SerializeField] private float knockbackForceMultiplier = 5f;
 
     protected Rigidbody2D rb;
-    protected TurretSO    turretData;
-    protected Unit        target;
 
     private Vector2 targetDirection;
     private Vector2 spawnPoint;
     private float   distanceFromSpawnPoint;
     
-
     #endregion
 
     #region Unity
@@ -25,15 +24,7 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void Start()
-    {
         spawnPoint = transform.position;
-
-        targetDirection = (target.transform.position - transform.position).normalized;
-        transform.up = targetDirection;
-        rb.AddForce(targetDirection * shootForceMultiplier, ForceMode2D.Impulse);
     }
 
     private void Update()
@@ -56,6 +47,7 @@ public class Projectile : MonoBehaviour
                 enemy.BlinkRed();
                 enemy.PauseAI(0.2f);
                 enemy.AddForce(targetDirection, knockbackForceMultiplier);
+                Destroy(gameObject, 0.5f);
             }
         }
     }
@@ -64,11 +56,17 @@ public class Projectile : MonoBehaviour
 
     #region Methods
 
-    public void Spawn(Projectile projectile, Vector2 position, Transform parent, TurretSO turretData, Unit target)
+    public void Spawn(GameObject projectile, Vector2 position, Unit target)
     {
-        var proj = Instantiate(projectile, position, Quaternion.identity, parent);
-        proj.turretData = turretData;
-        proj.target     = target;
+        Projectile spawn = Instantiate(projectile, position, Quaternion.identity).GetComponent<Projectile>();
+        spawn.Shoot(target);
+    }
+
+    private void Shoot(Unit target)
+    {
+        targetDirection = (target.transform.position - transform.position).normalized;
+        transform.up = targetDirection;
+        rb.AddForce(targetDirection * shootForceMultiplier, ForceMode2D.Impulse);
     }
 
     #endregion

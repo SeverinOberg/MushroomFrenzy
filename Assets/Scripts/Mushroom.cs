@@ -47,6 +47,8 @@ public class Mushroom : Building
                 return;
             }
 
+            player.TriggerAnimation("Eat");
+            player.SetStopMovement(true, 0.5f);
             player.Heal(healAmount);
             Destroy(gameObject);
         }

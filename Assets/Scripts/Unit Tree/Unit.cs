@@ -94,7 +94,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private IEnumerator SetColorDelay(Color color, float seconds)
+    public IEnumerator SetColorDelay(Color color, float seconds)
     {
         yield return new WaitForSeconds(seconds);
         spriteRenderer.color = color;

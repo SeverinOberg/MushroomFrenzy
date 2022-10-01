@@ -37,7 +37,6 @@ public class IceCannonProjectile : Projectile
     {
         var proj = Instantiate(this, position, transform.rotation);
         proj.turretData = turretData;
-        proj.target = target;
     }
 
     private IEnumerator TrailHandler()

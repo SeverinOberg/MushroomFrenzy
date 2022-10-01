@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1477133989141385451}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.46268725, w: 0.8865216}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -48,9 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e1a34944309ef34197b0932f7c7603b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turretData: {fileID: 11400000, guid: 0f55c9c278d89e345af480396026da1a, type: 2}
   impactParticle: {fileID: 2631831193763785647}
   shootForceMultiplier: 25
-  enemyHitForceMultiplier: 5
+  knockbackForceMultiplier: 5
 --- !u!61 &570852006985266620
 BoxCollider2D:
   m_ObjectHideFlags: 0
