@@ -14,6 +14,7 @@ public class Enemy : Unit
     [HideInInspector] public Rigidbody2D rb;
 
     private BoxCollider2D boxCollider;
+    private Animator animator;
 
     protected AIPath aiPath;
     private AIDestinationSetter aiDestinationSetter;
@@ -62,6 +63,7 @@ public class Enemy : Unit
     {
         base.Awake();
 
+        animator            = GetComponent<Animator>();
         rb                  = GetComponent<Rigidbody2D>();
         boxCollider         = GetComponent<BoxCollider2D>();
         aiPath              = GetComponent<AIPath>();
@@ -96,6 +98,20 @@ public class Enemy : Unit
             return;
         }
 
+        if (!isWithinAttackRange)
+        {
+            animator.SetFloat("Run", 1);
+        }
+
+        if (aiDestinationSetter.target.position.x < transform.position.x)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+        }
+
         timeSinceLastAttack += Time.deltaTime;
         timeSinceLastScan   += Time.deltaTime;
 
@@ -115,6 +131,11 @@ public class Enemy : Unit
         {
             distanceFromTarget = Vector2.Distance(transform.position, selectedTarget.transform.position);
             isWithinAttackRange = distanceFromTarget <= attackRange + selectedTarget.transform.localScale.x / 2;
+
+            if (isWithinAttackRange)
+            {
+                animator.SetFloat("Run", 0);
+            }
 
             if (timeSinceLastStuckScan >= stuckScanCooldown)
             {
@@ -286,6 +307,8 @@ public class Enemy : Unit
         Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
         rb.simulated = false;
 
+        animator.SetTrigger("Die");
+
         randomResourceIndex = Random.Range(0, resources.Length);
         if (Random.Range(1, 101) >= 50)
         {
@@ -293,10 +316,17 @@ public class Enemy : Unit
         }
     }
 
+    public override void TakeDamage(float value)
+    {
+        base.TakeDamage(value);
+        animator.SetTrigger("Take Damage");
+    }
+
     public virtual void Attack(int attackDamage)
     {
         selectedTarget.TakeDamage(attackDamage);
         selectedTarget.BlinkRed();
+        animator.SetTrigger("Attack");
     }
 
     #endregion

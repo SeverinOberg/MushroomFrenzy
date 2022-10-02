@@ -49,7 +49,7 @@ public class Unit : MonoBehaviour
 
     #region Methods
 
-    public void TakeDamage(float value)
+    public virtual void TakeDamage(float value)
     {
         if (!isDead)
         {
