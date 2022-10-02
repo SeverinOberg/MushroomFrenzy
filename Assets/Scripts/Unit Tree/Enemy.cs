@@ -84,7 +84,6 @@ public class Enemy : Unit
 
     #endregion
 
-
     private float stuckScanCooldown = 3f;
     private float timeSinceLastStuckScan;
     private Vector2 lastValidationPosition;

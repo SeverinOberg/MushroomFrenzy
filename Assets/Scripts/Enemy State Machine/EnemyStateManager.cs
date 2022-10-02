@@ -2,16 +2,22 @@ using UnityEngine;
 
 public class EnemyStateManager : MonoBehaviour 
 {
+    public Enemy enemy;
 
     private EnemyBaseState currentState;
 
     public EnemyScanState   ScanState   = new EnemyScanState();
     public EnemyAttackState AttackState = new EnemyAttackState();
 
+    private void Awake()
+    {
+        enemy = GetComponent<Enemy>();
+        currentState = ScanState;
+    }
+
     private void Start()
     {
-        currentState = ScanState;
-
+        // currentState = ScanState; // tut put this here, maybe for a reason, but testing it in Awake() for now
         currentState.StartState(this);
     }
 

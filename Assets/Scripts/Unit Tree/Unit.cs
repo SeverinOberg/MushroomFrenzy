@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using BehaviourTree;
 
-public class Unit : MonoBehaviour
+public class Unit : BehaviourTree.Tree
 {
     #region Variables/Properties
 
@@ -39,8 +40,10 @@ public class Unit : MonoBehaviour
         defaultColor = spriteRenderer.color;
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
+
         health = unitData.health;
         MovementSpeed = unitData.movementSpeed;
     }
@@ -125,6 +128,11 @@ public class Unit : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         Destroy(gameObject);
+    }
+
+    protected override Node SetupTree()
+    {
+        return null;
     }
 
     #endregion

@@ -53,6 +53,4 @@ public class HealthBar : MonoBehaviour
         return (100.0f / max) * current / 100.0f;
     }
 
-
-
 }
