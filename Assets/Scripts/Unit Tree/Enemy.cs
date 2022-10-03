@@ -315,10 +315,10 @@ public class Enemy : Unit
         }
     }
 
-    public override void TakeDamage(float value)
+    public override bool TakeDamage(float value)
     {
-        base.TakeDamage(value);
         animator.SetTrigger("Take Damage");
+        return base.TakeDamage(value);
     }
 
     public virtual void Attack(int attackDamage)

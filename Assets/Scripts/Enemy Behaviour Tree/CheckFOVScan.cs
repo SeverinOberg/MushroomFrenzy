@@ -12,8 +12,7 @@ public class CheckFOVScan : Node
 
     public override NodeState Evalute()
     {
-        object target = GetData("target");
-        if (target == null)
+        if (!self.target)
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(self.transform.position, self.scanRadius);
             for (int i = 0; i < colliders.Length; i++)
@@ -23,9 +22,15 @@ public class CheckFOVScan : Node
                     continue;
                 }
 
+                // @TODO: Add complexity such as:
+                // Priorities units in order of turrets > players > mushrooms > farm > walls & gates
+                // Ignore walls & gates if path to target available
+                // Attack walls / gate if path is blocked
+
                 if (unit)
                 {
-                    parent.parent.SetData("target", unit);
+                    self.target = unit;
+                    self.aiDestinationSetter.target = unit.transform;
                     state = NodeState.SUCCESS;
                     return state;
                 }

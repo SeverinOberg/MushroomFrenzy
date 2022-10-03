@@ -5,15 +5,12 @@ using Pathfinding;
 
 public class TaskPatrol : Node 
 {
-    private readonly EnemyBT    self;
-    private Animator            animator;
-    private AIPath              aiPath;
-    private AIDestinationSetter aIDestinationSetter;
+    private EnemyBT self;
 
     private List<Transform> waypoints;
 
     private int currentWaypointIndex = 0;
-    private float waypointReachedDistance = 1.0f;
+    private float waypointReachedDistance = 2.5f;
 
     public TaskPatrol(EnemyBT self)
     {
@@ -21,16 +18,19 @@ public class TaskPatrol : Node
 
         waypoints = GetWaypoints();
 
-        animator            = self.GetComponent<Animator>();
-        aiPath              = self.GetComponent<AIPath>();
-        aIDestinationSetter = self.GetComponent<AIDestinationSetter>();
-
-        aIDestinationSetter.target = waypoints[0];
-        animator.SetFloat("Run", 1);
+        self.animator.SetFloat("Run", 1);
     }
 
     public override NodeState Evalute()
     {
+        if (!self.aiDestinationSetter.target)
+        {
+            self.aiDestinationSetter.target = waypoints[currentWaypointIndex];
+        }
+
+        self.HandleStuck(true);
+        self.FlipTowardsTarget();
+
         MoveTowardsWaypoints();
 
         state = NodeState.RUNNING;
@@ -42,7 +42,7 @@ public class TaskPatrol : Node
         if (Vector2.Distance(self.transform.position, waypoints[currentWaypointIndex].position) < waypointReachedDistance && waypoints.Count - 1 > currentWaypointIndex)
         {
             currentWaypointIndex++;
-            aIDestinationSetter.target = waypoints[currentWaypointIndex].transform;
+            self.aiDestinationSetter.target = waypoints[currentWaypointIndex].transform;
 
             if (currentWaypointIndex >= waypoints.Count - 1)
             {

@@ -52,7 +52,7 @@ public class Unit : BehaviourTree.Tree
 
     #region Methods
 
-    public virtual void TakeDamage(float value)
+    public virtual bool TakeDamage(float value)
     {
         if (!isDead)
         {
@@ -61,10 +61,12 @@ public class Unit : BehaviourTree.Tree
             if (health < 1)
             {
                 Die();
+                return true;
             }
 
             OnHealthChanged?.Invoke();
         }
+        return false;
     }
 
     public void Heal(float value)
