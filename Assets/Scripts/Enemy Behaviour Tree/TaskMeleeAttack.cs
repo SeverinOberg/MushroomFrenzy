@@ -26,12 +26,10 @@ public class TaskMeleeAttack : Node
             if (died)
             {
                 self.animator.SetFloat("Run", 1);
-                state = NodeState.SUCCESS;
-                return state;
+                return state = NodeState.SUCCESS;
             }
         }
 
-        state = NodeState.RUNNING;
-        return state;
+        return state = NodeState.RUNNING;
     }
 }

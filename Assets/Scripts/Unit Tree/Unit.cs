@@ -6,6 +6,19 @@ public class Unit : BehaviourTree.Tree
 {
     #region Variables/Properties
 
+    public enum UnitTypes
+    {
+        Default,
+        Turret,
+        Player,
+        Enemy,
+        Mushroom,
+        Base,
+        Obstacle,
+    }
+
+    public UnitTypes type;
+
     // Do not set any of the data in this Scriptable Object, only get.
     public UnitSO unitData;
     // ---
@@ -57,14 +70,14 @@ public class Unit : BehaviourTree.Tree
         if (!isDead)
         {
             health -= value;
-            
+            OnHealthChanged?.Invoke();
+
             if (health < 1)
             {
                 Die();
+                OnHealthChanged?.Invoke();
                 return true;
             }
-
-            OnHealthChanged?.Invoke();
         }
         return false;
     }

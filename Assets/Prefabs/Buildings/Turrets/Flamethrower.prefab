@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc5851deffa209448104f422344bed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   unitData: {fileID: 11400000, guid: e4b0d8c060c631447ba1d37f679d2b22, type: 2}
   buildingData: {fileID: 11400000, guid: b2ade9b0e415764438502f614c51d70f, type: 2}
   turretData: {fileID: 11400000, guid: 55dc0640a6c1ece4cb0e9ba021affd45, type: 2}

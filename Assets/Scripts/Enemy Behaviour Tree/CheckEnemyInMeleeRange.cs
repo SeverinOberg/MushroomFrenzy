@@ -15,20 +15,17 @@ public class CheckEnemyInMeleeRange : Node
     {
         if (!self.target || self.target.isDead)
         {
-            state = NodeState.FAILURE;
-            return state;
+            return state = NodeState.FAILURE; ;
         }
 
         if (Vector2.Distance(self.transform.position, self.target.transform.position) <= self.meleeAttackRange)
         {
             self.animator.SetFloat("Run", 0);
-            state = NodeState.SUCCESS;
-            return state;
+            return state = NodeState.SUCCESS;
         }
 
         self.animator.SetFloat("Run", 1);
-        state = NodeState.FAILURE;
-        return state;
+        return state = NodeState.FAILURE;
     }
 
 }

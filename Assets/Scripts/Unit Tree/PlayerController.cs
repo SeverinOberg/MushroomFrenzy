@@ -46,6 +46,7 @@ public class PlayerController : Unit
     {
         base.Awake();
 
+        type = UnitTypes.Player;
         inputController = GetComponent<InputController>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -66,19 +67,19 @@ public class PlayerController : Unit
         BuildingSystem.OnBuildMode -= (value) => buildMode = value;
     }
 
-    private void Update()
+    protected override void Update()
     {
         Utilities.ForceReduceVelocity(ref rb);
         HandleTimer();
         HandleMouseDirection();
         HandleFlipPlayer();
 
-        if (stopMovement)
+        if (!stopMovement)
         {
-            return;
+            HandleMovement();
         }
 
-        HandleMovement();
+        base.Update();
     }
 
     #endregion
@@ -166,7 +167,7 @@ public class PlayerController : Unit
                 continue;
             }
 
-            Enemy enemy = hit.transform.GetComponent<Enemy>();
+            EnemyBT enemy = hit.transform.GetComponent<EnemyBT>();
             if (enemy != null)
             {
                 enemy.TakeDamage(Random.Range(attackDamage / 2, attackDamage * 2));

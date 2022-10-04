@@ -35,7 +35,7 @@ public class SlimeSlingerProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.TryGetComponent<Enemy>(out var enemy) && !enemy.isDead)
+        if (collision.transform.TryGetComponent(out EnemyBT enemy) && !enemy.isDead)
         {
             Invoke("DestroyProjectile", turret.turretData.slowDuration);
 
@@ -51,7 +51,7 @@ public class SlimeSlingerProjectile : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.TryGetComponent<Enemy>(out var enemy))
+        if (collision.transform.TryGetComponent(out EnemyBT enemy))
         {
             enemy.MovementSpeed = enemy.unitData.movementSpeed;
         }

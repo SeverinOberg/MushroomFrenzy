@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 9124117133434891502}
   - component: {fileID: 8883868822841601499}
   - component: {fileID: 3290010015989213649}
-  - component: {fileID: 3805610647921491804}
+  - component: {fileID: -5725217311253306008}
   - component: {fileID: 6520007993362071780}
   m_Layer: 8
   m_Name: Wall
@@ -199,7 +199,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3805610647921491804
+--- !u!114 &-5725217311253306008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,9 +208,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4365776368011592592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f48c4a1f238778e429d358b3614a1629, type: 3}
+  m_Script: {fileID: 11500000, guid: 75042b97ffb54234faa55db9f88ef978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 6
   unitData: {fileID: 11400000, guid: c5bf7f5c7d528a644a1eabc56e883578, type: 2}
   buildingData: {fileID: 11400000, guid: c10f19bd0cce82247833cde28699a7c7, type: 2}
 --- !u!114 &6520007993362071780

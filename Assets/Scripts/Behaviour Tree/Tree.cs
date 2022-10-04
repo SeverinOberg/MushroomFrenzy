@@ -4,14 +4,14 @@ namespace BehaviourTree
 {
     public abstract class Tree : MonoBehaviour
     {
-        private Node root = null ;
+        private Node root = null;
 
         protected virtual void Start()
         {
             root = SetupTree();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (root != null)
                 root.Evalute();

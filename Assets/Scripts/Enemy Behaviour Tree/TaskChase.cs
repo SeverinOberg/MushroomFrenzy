@@ -16,14 +16,28 @@ public class TaskChase : Node
         self.HandleStuck();
         self.FlipTowardsTarget();
 
+        if (IsTargetTooFarAway())
+        {
+            self.ClearTarget();
+            return state = NodeState.SUCCESS;
+        }
+
         if (self.IsWithinMeleeAttackRange())
         {
-            state = NodeState.SUCCESS;
-            return state;
+            return state = NodeState.SUCCESS;
         }
   
-        state = NodeState.RUNNING;
-        return state;
+        return state = NodeState.RUNNING; ;
+    }
+
+    private bool IsTargetTooFarAway()
+    {
+        if (Utilities.GetDistanceBetween(self.transform.position, self.target.transform.position) > self.scanDiameter)
+        {
+            return true;
+        }
+
+        return false;
     }
 
 }

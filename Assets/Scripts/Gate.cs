@@ -7,9 +7,10 @@ public class Gate : Building
 
     private Animator animator;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
+        type = UnitTypes.Obstacle;
         animator = GetComponent<Animator>();
     }
 

@@ -44,4 +44,9 @@ public static class Utilities
             rb.velocity = rb.velocity * 0.95f;
         }
     }
+
+    public static float GetDistanceBetween(Vector2 selfPosition, Vector2 Position)
+    {
+        return Vector2.Distance(selfPosition, Position);
+    }
 }

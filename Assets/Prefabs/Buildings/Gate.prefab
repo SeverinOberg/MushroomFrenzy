@@ -259,6 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef8d38d8b6176647a58e8da158e85d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 6
   unitData: {fileID: 11400000, guid: dc8316416d519564bab0ee2c996c9811, type: 2}
   buildingData: {fileID: 11400000, guid: a14aeae5e0b5aee4388ee7b87901fb65, type: 2}
   boxCollider: {fileID: 1015974085237363805}

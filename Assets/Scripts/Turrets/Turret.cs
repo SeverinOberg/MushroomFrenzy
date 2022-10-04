@@ -25,6 +25,7 @@ public class Turret : Building
     {
         base.Awake();
 
+        type = UnitTypes.Turret;
         animator = GetComponent<Animator>();
     }
 
@@ -36,7 +37,7 @@ public class Turret : Building
         timeSinceLastShot += turretData.attackSpeed;
     }
 
-    private void Update()
+    protected override void Update()
     {
         if (isSleeping)
         {
@@ -70,6 +71,8 @@ public class Turret : Building
                 ClearTarget(ref target);
             }
         }
+
+        base.Update();
     }
 
     #endregion

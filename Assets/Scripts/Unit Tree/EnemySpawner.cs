@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : Unit 
@@ -15,7 +14,7 @@ public class EnemySpawner : Unit
     private float timeSinceLastSpawn;
     [SerializeField] private float spawnCooldown = 2f;
 
-    private void Update()
+    protected override void Update()
     {
         timeSinceLastSpawn += Time.deltaTime;
 
@@ -34,6 +33,7 @@ public class EnemySpawner : Unit
                 SpawnEnemy(enemyAmountToSpawn);
             }
         }
+        base.Update();
     }
 
     private void SpawnEnemy(int spawnAmount)

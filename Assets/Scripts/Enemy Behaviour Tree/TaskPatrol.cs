@@ -33,8 +33,7 @@ public class TaskPatrol : Node
 
         MoveTowardsWaypoints();
 
-        state = NodeState.RUNNING;
-        return state;
+        return state = NodeState.RUNNING;
     }
 
     private void MoveTowardsWaypoints()

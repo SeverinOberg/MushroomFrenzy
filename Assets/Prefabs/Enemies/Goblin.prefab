@@ -151,13 +151,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb7d55f1609e484c9d0bbf0eed5a5ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 3
   unitData: {fileID: 11400000, guid: 13184179e46095445afe14e2afa1ab57, type: 2}
-  deathParticle: {fileID: 3507416282766692197, guid: c91d2db4ec67db94e984d822d791a8f3, type: 3}
-  resources:
-  - {fileID: 548507470978393450, guid: e1eb72618dc3b2641b56807813a09aa4, type: 3}
-  - {fileID: 548507470978393450, guid: 4fe2bfe793a8b2b45b8da90528fa8956, type: 3}
+  scanDiameter: 15
+  meleeAttackRange: 2.5
+  attackCooldown: 2
+  minDamage: 2
+  maxDamage: 5
+  animator: {fileID: 0}
+  collision: {fileID: 0}
   rb: {fileID: 0}
-  waypoints: []
+  aiDestinationSetter: {fileID: 0}
+  aiPath: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &5317979854794978375
 MonoBehaviour:
   m_ObjectHideFlags: 0

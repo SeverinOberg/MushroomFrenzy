@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 using BehaviourTree;
 using Pathfinding;
 
 public class EnemyBT : Unit
 {
-    public float scanRadius         = 15;
+    public float scanDiameter       = 15;
     public float meleeAttackRange   = 2.5f;
     public float attackCooldown     = 2f;
     public float minDamage          = 2;
@@ -16,19 +17,36 @@ public class EnemyBT : Unit
     private float   isStuckDistanceLimit = 0.2f;
     private Vector2 lastStuckEvaluationPosition;
 
-    [HideInInspector] public Animator            animator            { get; set; }
-    [HideInInspector] public Collider2D          collision           { get; set; }
-    [HideInInspector] public Unit                target              { get; set; }
-    [HideInInspector] public AIDestinationSetter aiDestinationSetter { get; set; }
+    [HideInInspector] public Animator    animator;
+    [HideInInspector] public Collider2D  collision;
+    [HideInInspector] public Rigidbody2D rb;
+
+    [HideInInspector] public AIDestinationSetter aiDestinationSetter;
+    [HideInInspector] public AIPath              aiPath;
+
+    [HideInInspector] public Unit target;
 
     protected override Node SetupTree()
     {
+        type = UnitTypes.Enemy;
+
         animator            = GetComponent<Animator>();
         collision           = GetComponent<Collider2D>();
+        rb                  = GetComponent<Rigidbody2D>();
+
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
+        aiPath              = GetComponent<AIPath>();
 
         Node root = new Selector(new List<Node>
         {
+            //new Sequence(new List<Node>
+            //{
+            //    new CheckAttackedByPlayer(this),
+            //    new TaskChangeTargetToPlayer(this),
+            //}),
+            
+            // @TODO: Make Enemy target and attack player if the enemy is attacked by a Player
+
             new Sequence(new List<Node>
             {
                 new CheckEnemyInMeleeRange(this),
@@ -47,6 +65,19 @@ public class EnemyBT : Unit
         return root;
     }
 
+    protected override void Update()
+    {
+        Utilities.ForceReduceVelocity(ref rb);
+
+        if (isDead)
+        {
+            SetAIState(false);
+            return;
+        }
+        
+        base.Update();
+    }
+
     #region Methods
 
     public bool IsWithinMeleeAttackRange()
@@ -55,6 +86,19 @@ public class EnemyBT : Unit
         {
             return true;
         }
+        return false;
+    }
+
+    public bool IsPathPossible(Vector2 from, Vector2 to)
+    {
+        GraphNode fromNode = AstarPath.active.GetNearest(from, NNConstraint.Default).node;
+        GraphNode toNode   = AstarPath.active.GetNearest(to,   NNConstraint.Default).node;
+
+        if (PathUtilities.IsPathPossible(fromNode, toNode))
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -123,6 +167,35 @@ public class EnemyBT : Unit
         }
 
         return false;
+    }
+
+    public void ClearTarget()
+    {
+        aiDestinationSetter.target = null;
+        target = null;
+    }
+
+    public void AddForce(Vector2 direction, float forceMultiplier)
+    {
+        rb.AddForce(direction * forceMultiplier, ForceMode2D.Impulse);
+    }
+
+    public void PauseAI(float pauseForSeconds = 1.0f)
+    {
+        SetAIState(false);
+        StartCoroutine(ResumeAIDelay(pauseForSeconds));
+    }
+
+    private IEnumerator ResumeAIDelay(float pauseForSeconds)
+    {
+        yield return new WaitForSeconds(pauseForSeconds);
+        SetAIState(true);
+    }
+
+    private void SetAIState(bool state)
+    {
+        aiDestinationSetter.enabled = state;
+        aiPath.enabled = state;
     }
 
     public override void Die()

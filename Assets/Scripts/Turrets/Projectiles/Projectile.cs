@@ -40,7 +40,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.transform.CompareTag("Enemy"))
         {
-            if (collision.TryGetComponent(out Enemy enemy))
+            if (collision.TryGetComponent(out EnemyBT enemy))
             {
                 impactParticle.Play();
                 enemy.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
