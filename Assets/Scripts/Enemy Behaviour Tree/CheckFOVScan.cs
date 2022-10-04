@@ -47,7 +47,7 @@ public class CheckFOVScan : Node
                     }
                 }
 
-                SetTarget(target);
+                self.SetTarget(target);
                 return state = NodeState.SUCCESS;
             }
         }
@@ -140,9 +140,4 @@ public class CheckFOVScan : Node
         return true;
     }
 
-    private void SetTarget(Unit target)
-    {
-        self.target = target;
-        self.aiDestinationSetter.target = target.transform;
-    }
 }

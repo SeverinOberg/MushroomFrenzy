@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 using BehaviourTree;
 using Pathfinding;
 
@@ -17,6 +17,14 @@ public class EnemyBT : Unit
     private float   isStuckDistanceLimit = 0.2f;
     private Vector2 lastStuckEvaluationPosition;
 
+    public System.Action OnTakeDamage;
+    public System.Action OnDisableAction;
+
+    private void OnDisable()
+    {
+        OnDisableAction?.Invoke();
+    }
+
     [HideInInspector] public Animator    animator;
     [HideInInspector] public Collider2D  collision;
     [HideInInspector] public Rigidbody2D rb;
@@ -30,6 +38,7 @@ public class EnemyBT : Unit
     {
         type = UnitTypes.Enemy;
 
+        
         animator            = GetComponent<Animator>();
         collision           = GetComponent<Collider2D>();
         rb                  = GetComponent<Rigidbody2D>();
@@ -39,17 +48,17 @@ public class EnemyBT : Unit
 
         Node root = new Selector(new List<Node>
         {
-            //new Sequence(new List<Node>
-            //{
-            //    new CheckAttackedByPlayer(this),
-            //    new TaskChangeTargetToPlayer(this),
-            //}),
-            
-            // @TODO: Make Enemy target and attack player if the enemy is attacked by a Player
-
             new Sequence(new List<Node>
             {
-                new CheckEnemyInMeleeRange(this),
+                new Selector(new List<Node>
+                {
+                    new Sequence(new List<Node>
+                        {
+                            new CheckAttackedByPlayer(this),
+                            new TaskChangeTarget(this),
+                        }),
+                    new CheckEnemyInMeleeRange(this),
+                }),
                 new TaskMeleeAttack(this),
             }),
 
@@ -198,6 +207,12 @@ public class EnemyBT : Unit
         aiPath.enabled = state;
     }
 
+    public void SetTarget(Unit target)
+    {
+        this.target = target;
+        aiDestinationSetter.target = target.transform;
+    }
+
     public override void Die()
     {
         base.Die();
@@ -206,6 +221,7 @@ public class EnemyBT : Unit
 
     public override bool TakeDamage(float value)
     {
+        OnTakeDamage?.Invoke();
         animator.SetTrigger("Take Damage");
         return base.TakeDamage(value);
     }
