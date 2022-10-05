@@ -102,13 +102,7 @@ public class BuildingDrag : MonoBehaviour
         if (TryGetComponent(out Building building))
         {
             this.building = building;
-            ResourceManager.Instance.Wood -= building.buildingData.woodCost;
-            ResourceManager.Instance.Stone -= building.buildingData.stoneCost;
-        }
-        else
-        {
-            Debug.LogError("Could not find 'Building' component, this is unexpected");
-            return false;
+            ResourceManager.Instance.PayForBuild(building.buildingData);
         }
 
         if (TryGetComponent(out Turret turret))
