@@ -13,8 +13,8 @@ public class EnemyBT : Unit
     public float maxDamage          = 5;
 
     private float   isStuckTimer;
-    private float   isStuckCooldown = 1.5f;
-    private float   isStuckDistanceLimit = 0.2f;
+    private float   isStuckCooldown = 2f;
+    private float   isStuckDistanceLimit = 0.3f;
     private Vector2 lastStuckEvaluationPosition;
 
     public System.Action OnTakeDamage;
@@ -217,6 +217,26 @@ public class EnemyBT : Unit
     {
         base.Die();
         animator.SetTrigger("Die");
+        if (RNG(33))
+        {
+            SpawnResource();
+        } 
+    }
+
+    private bool RNG(float dropChancePercent)
+    {
+        if (Random.Range(1, 100) <= dropChancePercent)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void SpawnResource()
+    {
+        GameObject[] randomResources = ResourceManager.Instance.resources;
+        GameObject resource = randomResources[Random.Range(0, randomResources.Length)];
+        Instantiate(resource, transform.position, Quaternion.identity);
     }
 
     public override bool TakeDamage(float value)

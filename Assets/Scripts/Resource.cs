@@ -1,26 +1,57 @@
 using UnityEngine;
+using DG.Tweening;
+using System.Transactions;
+using Unity.VisualScripting;
 
 public class Resource : MonoBehaviour 
 {
 
-    private enum TypeOfResource {wood, stone};
+    private enum TypeOfResource {wood, stone, metal};
 
     [SerializeField] private TypeOfResource typeOfResource;
     [SerializeField] private int amount;
+
+    public bool animate = true;
+
+    private void Start()
+    {
+        if (animate)
+        {
+            transform.DOJump(new Vector2(transform.position.x + Random.Range(-2, 2), transform.position.y), 2, 1, 1).SetEase(Ease.InSine)
+            .OnComplete(() =>
+            {
+                transform.DOShakeRotation(0.3f, new Vector3(0, 0, 45));
+                transform.DOShakeScale(1f);
+            });
+
+            DOTween.Sequence()
+                .Append(transform.DOShakeRotation(0.5f, new Vector3(0, 0, 45)))
+                .Join(transform.DOShakeScale(0.5f))
+                .SetLoops(-1, LoopType.Restart).PrependInterval(3);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if (typeOfResource == TypeOfResource.wood)
+            switch (typeOfResource)
             {
-                ResourceManager.Instance.Wood += amount;
-            }
-            else
-            {
-                ResourceManager.Instance.Stone += amount;
+                case TypeOfResource.wood:
+                    ResourceManager.Instance.Wood += amount;
+                    break;
+                case TypeOfResource.stone:
+                    ResourceManager.Instance.Stone += amount;
+                    break;
+                case TypeOfResource.metal:
+                    ResourceManager.Instance.Metal += amount;
+                    break;
+                default:
+                    Debug.LogError("Could not find this Resource type, something went wrong");
+                    return;
             }
 
+            transform.DOKill();
             Destroy(gameObject);
         }
     }

@@ -6,4 +6,5 @@ public class BuildingSO : ScriptableObject
 {
     public int      woodCost;
     public int      stoneCost;
+    public int      metalCost;
 }

@@ -170,7 +170,7 @@ public class PlayerController : Unit
             EnemyBT enemy = hit.transform.GetComponent<EnemyBT>();
             if (enemy != null)
             {
-                enemy.TakeDamage(Random.Range(attackDamage / 2, attackDamage * 2));
+                enemy.TakeDamage(Random.Range(attackDamage * 0.5f, attackDamage * 2));
 
                 if (!enemy.isDead)
                 {
@@ -204,8 +204,8 @@ public class PlayerController : Unit
                 // If the building has taken damage, the resources returned will be halfed
                 if (building.health < building.unitData.health)
                 {
-                    ResourceManager.Instance.Wood += building.buildingData.woodCost / 2;
-                    ResourceManager.Instance.Stone += building.buildingData.stoneCost / 2;
+                    ResourceManager.Instance.Wood += (int)(building.buildingData.woodCost * 0.5f);
+                    ResourceManager.Instance.Stone += (int)(building.buildingData.stoneCost * 0.5f);
                 } else
                 {
                     ResourceManager.Instance.Wood += building.buildingData.woodCost;
@@ -247,11 +247,11 @@ public class PlayerController : Unit
                 }
 
                 // Repairing always costs at least 1 or half (rounded away from zero) the price to build it
-                ResourceManager.Instance.Wood  -= (int)System.Math.Round((decimal)building.buildingData.woodCost / 2, System.MidpointRounding.AwayFromZero);
+                ResourceManager.Instance.Wood  -= (int)System.Math.Round((decimal)building.buildingData.woodCost  / 2, System.MidpointRounding.AwayFromZero);
                 ResourceManager.Instance.Stone -= (int)System.Math.Round((decimal)building.buildingData.stoneCost / 2, System.MidpointRounding.AwayFromZero);
 
                 // Repairing always heals half the buildings max health
-                building.Heal(building.unitData.health / 2);
+                building.Heal(building.unitData.health * 0.5f);
             }
         }
     }

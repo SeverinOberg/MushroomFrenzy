@@ -17,6 +17,8 @@ public class BuildingDrag : MonoBehaviour
 
     private float dragSpeed = 15;
 
+    private Turret turret;
+
     #endregion
 
     #region Unity
@@ -135,7 +137,14 @@ public class BuildingDrag : MonoBehaviour
             return; 
         }
 
-        BuildingSystem.Instance.InitializeWithObject(gameObject);
+
+        if (!TryGetComponent(out Unit unit))
+        {
+            Debug.LogError("Could not find unit for the rebuild");
+            return;
+        }
+
+        BuildingSystem.Instance.InitializeWithObject(unit.unitData.prefab);
     }
 
     public void SetBuildMode(bool value)

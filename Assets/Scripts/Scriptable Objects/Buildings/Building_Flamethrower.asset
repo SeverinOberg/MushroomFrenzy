@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f9fff8b832e8fe439e17d325f665422, type: 3}
   m_Name: Building_Flamethrower
   m_EditorClassIdentifier: 
-  woodCost: 10
-  stoneCost: 10
+  woodCost: 5
+  stoneCost: 5
+  metalCost: 10

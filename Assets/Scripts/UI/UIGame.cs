@@ -10,8 +10,11 @@ public class UIGame : MonoBehaviour
 
     [SerializeField] private GameObject      escapeMenu;
     [SerializeField] private GameObject      keybindingsMenu;
+
     [SerializeField] private TextMeshProUGUI woodResourceText;
     [SerializeField] private TextMeshProUGUI stoneResourceText;
+    [SerializeField] private TextMeshProUGUI metalResourceText;
+
     [SerializeField] private TextMeshProUGUI logToScreenText;
 
     private static System.Action<string> OnLogToScreen;
@@ -26,16 +29,18 @@ public class UIGame : MonoBehaviour
     {
         OnLogToScreen += SetLogToScreen;
 
-        ResourceManager.OnWoodChanged += SetWoodText;
+        ResourceManager.OnWoodChanged  += SetWoodText;
         ResourceManager.OnStoneChanged += SetStoneText;
+        ResourceManager.OnMetalChanged += SetMetalText;
     }
 
     private void OnDisable()
     {
         OnLogToScreen -= SetLogToScreen;
 
-        ResourceManager.OnWoodChanged -= SetWoodText;
+        ResourceManager.OnWoodChanged  -= SetWoodText;
         ResourceManager.OnStoneChanged -= SetStoneText;
+        ResourceManager.OnMetalChanged -= SetMetalText;
     }
 
     #endregion
@@ -77,6 +82,11 @@ public class UIGame : MonoBehaviour
     public void SetStoneText(int amount)
     {
         stoneResourceText.text = $"Stone: {amount}";
+    }
+
+    public void SetMetalText(int amount)
+    {
+        metalResourceText.text = $"Metal: {amount}";
     }
 
     public void TriggerEscapeMenu()

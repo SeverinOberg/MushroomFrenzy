@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   woodCost: 2
   stoneCost: 2
+  metalCost: 0
