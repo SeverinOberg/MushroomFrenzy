@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 5594728459152701680}
   - component: {fileID: 3794247419473984590}
   - component: {fileID: 285498339024725163}
-  - component: {fileID: 4723993381001249655}
+  - component: {fileID: 2676034398448640683}
   - component: {fileID: -39698797755197262}
-  - component: {fileID: -7933066593627946646}
-  - component: {fileID: 1187155063002510421}
+  - component: {fileID: -461893048005963088}
+  - component: {fileID: -6089978646688687405}
   - component: {fileID: 2836422623283600677}
   - component: {fileID: 7851971259387985864}
   - component: {fileID: 7851971259387985865}
@@ -114,8 +114,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &4723993381001249655
-BoxCollider2D:
+--- !u!58 &2676034398448640683
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -128,18 +128,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
-  m_EdgeRadius: 0
+  m_Radius: 0.45
 --- !u!50 &-39698797755197262
 Rigidbody2D:
   serializedVersion: 4
@@ -161,20 +151,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &-7933066593627946646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4550206164777577080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dfd022dc0b20d341afd086fb645a059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
---- !u!114 &1187155063002510421
+--- !u!114 &-461893048005963088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,6 +161,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08464f16fbb53574eb6877520f6efef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 3
+  unitData: {fileID: 11400000, guid: 1cc10e0cb53067f4f9d0d224c4b90e3b, type: 2}
+  scanDiameter: 15
+  meleeAttackRange: 2.5
+  attackCooldown: 2
+  minDamage: 2
+  maxDamage: 5
+  animator: {fileID: 0}
+  collision: {fileID: 0}
+  rb: {fileID: 0}
+  aiDestinationSetter: {fileID: 0}
+  aiPath: {fileID: 0}
+  target: {fileID: 0}
+--- !u!114 &-6089978646688687405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550206164777577080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6fdbc2ea32769e4ea01515f7223ea46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
@@ -264,7 +266,7 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 0.2
   pickNextWaypointDist: 3
-  endReachedDistance: 1
+  endReachedDistance: 2.5
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0

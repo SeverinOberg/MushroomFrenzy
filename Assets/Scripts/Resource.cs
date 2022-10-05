@@ -23,11 +23,6 @@ public class Resource : MonoBehaviour
                 transform.DOShakeRotation(0.3f, new Vector3(0, 0, 45));
                 transform.DOShakeScale(1f);
             });
-
-            DOTween.Sequence()
-                .Append(transform.DOShakeRotation(0.5f, new Vector3(0, 0, 45)))
-                .Join(transform.DOShakeScale(0.5f))
-                .SetLoops(-1, LoopType.Restart).PrependInterval(3);
         }
     }
 
@@ -54,6 +49,11 @@ public class Resource : MonoBehaviour
             transform.DOKill();
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        transform.DOKill();
     }
 
 }

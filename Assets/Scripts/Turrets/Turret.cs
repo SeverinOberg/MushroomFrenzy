@@ -1,3 +1,4 @@
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class Turret : Building
@@ -96,11 +97,16 @@ public class Turret : Building
         bool isScanReady = IsCooldownReady(ref timeSinceLastScan, turretData.scanCooldown);
         if (isScanReady)
         {
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, turretData.scanRange, Vector2.zero, 0.0f, LayerMask.GetMask("Enemy"));
-            if (hit)
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, turretData.scanRange, Vector2.zero, 0.0f);
+            for (int i = 0; i < hits.Length; i++)
             {
-                target = hit.transform.GetComponent<Unit>();
+                if (hits[i].transform.CompareTag("Enemy"))
+                {
+                    target = hits[i].transform.GetComponent<Unit>();
+                    return;
+                }
             }
+
         }
     }
 

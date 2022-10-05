@@ -12,6 +12,7 @@ public class Unit : BehaviourTree.Tree
         Turret,
         Player,
         Enemy,
+        Nest,
         Mushroom,
         Base,
         Obstacle,
@@ -25,6 +26,7 @@ public class Unit : BehaviourTree.Tree
 
     public  bool  isDead        { get; private set; }
     public  float health        { get; private set; }
+    public  float maxHealth     { get; set; }
     private float movementSpeed;
 
     public float MovementSpeed
@@ -57,7 +59,8 @@ public class Unit : BehaviourTree.Tree
     {
         base.Start();
 
-        health = unitData.health;
+        maxHealth = unitData.health;
+        health = maxHealth;
         MovementSpeed = unitData.movementSpeed;
     }
 
@@ -88,9 +91,9 @@ public class Unit : BehaviourTree.Tree
         {
             health += value;
 
-            if (health >= unitData.health)
+            if (health > maxHealth)
             {
-                health = unitData.health;
+                health = maxHealth;
             }
 
             OnHealthChanged?.Invoke();
@@ -128,12 +131,12 @@ public class Unit : BehaviourTree.Tree
     {
         isDead = true;
 
-        if (gameObject.CompareTag("Player") == false)
+        if (type != UnitTypes.Player && type != UnitTypes.Nest)
         {
             StartCoroutine(DeathDelay());
         }
 
-        if (gameObject.CompareTag("Player") || gameObject.CompareTag("Farm"))
+        if (CompareTag("Player") || CompareTag("Farm"))
         {
             GameManager.Instance.LoseGame();
         }

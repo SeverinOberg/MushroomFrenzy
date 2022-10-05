@@ -17,8 +17,6 @@ public class BuildingDrag : MonoBehaviour
 
     private float dragSpeed = 15;
 
-    private Turret turret;
-
     #endregion
 
     #region Unity
@@ -132,8 +130,8 @@ public class BuildingDrag : MonoBehaviour
 
     private void BuildMultiple()
     {
-        if (!Build() || !ResourceManager.Instance.HasSufficientResources(building.buildingData))
-        { 
+        if (!Build() || !ResourceManager.Instance.HasSufficientResourcesToBuild(building.buildingData))
+        {
             return; 
         }
 

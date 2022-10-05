@@ -27,14 +27,13 @@ public class CheckFOVScan : Node
 
                 if (SortTargetsOfType(Unit.UnitTypes.Turret, targets, out targetsFound))
                 {
-                    if (SortClosestTarget(targetsFound, out target))
-                    {}
+                    SortClosestTarget(targetsFound, out target);
                 }
                 else if (SortTargetsForPlayer(Unit.UnitTypes.Player, targets, out target))
                 {}
                 else
                 {
-                    // If no priority target found, pick whatever was found first for now
+                    // If no priority target found, pick whatever is first in our scan
                     target = targets[0];
                 }
 
@@ -42,8 +41,7 @@ public class CheckFOVScan : Node
                 {
                     if (SortTargetsOfType(Unit.UnitTypes.Obstacle, targets, out targetsFound))
                     {
-                        if (SortClosestTarget(targetsFound, out target))
-                        {}
+                        SortClosestTarget(targetsFound, out target);
                     }
                 }
 

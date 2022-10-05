@@ -8,6 +8,7 @@ public class InputController : MonoBehaviour
     public Action OnKeyG;
     public Action OnKeyT;
     public Action OnKeyR;
+    public Action OnKeyV;
 
     private void Update()
     {
@@ -29,6 +30,11 @@ public class InputController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             OnKeyR?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            OnKeyV?.Invoke();
         }
     }
 

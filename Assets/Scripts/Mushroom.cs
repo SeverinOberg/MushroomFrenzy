@@ -41,7 +41,7 @@ public class Mushroom : Building
 
         if (collision.transform.TryGetComponent(out PlayerController player))
         {
-            if (player.health >= player.unitData.health)
+            if (player.health >= player.maxHealth)
             {
                 UIGame.LogToScreen($"Can't pick up {unitData.title} while at full health");
                 return;

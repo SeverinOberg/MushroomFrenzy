@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,7 +41,7 @@ public class BuildButton : MonoBehaviour
 
     public void BuildButtonClicked()
     {
-        if (ResourceManager.Instance.HasSufficientResources(buildingData))
+        if (ResourceManager.Instance.HasSufficientResourcesToBuild(buildingData))
         {
             OnBuildBuilding?.Invoke(unitData.prefab);
         }
@@ -51,7 +49,7 @@ public class BuildButton : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        Tooltip.OnTooltip?.Invoke(unitData.title, unitData.description, $"Wood: {buildingData.woodCost} Stone: {buildingData.stoneCost}");
+        Tooltip.OnTooltip?.Invoke(unitData.title, unitData.description, $"Wood: {buildingData.woodCost} Stone: {buildingData.stoneCost} Metal: {buildingData.metalCost}");
     }
 
     public void OnMouseExit()

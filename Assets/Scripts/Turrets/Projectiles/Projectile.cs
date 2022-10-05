@@ -40,13 +40,16 @@ public class Projectile : MonoBehaviour
     {
         if (collision.transform.CompareTag("Enemy"))
         {
-            if (collision.TryGetComponent(out EnemyBT enemy))
+            if (collision.TryGetComponent(out Unit unit))
             {
                 impactParticle.Play();
-                enemy.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
-                enemy.BlinkRed();
-                enemy.PauseAI(0.2f);
-                enemy.AddForce(targetDirection, knockbackForceMultiplier);
+                unit.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
+                unit.BlinkRed();
+                if (unit.TryGetComponent(out EnemyBT enemy))
+                {
+                    enemy.PauseAI(0.2f);
+                    enemy.AddForce(targetDirection, knockbackForceMultiplier);
+                }
                 Destroy(gameObject, 0.5f);
             }
         }

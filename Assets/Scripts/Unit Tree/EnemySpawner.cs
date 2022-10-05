@@ -6,16 +6,30 @@ public class EnemySpawner : Unit
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private int totalMaxEnemies = 5;
     [SerializeField] private float secondsUntilSpawn = 5;
+    [SerializeField] private float spawnCooldown = 2f;
+    
+    private Animator animator;
 
     private int enemyAmountToSpawn = 1;
-    private int minEnemiesToSpawn = 1;
-    private int maxEnemiesToSpawn = 2;
+    private int minEnemiesToSpawn  = 1;
+    private int maxEnemiesToSpawn  = 2;
 
     private float timeSinceLastSpawn;
-    [SerializeField] private float spawnCooldown = 2f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        type = UnitTypes.Nest;
+        animator = GetComponent<Animator>();
+    }
 
     protected override void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         timeSinceLastSpawn += Time.deltaTime;
 
         if (secondsUntilSpawn >= Time.time)
@@ -56,6 +70,12 @@ public class EnemySpawner : Unit
     private GameObject GetRandomEnemyPrefab()
     {
         return enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        animator.SetTrigger("Destroy");
     }
 
 }

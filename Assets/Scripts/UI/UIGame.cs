@@ -3,6 +3,10 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class UIGame : MonoBehaviour
 {
 
@@ -120,7 +124,11 @@ public class UIGame : MonoBehaviour
 
     public static void Quit()
     {
-        SceneManager.LoadScene(0);
+    #if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+    #else
+        Application.Quit();
+    #endif
     }
 
     #endregion
