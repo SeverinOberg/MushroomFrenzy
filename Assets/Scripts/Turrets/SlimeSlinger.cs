@@ -1,20 +1,44 @@
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class SlimeSlinger : Turret 
 {
 
-    [SerializeField] private ParticleSystem shootEffect;
     [SerializeField] private SlimeSlingerProjectile projectile;
 
+    protected override void Start()
+    {
+        base.Start();
+        SetLoaded(true);
+    }
 
     public override void Shoot(Unit target)
     {
         base.Shoot(target);
-        shootEffect.Play();
-        SlimeSlingerProjectile proj = Instantiate(projectile, transform.position, projectile.transform.rotation);
-        proj.Turret = this;
+        StartCoroutine(ShootRoutine(target));
     }
+
+    private IEnumerator ShootRoutine(Unit target)
+    {
+        yield return new WaitForSeconds(0.3f);
+        
+        projectile.Spawn(projectilePrefab, transform.position, target);
+
+        SetLoaded(false);
+        StartCoroutine(ReloadRoutine());
+    }
+
+    private IEnumerator ReloadRoutine()
+    {
+        yield return new WaitForSeconds(2);
+        animator.SetBool("Loaded", true);
+    }
+
+    private void SetLoaded(bool value)
+    {
+        animator.SetBool("Loaded", value);
+    }
+
+
 
 }

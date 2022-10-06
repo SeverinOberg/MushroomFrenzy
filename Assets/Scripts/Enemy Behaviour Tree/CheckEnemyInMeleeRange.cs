@@ -20,11 +20,9 @@ public class CheckEnemyInMeleeRange : Node
 
         if (Vector2.Distance(self.transform.position, self.target.transform.position) <= self.meleeAttackRange)
         {
-            self.animator.SetFloat("Run", 0);
             return state = NodeState.SUCCESS;
         }
 
-        self.animator.SetFloat("Run", 1);
         return state = NodeState.FAILURE;
     }
 

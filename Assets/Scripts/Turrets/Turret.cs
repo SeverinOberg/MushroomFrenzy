@@ -6,11 +6,12 @@ public class Turret : Building
 
     #region Variables & Properties
 
+    [SerializeField] protected GameObject projectilePrefab;
     public TurretSO turretData;
     public bool     isSleeping = true;
 
-    private Unit           target = null;
-    private Animator       animator;
+    private Unit       target = null;
+    protected Animator animator;
 
     private bool  isWithinShootRange;
     private float distanceFromTarget;
@@ -40,7 +41,7 @@ public class Turret : Building
 
     protected override void Update()
     {
-        if (isSleeping)
+        if (isSleeping || isDead)
         {
             return;
         }
@@ -128,11 +129,16 @@ public class Turret : Building
         }
     }
 
+    public override void Die()
+    {
+        base.Die();
+        animator.SetTrigger("Destroy");
+    }
+
     public virtual void Shoot(Unit target)
     {
         animator.SetTrigger("Shoot");
     }
 
     #endregion
-
 }

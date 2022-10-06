@@ -4,7 +4,6 @@ public class Pebblepoker : Turret
 {
 
     [SerializeField] private ParticleSystem shootEffect;
-    [SerializeField] private GameObject projectilePrefab;
 
     private Projectile projectile;
 

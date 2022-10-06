@@ -20,9 +20,15 @@ public class EnemyBT : Unit
     public System.Action OnTakeDamage;
     public System.Action OnDisableAction;
 
+    private void OnEnable()
+    {
+        // OnMovementSpeedChanged += OnMovementSpeedChange;
+    }
+
     private void OnDisable()
     {
         OnDisableAction?.Invoke();
+        // OnMovementSpeedChanged -= OnMovementSpeedChange;
     }
 
     [HideInInspector] public Animator    animator;
@@ -38,7 +44,6 @@ public class EnemyBT : Unit
     {
         type = UnitTypes.Enemy;
 
-        
         animator            = GetComponent<Animator>();
         collision           = GetComponent<Collider2D>();
         rb                  = GetComponent<Rigidbody2D>();
@@ -76,6 +81,7 @@ public class EnemyBT : Unit
 
     protected override void Update()
     {
+        IsRunning();
         Utilities.ForceReduceVelocity(ref rb);
 
         if (isDead)
@@ -201,7 +207,7 @@ public class EnemyBT : Unit
         SetAIState(true);
     }
 
-    private void SetAIState(bool state)
+    public void SetAIState(bool state)
     {
         aiDestinationSetter.enabled = state;
         aiPath.enabled = state;
@@ -211,6 +217,18 @@ public class EnemyBT : Unit
     {
         this.target = target;
         aiDestinationSetter.target = target.transform;
+    }
+
+    private void IsRunning()
+    {
+        if (aiPath.velocity.magnitude >= 1)
+        {
+            animator.SetFloat("Run", 1);
+        }
+        else
+        {
+            animator.SetFloat("Run", 0);
+        }
     }
 
     public override void Die()

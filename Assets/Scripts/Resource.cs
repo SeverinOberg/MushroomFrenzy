@@ -1,7 +1,5 @@
 using UnityEngine;
 using DG.Tweening;
-using System.Transactions;
-using Unity.VisualScripting;
 
 public class Resource : MonoBehaviour 
 {
@@ -15,6 +13,7 @@ public class Resource : MonoBehaviour
 
     private void Start()
     {
+        Utilities.DestroyAfterDelay(gameObject, 120);
         if (animate)
         {
             transform.DOJump(new Vector2(transform.position.x + Random.Range(-2, 2), transform.position.y), 2, 1, 1).SetEase(Ease.InSine)

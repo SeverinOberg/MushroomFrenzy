@@ -13,7 +13,7 @@ public class TaskChase : Node
 
     public override NodeState Evalute()
     {
-        self.HandleStuck();
+        //self.HandleStuck();
         self.FlipTowardsTarget();
 
         if (IsTargetTooFarAway())

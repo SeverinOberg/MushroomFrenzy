@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour 
@@ -7,9 +6,9 @@ public class Projectile : MonoBehaviour
     #region Variables / Properties
 
     [SerializeField] protected TurretSO       turretData;
-    [SerializeField] private ParticleSystem impactParticle;
-    [SerializeField] private float shootForceMultiplier = 25f;
-    [SerializeField] private float knockbackForceMultiplier = 5f;
+    [SerializeField] private   ParticleSystem impactParticle;
+    [SerializeField] private   float          shootForceMultiplier     = 25f;
+    [SerializeField] private   float          knockbackForceMultiplier = 5f;
 
     protected Rigidbody2D rb;
 
@@ -42,10 +41,12 @@ public class Projectile : MonoBehaviour
         {
             if (collision.TryGetComponent(out Unit unit))
             {
-                impactParticle.Play();
+                if (impactParticle)
+                    impactParticle.Play();
+                
                 unit.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
                 unit.BlinkRed();
-                if (unit.TryGetComponent(out EnemyBT enemy))
+                if (knockbackForceMultiplier > 0 && unit.TryGetComponent(out EnemyBT enemy))
                 {
                     enemy.PauseAI(0.2f);
                     enemy.AddForce(targetDirection, knockbackForceMultiplier);

@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b405d1ddc5a4305479c1126e49f6c3f4, type: 3}
   m_Name: Turret_Pebblepoker
   m_EditorClassIdentifier: 
-  woodCost: 5
-  stoneCost: 5
   minDamage: 1
   maxDamage: 2
   attackSpeed: 1.5

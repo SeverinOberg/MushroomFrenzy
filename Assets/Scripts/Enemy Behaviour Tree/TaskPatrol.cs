@@ -17,8 +17,6 @@ public class TaskPatrol : Node
         this.self = self;
 
         waypoints = GetWaypoints();
-
-        self.animator.SetFloat("Run", 1);
     }
 
     public override NodeState Evalute()
@@ -28,7 +26,7 @@ public class TaskPatrol : Node
             self.aiDestinationSetter.target = waypoints[currentWaypointIndex];
         }
 
-        self.HandleStuck(true);
+        //self.HandleStuck(true);
         self.FlipTowardsTarget();
 
         MoveTowardsWaypoints();

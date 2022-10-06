@@ -49,4 +49,9 @@ public static class Utilities
     {
         return Vector2.Distance(selfPosition, Position);
     }
+
+    public static void DestroyAfterDelay(GameObject gameObject, float seconds)
+    {
+        GameObject.Destroy(gameObject, seconds);
+    }
 }

@@ -58,7 +58,7 @@ public class Unit : BehaviourTree.Tree
     protected override void Start()
     {
         base.Start();
-
+        
         maxHealth = unitData.health;
         health = maxHealth;
         MovementSpeed = unitData.movementSpeed;
@@ -123,8 +123,15 @@ public class Unit : BehaviourTree.Tree
 
     public void SetMovementSpeedByPct(float percent)
     {
-        var slowedMovementSpeed = (unitData.movementSpeed * percent) / 100.0f;
-        MovementSpeed = slowedMovementSpeed;
+        if (percent == 100 || percent == 0)
+        {
+            MovementSpeed = 0;
+            return; 
+        }
+        else
+        {
+            MovementSpeed = (unitData.movementSpeed * percent) / 100.0f;
+        }
     }
 
     public virtual void Die()
