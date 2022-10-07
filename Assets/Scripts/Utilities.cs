@@ -54,4 +54,13 @@ public static class Utilities
     {
         GameObject.Destroy(gameObject, seconds);
     }
+
+    public static bool Roll(float percentChance)
+    {
+        if (Random.Range(1, 100) <= percentChance)
+        {
+            return true;
+        }
+        return false;
+    }
 }

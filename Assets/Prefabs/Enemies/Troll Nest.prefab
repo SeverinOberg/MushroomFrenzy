@@ -147,8 +147,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   unitData: {fileID: 11400000, guid: cc46c4f04ef65c14eb7b1514061b092e, type: 2}
+  nestType: 2
   enemyPrefabs:
   - {fileID: 4550206164777577080, guid: dfaf78d1e306edb46b57e1a0c4071571, type: 3}
-  totalMaxEnemies: 5
-  secondsUntilSpawn: 5
-  spawnCooldown: 2
+  minutesUntilSpawn: 1
+  minutesUntilStronger: 3.5
+  secondsBetweenWaves: 30
+  minSecondsBetweenWaves: 5
+  decreaseSecondsBetweenWavesBy: 5
+  currentEnemyAmountToSpawn: 2
+  maxEnemyAmountToSpawn: 40
+  increaseEnemyAmountBy: 4

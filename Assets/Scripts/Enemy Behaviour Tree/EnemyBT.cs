@@ -12,14 +12,10 @@ public class EnemyBT : Unit
     public float minDamage          = 2;
     public float maxDamage          = 5;
 
-    private float   isStuckTimer;
-    private float   isStuckCooldown = 2f;
-    private float   isStuckDistanceLimit = 0.3f;
-    private Vector2 lastStuckEvaluationPosition;
+    public float meleeAttackRangeDefault;
 
     public System.Action OnTakeDamage;
     public System.Action OnDisableAction;
-
 
     private void OnDisable()
     {
@@ -46,6 +42,9 @@ public class EnemyBT : Unit
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
         aiPath              = GetComponent<AIPath>();
 
+        meleeAttackRangeDefault = meleeAttackRange;
+
+        // Behavior Tree
         Node root = new Selector(new List<Node>
         {
             new Sequence(new List<Node>
@@ -70,6 +69,7 @@ public class EnemyBT : Unit
 
             new TaskPatrol(this),
         });
+        // Behavior Tree
 
         return root;
     }
@@ -129,6 +129,88 @@ public class EnemyBT : Unit
         }
     }
 
+    public void ClearTarget()
+    {
+        meleeAttackRange = meleeAttackRangeDefault;
+        aiDestinationSetter.target = null;
+        target = null;
+    }
+
+    public void AddForce(Vector2 direction, float forceMultiplier)
+    {
+        rb.AddForce(direction * forceMultiplier, ForceMode2D.Impulse);
+    }
+
+    public void SetTarget(Unit target)
+    {
+        this.target = target;
+        aiDestinationSetter.target = target.transform;
+    }
+
+    public void SetAIState(bool state)
+    {
+        aiDestinationSetter.enabled = state;
+        aiPath.enabled = state;
+    }
+
+    public void PauseAI(float pauseForSeconds = 1.0f)
+    {
+        SetAIState(false);
+        StartCoroutine(ResumeAIDelay(pauseForSeconds));
+    }
+
+    private IEnumerator ResumeAIDelay(float pauseForSeconds)
+    {
+        yield return new WaitForSeconds(pauseForSeconds);
+        SetAIState(true);
+    }
+
+    private void IsRunning()
+    {
+        if (aiPath.velocity.magnitude >= 1)
+        {
+            animator.SetFloat("Run", 1);
+        }
+        else
+        {
+            animator.SetFloat("Run", 0);
+        }
+    }
+
+    private void SpawnResource()
+    {
+        GameObject[] randomResources = ResourceManager.Instance.resources;
+        GameObject resource = randomResources[Random.Range(0, randomResources.Length)];
+        Instantiate(resource, transform.position, Quaternion.identity);
+    }
+
+    public override bool TakeDamage(float value)
+    {
+        OnTakeDamage?.Invoke();
+        animator.SetTrigger("Take Damage");
+        return base.TakeDamage(value);
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        animator.SetTrigger("Die");
+        rb.simulated = false;
+        if (Utilities.Roll(33))
+        {
+            SpawnResource();
+        }
+    }
+
+    #endregion
+
+    #region Archive
+
+    private float isStuckTimer;
+    private float isStuckCooldown = 2f;
+    private float isStuckDistanceLimit = 0.3f;
+    private Vector2 lastStuckEvaluationPosition;
+
     public void HandleStuck(bool isPatrolling = false)
     {
         isStuckTimer += Time.deltaTime;
@@ -157,7 +239,7 @@ public class EnemyBT : Unit
                 return true;
             }
         }
-        else 
+        else
         {
             if (!IsWithinMeleeAttackRange() && HasMovedLessThanStuckLimit())
             {
@@ -177,86 +259,6 @@ public class EnemyBT : Unit
         }
 
         return false;
-    }
-
-    public void ClearTarget()
-    {
-        aiDestinationSetter.target = null;
-        target = null;
-    }
-
-    public void AddForce(Vector2 direction, float forceMultiplier)
-    {
-        rb.AddForce(direction * forceMultiplier, ForceMode2D.Impulse);
-    }
-
-    public void PauseAI(float pauseForSeconds = 1.0f)
-    {
-        SetAIState(false);
-        StartCoroutine(ResumeAIDelay(pauseForSeconds));
-    }
-
-    private IEnumerator ResumeAIDelay(float pauseForSeconds)
-    {
-        yield return new WaitForSeconds(pauseForSeconds);
-        SetAIState(true);
-    }
-
-    public void SetAIState(bool state)
-    {
-        aiDestinationSetter.enabled = state;
-        aiPath.enabled = state;
-    }
-
-    public void SetTarget(Unit target)
-    {
-        this.target = target;
-        aiDestinationSetter.target = target.transform;
-    }
-
-    private void IsRunning()
-    {
-        if (aiPath.velocity.magnitude >= 1)
-        {
-            animator.SetFloat("Run", 1);
-        }
-        else
-        {
-            animator.SetFloat("Run", 0);
-        }
-    }
-
-    public override void Die()
-    {
-        base.Die();
-        animator.SetTrigger("Die");
-        if (RNG(33))
-        {
-            SpawnResource();
-        } 
-    }
-
-    private bool RNG(float dropChancePercent)
-    {
-        if (Random.Range(1, 100) <= dropChancePercent)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    private void SpawnResource()
-    {
-        GameObject[] randomResources = ResourceManager.Instance.resources;
-        GameObject resource = randomResources[Random.Range(0, randomResources.Length)];
-        Instantiate(resource, transform.position, Quaternion.identity);
-    }
-
-    public override bool TakeDamage(float value)
-    {
-        OnTakeDamage?.Invoke();
-        animator.SetTrigger("Take Damage");
-        return base.TakeDamage(value);
     }
 
     #endregion

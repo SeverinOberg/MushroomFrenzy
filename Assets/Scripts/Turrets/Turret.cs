@@ -32,14 +32,6 @@ public class Turret : Building
         animator = GetComponent<Animator>();
     }
 
-    protected override void Start()
-    {
-        base.Start();
-
-        timeSinceLastScan += turretData.scanCooldown;
-        timeSinceLastShot += turretData.attackSpeed;
-    }
-
     protected override void Update()
     {
         if (isSleeping || isDead)

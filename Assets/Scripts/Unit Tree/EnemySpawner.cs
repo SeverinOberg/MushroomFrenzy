@@ -2,75 +2,97 @@ using UnityEngine;
 
 public class EnemySpawner : Unit 
 {
+    public enum NestTypes
+    {
+        Boar,
+        Goblin,
+        Troll,
+    }
+
+    public NestTypes nestType;
 
     [SerializeField] private GameObject[] enemyPrefabs;
 
-    [Tooltip("The maximum number of enemies allowed to exist at one time from this spawner")]
-    [SerializeField] private int totalMaxEnemies = 5;
-    [Tooltip("Will start spawning enemies after the minutes set has passed")]
-    [SerializeField] private float minutesUntilSpawn = 0.5f;
-    [Tooltip("Time between spawn per enemy")]
-    [SerializeField] private float secondsBetweenSpawns = 2f;
-    
+    [SerializeField] private float minutesUntilSpawn             = 0f;
+    [SerializeField] private float minutesUntilStronger          = 3f;
+    [SerializeField] private float secondsBetweenWaves           = 10f;
+    [SerializeField] private float minSecondsBetweenWaves        = 10f;
+    [SerializeField] private float decreaseSecondsBetweenWavesBy = 10f;
+
+    [SerializeField] private int currentEnemyAmountToSpawn = 5;
+    [SerializeField] private int maxEnemyAmountToSpawn     = 50;
+    [SerializeField] private int increaseEnemyAmountBy     = 10;
+
+    private float   timeSinceLastSpawn;
+    private Vector2 spawnLocationOffset;
+
+    public static System.Action OnDeath;
+
     private Animator animator;
 
-    private int enemyAmountToSpawn = 1;
-    private int minEnemiesToSpawn  = 1;
-    private int maxEnemiesToSpawn  = 2;
+    #region Unity
 
-    private float timeSinceLastSpawn;
+    #region Subscriptions
+
+    private void OnEnable()
+    {
+        OnDeath += OnDeathCallback;
+    }
+
+    private void OnDisable()
+    {
+        OnDeath -= OnDeathCallback;
+    }
+
+    #endregion
 
     protected override void Awake()
     {
         base.Awake();
-        type = UnitTypes.Nest;
-        animator = GetComponent<Animator>();
 
-        // Convert minutes to seconds for code usage
-        minutesUntilSpawn *= 60;
+        animator = GetComponent<Animator>();
+        type     = UnitTypes.Nest;
+
+        // Convert minutes to seconds
+        minutesUntilSpawn    *= 60; 
+        minutesUntilStronger *= 60;
+        // ---
+
+        timeSinceLastSpawn += minSecondsBetweenWaves;
+
+        InvokeRepeating("OnStronger", minutesUntilStronger, minutesUntilStronger);
     }
 
     protected override void Update()
     {
-        if (isDead)
-        {
+        base.Update();
+
+        if (isDead || minutesUntilSpawn >= Time.time)
             return;
-        }
 
         timeSinceLastSpawn += Time.deltaTime;
-
-        if (minutesUntilSpawn >= Time.time)
+        if (timeSinceLastSpawn >= secondsBetweenWaves)
         {
-            return;
-        }
-
-        if (timeSinceLastSpawn >= secondsBetweenSpawns)
-        {
-            if (transform.childCount < totalMaxEnemies)
+            if (transform.childCount < currentEnemyAmountToSpawn * 0.5f)
             {
                 timeSinceLastSpawn = 0;
-
-                enemyAmountToSpawn = Random.Range(minEnemiesToSpawn, maxEnemiesToSpawn);
-                SpawnEnemy(enemyAmountToSpawn);
+                SpawnWave();
             }
         }
-        base.Update();
     }
 
-    private void SpawnEnemy(int spawnAmount)
+    #endregion
+
+    private void SpawnWave()
     {
-        for (int i = 0; i < spawnAmount; i++)
+        for (int i = 0; i < currentEnemyAmountToSpawn; i++)
         {
-            float randomOffsetX = Random.Range(-1.0f, 3.0f);
-            float randomOffsetY = Random.Range(-1.0f, 3.0f);
-            Vector2 spawnLocationOffset = new Vector2
+            spawnLocationOffset = new Vector2
             (
-                transform.localPosition.x - randomOffsetX,
-                transform.localPosition.y - randomOffsetY
+                transform.localPosition.x - Random.Range(-1.0f, 3.0f),
+                transform.localPosition.y - Random.Range(-1.0f, 3.0f)
             );
-            GameObject enemyPrefab = GetRandomEnemyPrefab();
-            var e = Instantiate(enemyPrefab, spawnLocationOffset, enemyPrefab.transform.rotation);
-            e.transform.SetParent(transform, true);
+            Instantiate(GetRandomEnemyPrefab(), spawnLocationOffset, Quaternion.identity).transform.SetParent(transform, true);
         }
     }
 
@@ -79,10 +101,30 @@ public class EnemySpawner : Unit
         return enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
     }
 
+    private void OnStronger()
+    {
+        if (minutesUntilSpawn >= Time.time || currentEnemyAmountToSpawn >= maxEnemyAmountToSpawn)
+            return;
+
+        currentEnemyAmountToSpawn += increaseEnemyAmountBy;
+        secondsBetweenWaves -= decreaseSecondsBetweenWavesBy;
+    }
+
+    private void OnDeathCallback()
+    {
+        if (currentEnemyAmountToSpawn <= maxEnemyAmountToSpawn)
+            currentEnemyAmountToSpawn += increaseEnemyAmountBy;
+        if (secondsBetweenWaves > minSecondsBetweenWaves)
+            secondsBetweenWaves -= decreaseSecondsBetweenWavesBy;
+
+        UIGame.LogToScreen("The enemy didn't like that, they grow stronger...");
+    }
+
     public override void Die()
     {
         base.Die();
         animator.SetTrigger("Destroy");
+        OnDeath?.Invoke();
     }
 
 }

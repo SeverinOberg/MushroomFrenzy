@@ -58,9 +58,9 @@ public class ResourceManager : MonoBehaviour
 
     private void Start()
     {
-        Wood = 20;
-        Stone = 20;
-        Metal = 20;
+        Wood = 100;
+        Stone = 100;
+        Metal = 100;
     }
 
     public bool PayForBuild(BuildingSO buildingData)

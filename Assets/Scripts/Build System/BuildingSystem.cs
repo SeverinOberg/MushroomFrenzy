@@ -29,13 +29,13 @@ public class BuildingSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        OnBuildMode += (value) => buildMode = value;
+        OnBuildMode                 += SetBuildMode;
         BuildButton.OnBuildBuilding += InitializeWithObject;
     }
 
     private void OnDisable()
     {
-        OnBuildMode -= (value) =>  buildMode = value;
+        OnBuildMode                 -= SetBuildMode;
         BuildButton.OnBuildBuilding -= InitializeWithObject;
     }
 
@@ -65,6 +65,11 @@ public class BuildingSystem : MonoBehaviour
         Vector3Int cellPosition = gridLayout.WorldToCell(position);
         position = grid.GetCellCenterWorld(cellPosition);
         return position;
+    }
+
+    private void SetBuildMode(bool value)
+    {
+        buildMode = value;
     }
 
     #endregion

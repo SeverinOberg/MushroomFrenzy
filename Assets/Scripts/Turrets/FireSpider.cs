@@ -7,6 +7,9 @@ public class FireSpider : Turret
     [SerializeField] private GameObject shootObject;
     [SerializeField] private ParticleSystem shootPS;
 
+    ParticleSystem.MainModule shootPSMain;
+    float initialPSMainRot;
+
     private BoxCollider2D shootCollider;
 
     private float timeSinceLastBurn;
@@ -18,6 +21,8 @@ public class FireSpider : Turret
     {
         base.Awake();
         shootCollider = shootObject.GetComponent<BoxCollider2D>();
+        shootPSMain = shootPS.main;
+        initialPSMainRot = shootPSMain.startRotation.constant;
 
         contactFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
     }
@@ -33,13 +38,13 @@ public class FireSpider : Turret
         {
             return;
         }
-
-        shootCollider.transform.localScale = transform.localScale;
-        shootObject.transform.right = (target.transform.position - transform.position).normalized;
-
+        
         timeSinceLastBurn += Time.deltaTime;
         if (timeSinceLastBurn >= turretData.attackSpeed)
         {
+            shootCollider.transform.localScale = transform.localScale;
+            shootObject.transform.right = (target.transform.position - transform.position).normalized;
+
             shootCollider.OverlapCollider(contactFilter, colliders);
             for (int i = 0; i < colliders.Count; i++)
             {
@@ -47,6 +52,7 @@ public class FireSpider : Turret
                 {
                     if (!shootPS.isPlaying)
                     {
+                        animator.SetTrigger("Shoot");
                         shootPS.Play();
                     }
                     
@@ -60,7 +66,7 @@ public class FireSpider : Turret
 
     public override void Shoot(Unit target)
     {
-        
+
     }
 
 }

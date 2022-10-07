@@ -201,12 +201,14 @@ public class PlayerController : Unit
                 // If the building has taken damage, the resources returned will be halfed
                 if (building.health < building.maxHealth)
                 {
-                    ResourceManager.Instance.Wood += (int)(building.buildingData.woodCost * 0.5f);
+                    ResourceManager.Instance.Wood  += (int)(building.buildingData.woodCost  * 0.5f);
                     ResourceManager.Instance.Stone += (int)(building.buildingData.stoneCost * 0.5f);
+                    ResourceManager.Instance.Metal += (int)(building.buildingData.metalCost * 0.5f);
                 } else
                 {
-                    ResourceManager.Instance.Wood += building.buildingData.woodCost;
+                    ResourceManager.Instance.Wood  += building.buildingData.woodCost;
                     ResourceManager.Instance.Stone += building.buildingData.stoneCost;
+                    ResourceManager.Instance.Metal += building.buildingData.metalCost;
                 }
 
                 Destroy(building.gameObject);

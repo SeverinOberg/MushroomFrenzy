@@ -5,6 +5,9 @@ using BehaviourTree;
 public class CheckFOVScan : Node
 {
     private readonly EnemyBT self;
+    
+    private float scanCooldown = 2;
+    private float timeSinceLastScan;
 
     public CheckFOVScan(EnemyBT self)
     {
@@ -20,8 +23,10 @@ public class CheckFOVScan : Node
 
         if (!self.target)
         {
-            if (ScanForTargets(out List<Unit> targets))
+            timeSinceLastScan += Time.deltaTime;
+            if (timeSinceLastScan >= scanCooldown && ScanForTargets(out List<Unit> targets))
             {
+                timeSinceLastScan = 0;
                 Unit target;
                 List<Unit> targetsFound;
 
@@ -46,6 +51,7 @@ public class CheckFOVScan : Node
                 }
 
                 self.SetTarget(target);
+                self.meleeAttackRange += target.GetComponent<Collider2D>().bounds.size.x * 0.5f;
                 return state = NodeState.SUCCESS;
             }
         }
@@ -60,7 +66,7 @@ public class CheckFOVScan : Node
     private bool ScanForTargets(out List<Unit> result)
     {
         result = new List<Unit>();
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(self.transform.position, self.scanDiameter);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(self.transform.position, self.scanDiameter, LayerMask.GetMask("Turret", "Player", "Obstacle"));
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].CompareTag("Enemy") || !colliders[i].TryGetComponent(out Unit unit) || unit.isDead)
