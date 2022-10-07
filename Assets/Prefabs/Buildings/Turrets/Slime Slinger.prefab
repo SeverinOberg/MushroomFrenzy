@@ -169,11 +169,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9124117133434891502}
+  - component: {fileID: 7817572067318692045}
+  - component: {fileID: 1979904869259377080}
   - component: {fileID: 9214162522476738597}
   - component: {fileID: 3872606164728579872}
   - component: {fileID: 3290010015989213649}
-  - component: {fileID: 7817572067318692045}
-  - component: {fileID: 1979904869259377080}
   m_Layer: 10
   m_Name: Slime Slinger
   m_TagString: Untagged
@@ -198,6 +198,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7817572067318692045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365776368011592592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0eb41455a5b424cbc034ccd35d2657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  unitData: {fileID: 11400000, guid: 63cf1ec9db560f34685c04785671b60a, type: 2}
+  buildingData: {fileID: 11400000, guid: ae3b7bd3fd499b5479cdedbf83ac63f6, type: 2}
+  turretData: {fileID: 11400000, guid: 075873fc37b465e40ac49c88e579aa02, type: 2}
+  projectilePrefab: {fileID: 1477133989141385451, guid: f5a5433541974c147be12238d42d0a43, type: 3}
+  isSleeping: 1
+  projectile: {fileID: 6839394828159480126, guid: f5a5433541974c147be12238d42d0a43, type: 3}
+--- !u!114 &1979904869259377080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365776368011592592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6486cc2c729f6174da5c0e1d6f8fd105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiUnitCanvas: {fileID: 6053122457655072686}
+  uiHealth: {fileID: 4513518708419456886}
 --- !u!95 &9214162522476738597
 Animator:
   serializedVersion: 4
@@ -296,39 +329,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 4}
   m_EdgeRadius: 0
---- !u!114 &7817572067318692045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365776368011592592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af0eb41455a5b424cbc034ccd35d2657, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
-  unitData: {fileID: 11400000, guid: 63cf1ec9db560f34685c04785671b60a, type: 2}
-  buildingData: {fileID: 11400000, guid: ae3b7bd3fd499b5479cdedbf83ac63f6, type: 2}
-  projectilePrefab: {fileID: 1477133989141385451, guid: f5a5433541974c147be12238d42d0a43, type: 3}
-  turretData: {fileID: 11400000, guid: 075873fc37b465e40ac49c88e579aa02, type: 2}
-  isSleeping: 1
-  projectile: {fileID: 6839394828159480126, guid: f5a5433541974c147be12238d42d0a43, type: 3}
---- !u!114 &1979904869259377080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365776368011592592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6486cc2c729f6174da5c0e1d6f8fd105, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiUnitCanvas: {fileID: 6053122457655072686}
-  uiHealth: {fileID: 4513518708419456886}
 --- !u!1 &4621771985279825952
 GameObject:
   m_ObjectHideFlags: 0

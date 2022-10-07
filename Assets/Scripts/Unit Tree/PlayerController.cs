@@ -54,7 +54,6 @@ public class PlayerController : Unit
     private void OnEnable()
     {
         inputController.OnMouse0   += Attack;
-        inputController.OnKeyG     += TakeDamage;
         inputController.OnKeyT     += DestroyBuilding;
         inputController.OnKeyR     += RepairBuilding;
         inputController.OnKeyV     += UpgradeBuilding;
@@ -64,7 +63,6 @@ public class PlayerController : Unit
     private void OnDisable()
     {
         inputController.OnMouse0   -= Attack;
-        inputController.OnKeyG     -= TakeDamage;
         inputController.OnKeyT     -= DestroyBuilding;
         inputController.OnKeyR     -= RepairBuilding;
         inputController.OnKeyV     -= UpgradeBuilding;
@@ -183,10 +181,9 @@ public class PlayerController : Unit
         }
     }
 
-    private void TakeDamage()
+    public override bool TakeDamage(float value)
     {
-        TakeDamage(10);
-        BlinkRed();
+        return base.TakeDamage(value);
     }
 
     private void DestroyBuilding()

@@ -20,15 +20,10 @@ public class EnemyBT : Unit
     public System.Action OnTakeDamage;
     public System.Action OnDisableAction;
 
-    private void OnEnable()
-    {
-        // OnMovementSpeedChanged += OnMovementSpeedChange;
-    }
 
     private void OnDisable()
     {
         OnDisableAction?.Invoke();
-        // OnMovementSpeedChanged -= OnMovementSpeedChange;
     }
 
     [HideInInspector] public Animator    animator;

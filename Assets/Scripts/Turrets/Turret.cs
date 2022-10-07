@@ -1,4 +1,4 @@
-using Unity.Burst.CompilerServices;
+using System;
 using UnityEngine;
 
 public class Turret : Building
@@ -6,14 +6,15 @@ public class Turret : Building
 
     #region Variables & Properties
 
-    [SerializeField] protected GameObject projectilePrefab;
     public TurretSO turretData;
+    [SerializeField] protected GameObject projectilePrefab;
+
     public bool     isSleeping = true;
 
-    private Unit       target = null;
+    protected Unit     target = null;
     protected Animator animator;
 
-    private bool  isWithinShootRange;
+    protected bool  isWithinShootRange;
     private float distanceFromTarget;
 
     private float timeSinceLastScan;
@@ -57,7 +58,7 @@ public class Turret : Building
         else
         {
             
-            distanceFromTarget = Vector2.Distance(target.transform.position, transform.position);
+            distanceFromTarget = Vector2.Distance(transform.position, target.transform.position);
             isWithinShootRange = distanceFromTarget <= turretData.attackRange;
             if (isWithinShootRange && !target.isDead)
             {
@@ -85,11 +86,11 @@ public class Turret : Building
     {
         if (transform.position.x > target.transform.position.x)
         {
-            spriteRenderer.flipX = true;
+            transform.localScale = new Vector2(-1, 1);
         }
         else
         {
-            spriteRenderer.flipX = false;
+            transform.localScale = new Vector2(1, 1);
         }
     }
 

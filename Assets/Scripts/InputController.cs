@@ -5,7 +5,6 @@ public class InputController : MonoBehaviour
 {
 
     public Action OnMouse0;
-    public Action OnKeyG;
     public Action OnKeyT;
     public Action OnKeyR;
     public Action OnKeyV;
@@ -15,11 +14,6 @@ public class InputController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             OnMouse0?.Invoke();   
-        }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            OnKeyG?.Invoke();
         }
 
         if (Input.GetKeyDown(KeyCode.T))

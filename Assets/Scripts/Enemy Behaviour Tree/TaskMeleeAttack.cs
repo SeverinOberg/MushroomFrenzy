@@ -16,7 +16,7 @@ public class TaskMeleeAttack : Node
     public override NodeState Evalute()
     {
         attackTimer += Time.deltaTime;
-        if (attackTimer >= self.attackCooldown)
+        if (attackTimer >= self.attackCooldown && self.IsWithinMeleeAttackRange())
         {
             attackTimer = 0;
                 

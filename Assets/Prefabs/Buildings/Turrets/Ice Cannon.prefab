@@ -217,11 +217,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9124117133434891502}
+  - component: {fileID: 6450017539711544292}
+  - component: {fileID: 8467563149459943085}
   - component: {fileID: 8329715665637101521}
   - component: {fileID: 5758350628307792865}
   - component: {fileID: 2123038749191238037}
-  - component: {fileID: 6450017539711544292}
-  - component: {fileID: 8467563149459943085}
   m_Layer: 10
   m_Name: Ice Cannon
   m_TagString: Untagged
@@ -247,6 +247,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6450017539711544292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365776368011592592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f367cfae67de4c745a8df4cd310a585b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  unitData: {fileID: 11400000, guid: 03f4a783f67fd2a439dc3b8ed90d3fbe, type: 2}
+  buildingData: {fileID: 11400000, guid: 3cdcc84e6bde4964d94808d2c9525ab0, type: 2}
+  turretData: {fileID: 11400000, guid: 28227f003919b844e9a3b14b9eee60b6, type: 2}
+  projectilePrefab: {fileID: 0}
+  isSleeping: 1
+  shootPoint: {fileID: 65554554952514360}
+  shootEffect: {fileID: 5496057344187391572}
+  projectile: {fileID: -9008848804587978460, guid: ae16dee12c07e454f85de9b690b8d5ba, type: 3}
+--- !u!114 &8467563149459943085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365776368011592592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6486cc2c729f6174da5c0e1d6f8fd105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiUnitCanvas: {fileID: 1189891261185036904}
+  uiHealth: {fileID: 3884186558753549189}
 --- !u!95 &8329715665637101521
 Animator:
   serializedVersion: 4
@@ -345,40 +380,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
---- !u!114 &6450017539711544292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365776368011592592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f367cfae67de4c745a8df4cd310a585b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
-  unitData: {fileID: 11400000, guid: 03f4a783f67fd2a439dc3b8ed90d3fbe, type: 2}
-  buildingData: {fileID: 11400000, guid: 3cdcc84e6bde4964d94808d2c9525ab0, type: 2}
-  turretData: {fileID: 11400000, guid: 28227f003919b844e9a3b14b9eee60b6, type: 2}
-  isSleeping: 1
-  shootPoint: {fileID: 65554554952514360}
-  shootEffect: {fileID: 5496057344187391572}
-  projectile: {fileID: -9008848804587978460, guid: ae16dee12c07e454f85de9b690b8d5ba, type: 3}
---- !u!114 &8467563149459943085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365776368011592592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6486cc2c729f6174da5c0e1d6f8fd105, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiUnitCanvas: {fileID: 1189891261185036904}
-  uiHealth: {fileID: 3884186558753549189}
 --- !u!1 &4773204526712290705
 GameObject:
   m_ObjectHideFlags: 0

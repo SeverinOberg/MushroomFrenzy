@@ -4,9 +4,13 @@ public class EnemySpawner : Unit
 {
 
     [SerializeField] private GameObject[] enemyPrefabs;
+
+    [Tooltip("The maximum number of enemies allowed to exist at one time from this spawner")]
     [SerializeField] private int totalMaxEnemies = 5;
-    [SerializeField] private float secondsUntilSpawn = 5;
-    [SerializeField] private float spawnCooldown = 2f;
+    [Tooltip("Will start spawning enemies after the minutes set has passed")]
+    [SerializeField] private float minutesUntilSpawn = 0.5f;
+    [Tooltip("Time between spawn per enemy")]
+    [SerializeField] private float secondsBetweenSpawns = 2f;
     
     private Animator animator;
 
@@ -21,6 +25,9 @@ public class EnemySpawner : Unit
         base.Awake();
         type = UnitTypes.Nest;
         animator = GetComponent<Animator>();
+
+        // Convert minutes to seconds for code usage
+        minutesUntilSpawn *= 60;
     }
 
     protected override void Update()
@@ -32,12 +39,12 @@ public class EnemySpawner : Unit
 
         timeSinceLastSpawn += Time.deltaTime;
 
-        if (secondsUntilSpawn >= Time.time)
+        if (minutesUntilSpawn >= Time.time)
         {
             return;
         }
 
-        if (timeSinceLastSpawn >= spawnCooldown)
+        if (timeSinceLastSpawn >= secondsBetweenSpawns)
         {
             if (transform.childCount < totalMaxEnemies)
             {
