@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a597550af1005e948a3ba0a72747ee6a, type: 3}
   m_Name: Unit_Troll
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7903604297683440050, guid: cb6f96aa39b7e094486b5b393e521f25, type: 3}
+  prefab: {fileID: 4550206164777577080, guid: dfaf78d1e306edb46b57e1a0c4071571, type: 3}
   title: Troll
+  description: 
   faction: 1
-  health: 20
+  health: 25
   movementSpeed: 0.5

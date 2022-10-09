@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b405d1ddc5a4305479c1126e49f6c3f4, type: 3}
   m_Name: Turret_IceCannon
   m_EditorClassIdentifier: 
-  woodCost: 10
-  stoneCost: 5
   minDamage: 1
   maxDamage: 2
-  attackSpeed: 6
+  attackSpeed: 5
   attackRange: 12
   scanCooldown: 2
   scanRange: 12

@@ -95,7 +95,7 @@ public class BuildingDrag : MonoBehaviour
             }
 
             UIGame.LogToScreen($"Can't build here");
-            unit.BlinkRed(false);
+            unit.Blink(Color.red ,false);
             return false;
         }
 

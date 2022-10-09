@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a597550af1005e948a3ba0a72747ee6a, type: 3}
   m_Name: Unit_Boar
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4550206164777577080, guid: 9fa46ba928a86384188fde85269fd2ab, type: 3}
+  prefab: {fileID: 4550206164777577080, guid: 41a2d4735daa3514ea170d6d15c82ad7, type: 3}
   title: Boar
+  description: 
   faction: 1
-  health: 8
+  health: 12
   movementSpeed: 2

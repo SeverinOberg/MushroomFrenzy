@@ -7,8 +7,9 @@ public class SlimeSlingerProjectile : Projectile
 
     private Animator animator;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         animator = GetComponent<Animator>();
     }
 
@@ -27,7 +28,7 @@ public class SlimeSlingerProjectile : Projectile
             rb.bodyType = RigidbodyType2D.Kinematic;
             rb.velocity = Vector2.zero;
 
-            // @TODO: Consider makign this a slow damage decay instead while in the goo pool
+            // @TODO: Consider making this a slow damage decay instead while in the goo pool
             enemy.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
 
             enemy.SetMovementSpeedByPct(turretData.slowPercentage);

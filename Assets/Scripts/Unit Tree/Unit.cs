@@ -35,11 +35,11 @@ public class Unit : BehaviourTree.Tree
         set
         {
             movementSpeed = value;
-            OnMovementSpeedChanged?.Invoke(movementSpeed);
+            OnMovementSpeedChanged?.Invoke(value);
         }
     }
 
-    protected SpriteRenderer spriteRenderer;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
     private Color defaultColor;
 
     public    System.Action        OnHealthChanged;
@@ -51,7 +51,9 @@ public class Unit : BehaviourTree.Tree
 
     protected virtual void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (!spriteRenderer)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
         defaultColor = spriteRenderer.color;
     }
 
@@ -100,17 +102,17 @@ public class Unit : BehaviourTree.Tree
         }
     }
 
-    public void BlinkRed(bool returnToDefaultColor = true)
+    public void Blink(Color color, bool returnToDefaultColor = true)
     {
         if (returnToDefaultColor)
         {
-            spriteRenderer.color = Color.red;
+            spriteRenderer.color = color;
             StartCoroutine(SetColorDelay(defaultColor, 0.2f));
         } 
         else
         {
             Color priorColor = spriteRenderer.color;
-            spriteRenderer.color = Color.red;
+            spriteRenderer.color = color;
             StartCoroutine(SetColorDelay(priorColor, 0.2f));
         }
     }
@@ -123,15 +125,52 @@ public class Unit : BehaviourTree.Tree
 
     public void SetMovementSpeedByPct(float percent)
     {
+        if (MovementSpeed < unitData.movementSpeed)
+            return;
+
         if (percent == 100 || percent == 0)
         {
             MovementSpeed = 0;
-            return; 
         }
         else
         {
             MovementSpeed = (unitData.movementSpeed * percent) / 100.0f;
         }
+    }
+
+    Coroutine doClearSlow;
+
+    public void SetMovementSpeedByPct(float percent, float slowDuration)
+    {
+        if (MovementSpeed < unitData.movementSpeed) 
+            return;
+
+        if (percent == 100 || percent == 0)
+        {
+            MovementSpeed = 0;
+        }
+        else
+        {
+            MovementSpeed = (unitData.movementSpeed * percent) / 100.0f;
+        }
+
+        if (doClearSlow != null)
+        {
+            StopCoroutine(doClearSlow);
+        }
+        doClearSlow = StartCoroutine(DoClearSlow(slowDuration));
+    }
+
+    private IEnumerator DoClearSlow(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        MovementSpeed = unitData.movementSpeed;
+    }
+
+    private IEnumerator DeathDelay()
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(gameObject);
     }
 
     public virtual void Die()
@@ -147,12 +186,6 @@ public class Unit : BehaviourTree.Tree
         {
             GameManager.Instance.LoseGame();
         }
-    }
-
-    private IEnumerator DeathDelay()
-    {
-        yield return new WaitForSeconds(3);
-        Destroy(gameObject);
     }
 
     protected override Node SetupTree()

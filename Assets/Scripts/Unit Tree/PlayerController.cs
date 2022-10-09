@@ -171,7 +171,7 @@ public class PlayerController : Unit
             if (hits[i].transform.TryGetComponent(out Unit unit) && !unit.isDead)
             {
                 unit.TakeDamage(Random.Range(attackDamage * 0.5f, attackDamage * 2));
-                unit.BlinkRed();
+                unit.Blink(Color.red);
                 if (unit.TryGetComponent(out EnemyBT enemy))
                 {
                     enemy.rb.AddForce(mouseDirectionFromPlayer * 10, ForceMode2D.Impulse);

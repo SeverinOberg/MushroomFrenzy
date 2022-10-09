@@ -17,9 +17,15 @@ public class EnemyBT : Unit
     public System.Action OnTakeDamage;
     public System.Action OnDisableAction;
 
+    private void OnEnable()
+    {
+        OnMovementSpeedChanged += OnMovementSpeedChangedCallback;
+    }
+
     private void OnDisable()
     {
         OnDisableAction?.Invoke();
+        OnMovementSpeedChanged -= OnMovementSpeedChangedCallback;
     }
 
     [HideInInspector] public Animator    animator;
@@ -33,15 +39,15 @@ public class EnemyBT : Unit
 
     protected override Node SetupTree()
     {
-        type = UnitTypes.Enemy;
-
-        animator            = GetComponent<Animator>();
+        animator            = spriteRenderer.GetComponent<Animator>();
         collision           = GetComponent<Collider2D>();
         rb                  = GetComponent<Rigidbody2D>();
 
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
         aiPath              = GetComponent<AIPath>();
 
+        aiPath.maxSpeed = MovementSpeed;
+        type = UnitTypes.Enemy;
         meleeAttackRangeDefault = meleeAttackRange;
 
         // Behavior Tree
@@ -182,6 +188,11 @@ public class EnemyBT : Unit
         GameObject[] randomResources = ResourceManager.Instance.resources;
         GameObject resource = randomResources[Random.Range(0, randomResources.Length)];
         Instantiate(resource, transform.position, Quaternion.identity);
+    }
+
+    private void OnMovementSpeedChangedCallback(float value)
+    {
+        aiPath.maxSpeed = value;
     }
 
     public override bool TakeDamage(float value)

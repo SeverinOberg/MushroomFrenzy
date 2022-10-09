@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
     #region Variables / Properties
 
     [SerializeField] protected TurretSO       turretData;
-    [SerializeField] private   ParticleSystem impactParticle;
+    [SerializeField] protected ParticleSystem impactParticle;
     [SerializeField] private   float          shootForceMultiplier     = 25f;
     [SerializeField] private   float          knockbackForceMultiplier = 5f;
 
@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
 
     #region Unity
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spawnPoint = transform.position;
@@ -45,7 +45,7 @@ public class Projectile : MonoBehaviour
                     impactParticle.Play();
                 
                 unit.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
-                unit.BlinkRed();
+                unit.Blink(Color.red);
                 if (knockbackForceMultiplier > 0 && unit.TryGetComponent(out EnemyBT enemy))
                 {
                     enemy.PauseAI(0.2f);

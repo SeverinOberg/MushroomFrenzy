@@ -41,7 +41,7 @@ public class TaskPatrol : Node
             currentWaypointIndex++;
             self.aiDestinationSetter.target = waypoints[currentWaypointIndex].transform;
 
-            if (currentWaypointIndex >= waypoints.Count - 1)
+            if (currentWaypointIndex >= waypoints.Count)
             {
                 currentWaypointIndex = 0;
             }

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a597550af1005e948a3ba0a72747ee6a, type: 3}
   m_Name: Unit_Goblin
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6070259322269241642, guid: 6aa8d65c873d14647a73ac410ef93be1, type: 3}
+  prefab: {fileID: 4550206164777577080, guid: c900b466c7fd54449be89737417c54e9, type: 3}
   title: Goblin
+  description: 
   faction: 1
-  health: 10
+  health: 16
   movementSpeed: 1

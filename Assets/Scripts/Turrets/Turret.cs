@@ -9,16 +9,18 @@ public class Turret : Building
     public TurretSO turretData;
     [SerializeField] protected GameObject projectilePrefab;
 
-    public bool     isSleeping = true;
+    public bool        isSleeping = true;
 
     protected Unit     target = null;
     protected Animator animator;
 
-    protected bool  isWithinShootRange;
-    private float distanceFromTarget;
+    protected bool isWithinShootRange;
+    private float  distanceFromTarget;
 
     private float timeSinceLastScan;
     private float timeSinceLastShot;
+
+    private LayerMask enemyMask;
 
     #endregion
 
@@ -27,9 +29,10 @@ public class Turret : Building
     protected override void Awake()
     {
         base.Awake();
+        animator = spriteRenderer.GetComponent<Animator>();
 
         type = UnitTypes.Turret;
-        animator = GetComponent<Animator>();
+        enemyMask = LayerMask.GetMask("Enemy");
     }
 
     protected override void Update()
@@ -41,7 +44,6 @@ public class Turret : Building
 
         timeSinceLastScan += Time.deltaTime;
         timeSinceLastShot += Time.deltaTime;
-
    
         if (!target)
         {
@@ -78,20 +80,19 @@ public class Turret : Building
     {
         if (transform.position.x > target.transform.position.x)
         {
-            transform.localScale = new Vector2(-1, 1);
+            spriteRenderer.transform.localScale = new Vector2(-1, 1);
         }
         else
         {
-            transform.localScale = new Vector2(1, 1);
+            spriteRenderer.transform.localScale = new Vector2(1, 1);
         }
     }
 
     private void ScanForTarget()
     {
-        bool isScanReady = IsCooldownReady(ref timeSinceLastScan, turretData.scanCooldown);
-        if (isScanReady)
+        if (IsCooldownReady(ref timeSinceLastScan, turretData.scanCooldown))
         {
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, turretData.scanRange, Vector2.zero, 0.0f);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, turretData.scanRange, Vector2.zero, 0.0f, enemyMask);
             for (int i = 0; i < hits.Length; i++)
             {
                 if (hits[i].transform.CompareTag("Enemy"))
