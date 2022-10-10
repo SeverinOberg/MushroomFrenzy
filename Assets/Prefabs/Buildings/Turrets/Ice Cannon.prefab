@@ -346,6 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   unitData: {fileID: 11400000, guid: 03f4a783f67fd2a439dc3b8ed90d3fbe, type: 2}
+  spriteRenderer: {fileID: 0}
   buildingData: {fileID: 11400000, guid: 3cdcc84e6bde4964d94808d2c9525ab0, type: 2}
   turretData: {fileID: 11400000, guid: 28227f003919b844e9a3b14b9eee60b6, type: 2}
   projectilePrefab: {fileID: 1477133989141385451, guid: ae16dee12c07e454f85de9b690b8d5ba, type: 3}
@@ -427,8 +428,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 948798d7377e5a54fbee54a3229226cd, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 1664828267, guid: a67f8b9d8da494947b48bd84a4315332, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

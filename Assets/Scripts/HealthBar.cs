@@ -1,4 +1,3 @@
-using Unity.VisualScripting.ReorderableList.Internal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,7 +44,6 @@ public class HealthBar : MonoBehaviour
         }
 
         uiHealth.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CalculatePercentageNormalized(unit.unitData.health, unit.health));
- 
     }
 
     private float CalculatePercentageNormalized(float max, float current)

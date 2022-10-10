@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviourTree;
+using static UnityEngine.GraphicsBuffer;
 
 public class CheckFOVScan : Node
 {
@@ -19,6 +20,16 @@ public class CheckFOVScan : Node
         if (self.target && !self.IsPathPossible(self.transform.position, self.target.transform.position))
         {
             self.ClearTarget();
+
+            if (ScanForTargets(out List<Unit> targets))
+            {
+                if (SortTargetsOfType(Unit.UnitTypes.Obstacle, targets, out List<Unit>targetsFound))
+                {
+                    SortClosestTarget(targetsFound, out Unit target);
+                    self.SetTarget(target);
+                    self.meleeAttackRange += target.GetComponent<Collider2D>().bounds.size.x * 0.5f;
+                }
+            }
         }
 
         if (!self.target)

@@ -37,15 +37,15 @@ public class Building : Unit
         {
             case 1:
                 maxHealth += 15;
-                Heal(15);
+                //Heal(15);
                 break;
             case 2:
                 maxHealth += 15;
-                Heal(15);
+                //Heal(15);
                 break;
             case 3:
                 maxHealth += 15;
-                Heal(15);
+                //Heal(15);
                 break;
             default:
                 Debug.LogError("Something went wrong trying to upgrade building, unknown level");

@@ -5,7 +5,7 @@ public class IceCannonProjectile : Projectile
 
     #region Variables
     [SerializeField] private GameObject body;
-    [SerializeField] private float      impactRadius = 5f;
+    [SerializeField] private float      impactRadius = 1f;
 
     #endregion
 

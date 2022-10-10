@@ -197,6 +197,7 @@ public class EnemyBT : Unit
 
     public override bool TakeDamage(float value)
     {
+        Debug.Log(value);
         OnTakeDamage?.Invoke();
         animator.SetTrigger("Take Damage");
         return base.TakeDamage(value);
