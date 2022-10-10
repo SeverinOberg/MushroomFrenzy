@@ -4,6 +4,7 @@ public class Pebblepoker : Turret
 {
 
     [SerializeField] private ParticleSystem shootEffect;
+    private ParticleSystem.ShapeModule shootEffectShapeModule;
 
     private Projectile projectile;
 
@@ -11,6 +12,7 @@ public class Pebblepoker : Turret
     {
         base.Start();
 
+        shootEffectShapeModule = shootEffect.shape;
         projectile = projectilePrefab.GetComponent<Projectile>();
     }
 
@@ -21,6 +23,20 @@ public class Pebblepoker : Turret
         shootEffect.Play();
         
         projectile.Spawn(projectilePrefab, transform.position, target);
+    }
+
+    protected override bool FlipTowardsTargetPosition()
+    {
+        bool shouldFlip = base.FlipTowardsTargetPosition();
+        if (shouldFlip)
+        {
+            shootEffect.transform.rotation = new Quaternion(0, 180, -30, 0);
+        }
+        else
+        {
+            shootEffect.transform.rotation = new Quaternion(0, 0, -30, 0);
+        }
+        return shouldFlip;
     }
 
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ public class FireSpider : Turret
 
     public override void Shoot(Unit target)
     {
-        shootCollider.transform.localScale = transform.localScale;
+        //shootCollider.transform.localScale = transform.localScale;
         shootPoint.transform.right = (target.transform.position - transform.position).normalized;
 
         shootCollider.OverlapCollider(contactFilter, colliders);
@@ -40,5 +39,19 @@ public class FireSpider : Turret
                 hit.Blink(Color.red);
             }
         }
+    }
+
+    protected override bool FlipTowardsTargetPosition()
+    {
+        bool shouldFlip = base.FlipTowardsTargetPosition();
+        if (shouldFlip)
+        {
+            shootCollider.transform.localScale = new Vector2(-1, 1);
+        }
+        else
+        {
+            shootCollider.transform.localScale = new Vector2(1, 1);
+        }
+        return shouldFlip;
     }
 }

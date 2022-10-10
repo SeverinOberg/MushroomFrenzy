@@ -389,6 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   unitData: {fileID: 11400000, guid: c9b4445766b3f3c47bf06a9140ab7f53, type: 2}
+  spriteRenderer: {fileID: 0}
   buildingData: {fileID: 11400000, guid: deb4e9bba3c087e48bb4d4e9b5a65945, type: 2}
   turretData: {fileID: 11400000, guid: 0f55c9c278d89e345af480396026da1a, type: 2}
   projectilePrefab: {fileID: 1477133989141385451, guid: 456bd64e400ab42408763ea42cfdbbf7, type: 3}
@@ -555,14 +556,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8577775760623235862}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.258819, w: 0.9659259}
   m_LocalPosition: {x: 0.65, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9124117133434891502}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30}
 --- !u!198 &5496057344187391572
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -580,7 +581,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 0
   startDelay:
@@ -1191,14 +1192,14 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 2
+    type: 10
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: -25}
+    m_Rotation: {x: 0, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0

@@ -76,9 +76,10 @@ public class Turret : Building
 
     #region Methods
 
-    private void FlipTowardsTargetPosition()
+    protected virtual bool FlipTowardsTargetPosition()
     {
-        if (transform.position.x > target.transform.position.x)
+        bool shouldFlip = transform.position.x > target.transform.position.x;
+        if (shouldFlip)
         {
             spriteRenderer.transform.localScale = new Vector2(-1, 1);
         }
@@ -86,6 +87,7 @@ public class Turret : Building
         {
             spriteRenderer.transform.localScale = new Vector2(1, 1);
         }
+        return shouldFlip;
     }
 
     private void ScanForTarget()

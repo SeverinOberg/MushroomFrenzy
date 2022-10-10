@@ -7,9 +7,13 @@ public class BuildingDrag : MonoBehaviour
     #region Variables & Properties
 
     private Unit unit;
-    private BoxCollider2D boxCollider;
     private Building building;
+    private BoxCollider2D boxCollider;
+    private BoxCollider2D boxTrigger;
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
+
+    private int initialSpriteRendererSortingOrder;
 
     private Vector2 mousePosition;
 
@@ -24,12 +28,39 @@ public class BuildingDrag : MonoBehaviour
     private void Awake()
     {
         unit = GetComponent<Unit>();
-        boxCollider = GetComponent<BoxCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        BoxCollider2D[] boxColliders = GetComponents<BoxCollider2D>();
+        for (int i = 0; i < boxColliders.Length; i++)
+        {
+            if (boxColliders[i].isTrigger)
+            {
+                boxTrigger = boxColliders[i];
+            }
+            else
+            {
+                boxCollider = boxColliders[i];
+            }
+        }
+        if (!TryGetComponent(out spriteRenderer))
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+        if (!TryGetComponent(out animator))
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
     }
 
     private void Start()
     {
+        if (boxTrigger)
+            boxTrigger.enabled = false;
+        if (boxCollider)
+            boxCollider.enabled = false;
+
+        animator.enabled = false;
+        initialSpriteRendererSortingOrder = spriteRenderer.sortingOrder;
+        spriteRenderer.sortingOrder = 4;
         spriteRenderer.color = Utilities.DragColor;
     }
 
@@ -45,21 +76,29 @@ public class BuildingDrag : MonoBehaviour
 
     private void LateUpdate()
     {
-
         // Drag
         if (buildMode)
         {
             mousePosition = Utilities.GetMouseWorldPosition();
             transform.position = Vector3.Lerp(transform.position, BuildingSystem.Instance.SnapCoordinateToGrid(mousePosition), Time.deltaTime * dragSpeed);
+            if (!CanBuildHere())
+            {
+                spriteRenderer.color = Color.red;
+            } 
+            else
+            {
+                spriteRenderer.color = Utilities.DragColor;
+            }
         }
 
-        // Cancel build
+        // Cancel
         if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Escape) && buildMode)
         {
             BuildingSystem.OnBuildMode?.Invoke(false);
             Destroy(gameObject);
         }
 
+        // Build
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Mouse0) && buildMode)
         {
             BuildMultiple();
@@ -86,16 +125,9 @@ public class BuildingDrag : MonoBehaviour
 
         transform.position = BuildingSystem.Instance.SnapCoordinateToGrid(mousePosition);
 
-        Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(transform.position, transform.localScale * 0.97f, 0.0f);
-        foreach (Collider2D collider in overlapColliders)
+        if (!CanBuildHere())
         {
-            if (collider.isTrigger || collider.gameObject == gameObject)
-            {
-                continue;
-            }
-
-            UIGame.LogToScreen($"Can't build here");
-            unit.Blink(Color.red ,false);
+            UIGame.LogToScreen("Can't build here");
             return false;
         }
 
@@ -116,6 +148,14 @@ public class BuildingDrag : MonoBehaviour
         }
 
         unit.StartCoroutine(unit.SetColorDelay(Color.white, 0.3f));
+        spriteRenderer.sortingOrder = initialSpriteRendererSortingOrder;
+
+        animator.enabled = true;
+
+        if (boxTrigger)
+            boxTrigger.enabled = true;
+        if (boxCollider)
+            boxCollider.enabled = true;
 
         BuildingSystem.OnBuildMode?.Invoke(false);
         Destroy(this);
@@ -142,14 +182,29 @@ public class BuildingDrag : MonoBehaviour
     public void SetBuildMode(bool value)
     {
         buildMode = value;
-        if (buildMode)
+        //if (buildMode)
+        //{
+        //    boxCollider.enabled = false;
+        //}
+        //else
+        //{
+        //    boxCollider.enabled = true;
+        //}
+    }
+
+    private bool CanBuildHere()
+    {
+        Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(transform.position, boxCollider.size * 0.97f, 0.0f);
+        foreach (Collider2D collider in overlapColliders)
         {
-            boxCollider.enabled = false;
+            if (collider.isTrigger || collider.gameObject == gameObject)
+            {
+                continue;
+            }
+            return false;
         }
-        else
-        {
-            boxCollider.enabled = true;
-        }
+
+        return true;
     }
 
     #endregion
