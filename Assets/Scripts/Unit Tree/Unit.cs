@@ -24,26 +24,31 @@ public class Unit : BehaviourTree.Tree
     public UnitSO unitData;
     // ---
 
-    public  bool  isDead        { get; private set; }
-    public  float health        { get; private set; }
-    public  float maxHealth     { get; set; }
-    private float movementSpeed;
-
-    public float MovementSpeed
-    {
-        get { return movementSpeed; }
-        set
-        {
-            movementSpeed = value;
-            OnMovementSpeedChanged?.Invoke(value);
-        }
-    }
-
     [SerializeField] protected SpriteRenderer spriteRenderer;
     private Color defaultColor;
 
-    public    System.Action        OnHealthChanged;
-    protected System.Action<float> OnMovementSpeedChanged;
+    private bool  isDead;
+    private float health;
+    private float maxHealth;
+    private float movementSpeed;
+
+    public bool  IsDead        { get { return isDead; }        set { if (value == false) { Debug.LogWarning("IsDead must only be true"); return; } isDead = value; OnSetIsDead?.Invoke(); } }
+    public float Health        { get { return health; }        set { health        = value; OnSetHealth?.Invoke(); } }
+    public float MaxHealth     { get { return maxHealth; }     set { maxHealth     = value; OnSetMaxHealth?.Invoke(); } }
+    public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; OnSetMovementSpeed?.Invoke(value); } }
+
+    public    System.Action        OnDisableEvent;
+    public    System.Action        OnSetIsDead;
+    public    System.Action        OnSetHealth;
+    public    System.Action        OnSetMaxHealth;
+    protected System.Action<float> OnSetMovementSpeed;
+
+    private void OnDisable()
+    {
+        OnDisableEvent?.Invoke();
+    }
+
+    // Make a new event like OnDisable/OnDestroy to catch when our Unit is gone
 
     #endregion
 
@@ -61,8 +66,8 @@ public class Unit : BehaviourTree.Tree
     {
         base.Start();
         
-        maxHealth = unitData.health;
-        health = maxHealth;
+        MaxHealth     = unitData.health;
+        Health        = MaxHealth;
         MovementSpeed = unitData.movementSpeed;
     }
 
@@ -72,33 +77,30 @@ public class Unit : BehaviourTree.Tree
 
     public virtual bool TakeDamage(float value)
     {
-        if (!isDead)
+        if (!IsDead)
         {
-            health -= value;
-            OnHealthChanged?.Invoke();
-
-            if (health < 1)
+            if (Health - value <= 0)
             {
+                Health = 0;
                 Die();
-                OnHealthChanged?.Invoke();
                 return true;
             }
+
+            Health -= value;
         }
         return false;
     }
 
     public void Heal(float value)
     {
-        if (!isDead)
+        if (!IsDead)
         {
-            health += value;
+            Health += value;
 
-            if (health > maxHealth)
+            if (Health + value > MaxHealth)
             {
-                health = maxHealth;
+                Health = MaxHealth;
             }
-
-            OnHealthChanged?.Invoke();
         }
     }
 
@@ -167,17 +169,11 @@ public class Unit : BehaviourTree.Tree
         MovementSpeed = unitData.movementSpeed;
     }
 
-    private IEnumerator DeathDelay()
-    {
-        yield return new WaitForSeconds(3);
-        Destroy(gameObject);
-    }
-
     public virtual void Die()
     {
-        isDead = true;
+        IsDead = true;
 
-        if (type != UnitTypes.Player && type != UnitTypes.Nest)
+        if (type != UnitTypes.Player)
         {
             StartCoroutine(DeathDelay());
         }
@@ -186,6 +182,12 @@ public class Unit : BehaviourTree.Tree
         {
             GameManager.Instance.LoseGame();
         }
+    }
+
+    private IEnumerator DeathDelay()
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(gameObject);
     }
 
     protected override Node SetupTree()

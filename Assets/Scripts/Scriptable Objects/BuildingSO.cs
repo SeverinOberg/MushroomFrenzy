@@ -17,11 +17,6 @@ public class BuildingSO : ScriptableObject
     [Tooltip("The maximum level a building can be upgraded to")]
     public int maxLevel;
 
-    [Header("Level 1 Costs")]
-    public int level1UpgradeWoodCost;
-    public int level1UpgradeStoneCost;
-    public int level1UpgradeMetalCost;
-
     [Header("Level 2")]
     public int level2UpgradeWoodCost;
     public int level2UpgradeStoneCost;

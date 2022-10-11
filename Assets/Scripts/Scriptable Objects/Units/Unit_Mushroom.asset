@@ -18,5 +18,5 @@ MonoBehaviour:
     by eating a Mending Mushroom! Crops takes a little growing before being ready
     for consumtion
   faction: 0
-  health: 2
+  health: 5
   movementSpeed: 0

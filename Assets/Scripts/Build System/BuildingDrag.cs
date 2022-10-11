@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,9 +18,10 @@ public class BuildingDrag : MonoBehaviour
 
     private Vector2 mousePosition;
 
-    private bool buildMode;
-
     private float dragSpeed = 15;
+
+    private bool  pauseCanBuildHereValuation;
+    private float clearCanBuildHereValuationDuration = 0.5f;
 
     #endregion
 
@@ -54,56 +56,52 @@ public class BuildingDrag : MonoBehaviour
     private void Start()
     {
         if (boxTrigger)
-            boxTrigger.enabled = false;
+            boxTrigger.enabled  = false;
         if (boxCollider)
             boxCollider.enabled = false;
+        if (animator)
+            animator.enabled    = false;
 
-        animator.enabled = false;
         initialSpriteRendererSortingOrder = spriteRenderer.sortingOrder;
         spriteRenderer.sortingOrder = 4;
         spriteRenderer.color = Utilities.DragColor;
-    }
 
-    private void OnEnable()
-    {
-        BuildingSystem.OnBuildMode += SetBuildMode;
-    }
-
-    private void OnDisable()
-    {
-        BuildingSystem.OnBuildMode -= SetBuildMode;
+        pauseCanBuildHereValuation = true;
+        StartCoroutine(DoClearPauseCanBuildHereValuation());
     }
 
     private void LateUpdate()
     {
         // Drag
-        if (buildMode)
+        if (BuildingSystem.Instance.buildMode)
         {
             mousePosition = Utilities.GetMouseWorldPosition();
             transform.position = Vector3.Lerp(transform.position, BuildingSystem.Instance.SnapCoordinateToGrid(mousePosition), Time.deltaTime * dragSpeed);
-            if (!CanBuildHere())
+
+            if (!pauseCanBuildHereValuation && !CanBuildHere())
             {
                 spriteRenderer.color = Color.red;
-            } 
+            }
             else
             {
                 spriteRenderer.color = Utilities.DragColor;
             }
+            
         }
 
         // Cancel
-        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Escape) && buildMode)
+        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Escape) && BuildingSystem.Instance.buildMode)
         {
-            BuildingSystem.OnBuildMode?.Invoke(false);
+            BuildingSystem.Instance.buildMode = false;
             Destroy(gameObject);
         }
 
         // Build
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Mouse0) && buildMode)
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Mouse0) && BuildingSystem.Instance.buildMode)
         {
             BuildMultiple();
         } 
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && buildMode)
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && BuildingSystem.Instance.buildMode)
         {
             Build();
         }
@@ -147,17 +145,18 @@ public class BuildingDrag : MonoBehaviour
             mushroom.enabled = true;
         }
 
+        unit.Blink(Color.green, true);
         unit.StartCoroutine(unit.SetColorDelay(Color.white, 0.3f));
         spriteRenderer.sortingOrder = initialSpriteRendererSortingOrder;
 
-        animator.enabled = true;
-
+        if (animator)
+            animator.enabled    = true;
         if (boxTrigger)
-            boxTrigger.enabled = true;
+            boxTrigger.enabled  = true;
         if (boxCollider)
             boxCollider.enabled = true;
 
-        BuildingSystem.OnBuildMode?.Invoke(false);
+        BuildingSystem.Instance.buildMode = false;
         Destroy(this);
         return true;
     }
@@ -179,17 +178,10 @@ public class BuildingDrag : MonoBehaviour
         BuildingSystem.Instance.InitializeWithObject(unit.unitData.prefab);
     }
 
-    public void SetBuildMode(bool value)
+    private IEnumerator DoClearPauseCanBuildHereValuation()
     {
-        buildMode = value;
-        //if (buildMode)
-        //{
-        //    boxCollider.enabled = false;
-        //}
-        //else
-        //{
-        //    boxCollider.enabled = true;
-        //}
+        yield return new WaitForSeconds(clearCanBuildHereValuationDuration);
+        pauseCanBuildHereValuation = false;
     }
 
     private bool CanBuildHere()

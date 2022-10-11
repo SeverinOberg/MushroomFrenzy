@@ -13,7 +13,7 @@ public class CheckEnemyInMeleeRange : Node
 
     public override NodeState Evalute()
     {
-        if (!self.target || self.target.isDead)
+        if (!self.target || self.target.IsDead)
         {
             return state = NodeState.FAILURE; ;
         }

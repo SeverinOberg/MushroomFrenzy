@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BuildingSystem : MonoBehaviour 
 {
@@ -6,12 +7,10 @@ public class BuildingSystem : MonoBehaviour
 
     public static BuildingSystem Instance;
 
-    public GridLayout gridLayout;
+    [SerializeField] private GridLayout gridLayout;
     private Grid grid;
 
-    private bool buildMode;
-
-    public static System.Action<bool> OnBuildMode;
+    [HideInInspector] public bool buildMode;
 
     #endregion
 
@@ -20,23 +19,10 @@ public class BuildingSystem : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
+        
 
         grid = gridLayout.GetComponent<Grid>();
-    }
-
-    private void OnEnable()
-    {
-        OnBuildMode                 += SetBuildMode;
-        BuildButton.OnBuildBuilding += InitializeWithObject;
-    }
-
-    private void OnDisable()
-    {
-        OnBuildMode                 -= SetBuildMode;
-        BuildButton.OnBuildBuilding -= InitializeWithObject;
     }
 
     #endregion
@@ -55,9 +41,8 @@ public class BuildingSystem : MonoBehaviour
 
         GameObject obj = Instantiate(prefab, position, Quaternion.identity);
 
-        BuildingDrag buildingDrag = obj.AddComponent<BuildingDrag>();
-
-        OnBuildMode?.Invoke(true);
+        obj.AddComponent<BuildingDrag>();
+        buildMode = true;
     }
 
     public Vector3 SnapCoordinateToGrid(Vector3 position)
@@ -67,11 +52,5 @@ public class BuildingSystem : MonoBehaviour
         return position;
     }
 
-    private void SetBuildMode(bool value)
-    {
-        buildMode = value;
-    }
-
     #endregion
-
 }

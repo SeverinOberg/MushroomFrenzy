@@ -7,7 +7,8 @@ public class ResourceManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+            Instance = this;
     }
 
     public enum PaymentType
@@ -99,16 +100,11 @@ public class ResourceManager : MonoBehaviour
         switch (level)
         {
             case 1:
-                Wood  -= buildingData.level1UpgradeWoodCost;
-                Stone -= buildingData.level1UpgradeStoneCost;
-                Metal -= buildingData.level1UpgradeMetalCost;
-                break;
-            case 2:
                 Wood  -= buildingData.level2UpgradeWoodCost;
                 Stone -= buildingData.level2UpgradeStoneCost;
                 Metal -= buildingData.level2UpgradeMetalCost;
                 break;
-            case 3:
+            case 2:
                 Wood  -= buildingData.level3UpgradeWoodCost;
                 Stone -= buildingData.level3UpgradeStoneCost;
                 Metal -= buildingData.level3UpgradeMetalCost;
@@ -137,18 +133,12 @@ public class ResourceManager : MonoBehaviour
         switch (level)
         {
             case 1:
-                if (Wood  >= buildingData.level1UpgradeWoodCost &&
-                    Stone >= buildingData.level1UpgradeStoneCost &&
-                    Metal >= buildingData.level1UpgradeMetalCost)
-                    return true;
-                    break;
-            case 2:
                 if (Wood  >= buildingData.level2UpgradeWoodCost &&
                     Stone >= buildingData.level2UpgradeStoneCost &&
                     Metal >= buildingData.level2UpgradeMetalCost)
                     return true;
-                break;
-            case 3:
+                    break;
+            case 2:
                 if (Wood  >= buildingData.level3UpgradeWoodCost &&
                     Stone >= buildingData.level3UpgradeStoneCost &&
                     Metal >= buildingData.level3UpgradeMetalCost)

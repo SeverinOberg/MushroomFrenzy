@@ -12,6 +12,11 @@ public class UIGame : MonoBehaviour
 
     #region Variables & Properties
 
+    public static UIGame Instance;
+
+    [SerializeField] private GameObject winScreen;
+    [SerializeField] private GameObject lostScreen;
+
     [SerializeField] private GameObject      escapeMenu;
     [SerializeField] private GameObject      keybindingsMenu;
 
@@ -21,11 +26,21 @@ public class UIGame : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI logToScreenText;
 
+    [SerializeField] private GameObject selectedTargetInterface;
+
     private static System.Action<string> OnLogToScreen;
 
     #endregion
 
     #region Unity
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     #region Subscriptions
 
@@ -93,6 +108,18 @@ public class UIGame : MonoBehaviour
         metalResourceText.text = $"Metal: {amount}";
     }
 
+    public void TriggerSelectedTargetInterface()
+    {
+        if (!selectedTargetInterface.activeSelf)
+        {
+            selectedTargetInterface.SetActive(true);
+        }
+        else
+        {
+            selectedTargetInterface.SetActive(false);
+        }
+    }
+
     public void TriggerEscapeMenu()
     {
         if (!escapeMenu.activeSelf)
@@ -114,6 +141,30 @@ public class UIGame : MonoBehaviour
         else
         {
             keybindingsMenu.SetActive(false);
+        }
+    }
+
+    public void ToggleWinScreen()
+    {
+        if (winScreen.activeSelf)
+        {
+            winScreen.SetActive(false);
+        }
+        else
+        {
+            winScreen.SetActive(true);
+        }
+    }
+
+    public void ToggleLoseScreen()
+    {
+        if (lostScreen.activeSelf)
+        {
+            lostScreen.SetActive(false);
+        }
+        else
+        {
+            lostScreen.SetActive(true);
         }
     }
 

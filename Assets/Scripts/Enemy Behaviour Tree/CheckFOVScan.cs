@@ -80,7 +80,7 @@ public class CheckFOVScan : Node
         Collider2D[] colliders = Physics2D.OverlapCircleAll(self.transform.position, self.scanDiameter, LayerMask.GetMask("Turret", "Player", "Obstacle"));
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].CompareTag("Enemy") || !colliders[i].TryGetComponent(out Unit unit) || unit.isDead)
+            if (colliders[i].CompareTag("Enemy") || !colliders[i].TryGetComponent(out Unit unit) || unit.IsDead)
             {
                 continue;
             }

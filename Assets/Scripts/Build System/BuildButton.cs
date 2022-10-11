@@ -4,19 +4,12 @@ using UnityEngine.UI;
 public class BuildButton : MonoBehaviour 
 {
 
-    #region Variables/Properties
-
     // Do not edit Scriptable Objects, only for reading!
     [SerializeField] private UnitSO unitData;
     [SerializeField] private BuildingSO buildingData;
     //--
 
     private Button button;
-
-    public static System.Action<GameObject> OnBuildBuilding;
-    public static System.Action<string>     OnNotEnoughResources;
-
-    #endregion
 
     #region Unity
 
@@ -43,7 +36,7 @@ public class BuildButton : MonoBehaviour
     {
         if (ResourceManager.Instance.HasSufficientResourcesToBuild(buildingData))
         {
-            OnBuildBuilding?.Invoke(unitData.prefab);
+            BuildingSystem.Instance.InitializeWithObject(unitData.prefab);
         }
     }
 

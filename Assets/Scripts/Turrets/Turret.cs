@@ -37,7 +37,7 @@ public class Turret : Building
 
     protected override void Update()
     {
-        if (isSleeping || isDead)
+        if (isSleeping || IsDead)
         {
             return;
         }
@@ -54,7 +54,7 @@ public class Turret : Building
             
             distanceFromTarget = Vector2.Distance(transform.position, target.transform.position);
             isWithinShootRange = distanceFromTarget <= turretData.attackRange;
-            if (isWithinShootRange && !target.isDead)
+            if (isWithinShootRange && !target.IsDead)
             {
                 FlipTowardsTargetPosition();
 

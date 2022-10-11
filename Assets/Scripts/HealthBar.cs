@@ -16,39 +16,32 @@ public class HealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        unit.OnHealthChanged += UpdateHealthBar;
+        unit.OnSetHealth    += UpdateHealthBar;
+        unit.OnSetMaxHealth += UpdateHealthBar;
+        unit.OnSetIsDead    += UpdateHealthBar;
     }
 
     private void OnDisable()
     {
-        unit.OnHealthChanged -= UpdateHealthBar;
+        unit.OnSetHealth    -= UpdateHealthBar;
+        unit.OnSetMaxHealth -= UpdateHealthBar;
+        unit.OnSetIsDead    -= UpdateHealthBar;
     }
 
     private void UpdateHealthBar()
     {
         // Only render the Unit's Canvas if it's below the max health of a Unit.
-        if (!uiUnitCanvas.activeSelf && unit.health < unit.unitData.health)
+        if (!uiUnitCanvas.activeSelf && unit.Health < unit.MaxHealth)
         {
             uiUnitCanvas.SetActive(true);
         } 
         // Hide Unit's Canvas again if their health returns to their max health.
-        else if (unit.health >= unit.unitData.health)
-        {
-            uiUnitCanvas.SetActive(false);
-        }
-
-        if (unit.isDead)
+        else if (unit.Health >= unit.MaxHealth || unit.IsDead)
         {
             uiUnitCanvas.SetActive(false);
             return;
         }
 
-        uiHealth.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CalculatePercentageNormalized(unit.unitData.health, unit.health));
+        uiHealth.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Utilities.CalculatePercentageNormalized(unit.MaxHealth, unit.Health));
     }
-
-    private float CalculatePercentageNormalized(float max, float current)
-    {
-        return (100.0f / max) * current / 100.0f;
-    }
-
 }

@@ -67,7 +67,7 @@ public class EnemySpawner : Unit
     {
         base.Update();
 
-        if (isDead || minutesUntilSpawn >= Time.time)
+        if (IsDead || minutesUntilSpawn >= Time.time)
             return;
 
         timeSinceLastSpawn += Time.deltaTime;

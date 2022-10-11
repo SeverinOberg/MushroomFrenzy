@@ -21,15 +21,25 @@ public static class Utilities
         return Physics2D.Raycast(GetMouseWorldPosition(), Vector2.zero, 0.0f);
     }
 
-    public static RaycastHit2D[] GetRaycastAllOnMousePoint()
+    public static RaycastHit2D GetRaycastOnMousePoint(int layerMask)
     {
-        return Physics2D.RaycastAll(GetMouseWorldPosition(), Vector2.zero, 0.0f);
+        return Physics2D.Raycast(GetMouseWorldPosition(), Vector2.zero, 0.0f, layerMask);
     }
 
-    public static RaycastHit2D GetRaycastOnMousePoint(string layerMask)
+    public static bool GetRaycastAllOnMousePoint(out RaycastHit2D[] result)
     {
-        return Physics2D.Raycast(GetMouseWorldPosition(), Vector2.zero, 0.0f, LayerMask.GetMask(layerMask));
+        result = Physics2D.RaycastAll(GetMouseWorldPosition(), Vector2.zero, 0.0f);
+        if (result.Length > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
+
+ 
 
     public static void ResetTimer(ref float timer)
     {
@@ -62,5 +72,10 @@ public static class Utilities
             return true;
         }
         return false;
+    }
+
+    public static float CalculatePercentageNormalized(float max, float current)
+    {
+        return (100.0f / max) * current / 100.0f;
     }
 }

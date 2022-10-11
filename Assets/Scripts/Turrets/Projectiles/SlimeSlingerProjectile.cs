@@ -15,7 +15,7 @@ public class SlimeSlingerProjectile : Projectile
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out EnemyBT enemy) && !enemy.isDead)
+        if (collision.TryGetComponent(out EnemyBT enemy) && !enemy.IsDead)
         {
             Invoke("DestroyProjectile", turretData.slowDuration);
 

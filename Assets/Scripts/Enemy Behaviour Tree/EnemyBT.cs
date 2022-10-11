@@ -19,13 +19,13 @@ public class EnemyBT : Unit
 
     private void OnEnable()
     {
-        OnMovementSpeedChanged += OnMovementSpeedChangedCallback;
+        OnSetMovementSpeed += OnMovementSpeedChangedCallback;
     }
 
     private void OnDisable()
     {
         OnDisableAction?.Invoke();
-        OnMovementSpeedChanged -= OnMovementSpeedChangedCallback;
+        OnSetMovementSpeed -= OnMovementSpeedChangedCallback;
     }
 
     [HideInInspector] public Animator    animator;
@@ -85,7 +85,7 @@ public class EnemyBT : Unit
         IsRunning();
         Utilities.ForceReduceVelocity(ref rb);
 
-        if (isDead)
+        if (IsDead)
         {
             SetAIState(false);
             return;

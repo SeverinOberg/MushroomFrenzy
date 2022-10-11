@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Timers;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -32,7 +30,6 @@ public class PlayerController : Unit
     private float attackDamage = 3;
     private float interactRange = 5f;
 
-    private bool buildMode;
     private Rigidbody2D rb;
 
     Vector2 mouseDirectionFromPlayer;
@@ -54,19 +51,17 @@ public class PlayerController : Unit
     private void OnEnable()
     {
         inputController.OnMouse0   += Attack;
-        inputController.OnKeyT     += DestroyBuilding;
+        inputController.OnKeyT     += SellBuilding;
         inputController.OnKeyR     += RepairBuilding;
         inputController.OnKeyV     += UpgradeBuilding;
-        BuildingSystem.OnBuildMode += (value) => buildMode = value;
     }
 
     private void OnDisable()
     {
         inputController.OnMouse0   -= Attack;
-        inputController.OnKeyT     -= DestroyBuilding;
+        inputController.OnKeyT     -= SellBuilding;
         inputController.OnKeyR     -= RepairBuilding;
         inputController.OnKeyV     -= UpgradeBuilding;
-        BuildingSystem.OnBuildMode -= (value) => buildMode = value;
     }
 
     protected override void Update()
@@ -136,7 +131,7 @@ public class PlayerController : Unit
 
     private void Attack()
     {
-        if (buildMode || timeSinceLastAttack <= attackCooldown)
+        if (BuildingSystem.Instance.buildMode || timeSinceLastAttack <= attackCooldown)
         {
             return;
         }
@@ -168,7 +163,7 @@ public class PlayerController : Unit
                 continue;
             }
             
-            if (hits[i].transform.TryGetComponent(out Unit unit) && !unit.isDead)
+            if (hits[i].transform.TryGetComponent(out Unit unit) && !unit.IsDead)
             {
                 unit.TakeDamage(Random.Range(attackDamage * 0.5f, attackDamage * 2));
                 unit.Blink(Color.red);
@@ -186,39 +181,34 @@ public class PlayerController : Unit
         return base.TakeDamage(value);
     }
 
-    private void DestroyBuilding()
+    private void SellBuilding()
     {
-        RaycastHit2D[] hits = Utilities.GetRaycastAllOnMousePoint();
+        if (!Utilities.GetRaycastAllOnMousePoint(out RaycastHit2D[] hits))
+        {
+            return;
+        }
+
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.transform.TryGetComponent(out Building building) && !building.isDead) 
+            if (hit.transform.TryGetComponent(out Building building) && !building.IsDead) 
             {
                 if (!IsPlayerWithinInteractRange())
                 {
                     return;
                 }
 
-                // If the building has taken damage, the resources returned will be halfed
-                if (building.health < building.maxHealth)
-                {
-                    ResourceManager.Instance.Wood  += (int)(building.buildingData.woodCost  * 0.5f);
-                    ResourceManager.Instance.Stone += (int)(building.buildingData.stoneCost * 0.5f);
-                    ResourceManager.Instance.Metal += (int)(building.buildingData.metalCost * 0.5f);
-                } else
-                {
-                    ResourceManager.Instance.Wood  += building.buildingData.woodCost;
-                    ResourceManager.Instance.Stone += building.buildingData.stoneCost;
-                    ResourceManager.Instance.Metal += building.buildingData.metalCost;
-                }
-
-                Destroy(building.gameObject);
+                building.SellBuilding();
             }
         }
     }
 
     private void RepairBuilding()
     {
-        RaycastHit2D[] hits = Utilities.GetRaycastAllOnMousePoint();
+        if (!Utilities.GetRaycastAllOnMousePoint(out RaycastHit2D[] hits))
+        {
+            return;
+        }
+
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.collider.isTrigger)
@@ -226,38 +216,25 @@ public class PlayerController : Unit
                 continue;
             }
 
-            if (hit.transform.TryGetComponent(out Building building) && !building.isDead)
+            if (hit.transform.TryGetComponent(out Building building) && !building.IsDead)
             {
                 if (!IsPlayerWithinInteractRange())
                 {
                     return;
                 }
 
-                if (!ResourceManager.Instance.HasSufficientResourcesToBuild(building.buildingData))
-                {
-                    return;
-                }
-
-                // If the building has taken damage, the resources returned will be halfed
-                if (building.health >= building.maxHealth)
-                {
-                    UIGame.LogToScreen($"Already fully repaired");
-                    return;
-                }
-
-                // Repairing always costs at least 1 or half (rounded away from zero) the price to build it
-                ResourceManager.Instance.Wood  -= (int)System.Math.Round((decimal)building.buildingData.woodCost  / 2, System.MidpointRounding.AwayFromZero);
-                ResourceManager.Instance.Stone -= (int)System.Math.Round((decimal)building.buildingData.stoneCost / 2, System.MidpointRounding.AwayFromZero);
-
-                // Repairing always heals half the buildings max health
-                building.Heal(building.maxHealth * 0.5f);
+                building.RepairBuilding();
             }
         }
     }
 
     private void UpgradeBuilding()
     {
-        RaycastHit2D[] hits = Utilities.GetRaycastAllOnMousePoint();
+        if (!Utilities.GetRaycastAllOnMousePoint(out RaycastHit2D[] hits))
+        {
+            return;
+        }
+
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.collider.isTrigger)
@@ -265,15 +242,14 @@ public class PlayerController : Unit
                 continue;
             }
 
-            if (hit.transform.TryGetComponent(out Building building) && !building.isDead)
+            if (hit.transform.TryGetComponent(out Building building) && !building.IsDead)
             {
                 if (!IsPlayerWithinInteractRange())
                 {
                     return;
                 }
 
-                // Repairing always heals half the buildings max health
-                building.Upgrade();
+                building.UpgradeBuilding();
             }
         }
     }

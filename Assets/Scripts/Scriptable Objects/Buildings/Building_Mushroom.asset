@@ -15,3 +15,13 @@ MonoBehaviour:
   woodCost: 2
   stoneCost: 2
   metalCost: 0
+  maxLevel: 1
+  level1UpgradeWoodCost: 0
+  level1UpgradeStoneCost: 0
+  level1UpgradeMetalCost: 0
+  level2UpgradeWoodCost: 0
+  level2UpgradeStoneCost: 0
+  level2UpgradeMetalCost: 0
+  level3UpgradeWoodCost: 0
+  level3UpgradeStoneCost: 0
+  level3UpgradeMetalCost: 0
