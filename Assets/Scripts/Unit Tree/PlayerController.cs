@@ -1,3 +1,4 @@
+using BehaviourTree;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -131,7 +132,7 @@ public class PlayerController : Unit
 
     private void Attack()
     {
-        if (BuildingSystem.Instance.buildMode || timeSinceLastAttack <= attackCooldown)
+        if (timeSinceLastAttack <= attackCooldown || BuildingSystem.Instance.buildMode ||  IsMouseOverSelectableTarget())
         {
             return;
         }
@@ -254,6 +255,21 @@ public class PlayerController : Unit
         }
     }
 
+    private bool IsMouseOverSelectableTarget()
+    {
+        if (Utilities.GetRaycastAllOnMousePoint(out RaycastHit2D[] hits))
+        {
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (hits[i].transform.TryGetComponent(out Building selectableTarget) && !selectableTarget.IsDead)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private bool IsPlayerWithinInteractRange()
     {
         distanceFromMouse = Vector2.Distance(transform.position, Utilities.GetMouseWorldPosition());
@@ -266,9 +282,9 @@ public class PlayerController : Unit
         return true;
     }
 
-    public override void Die()
+    public override void Die(float deathDelaySeconds)
     {
-        base.Die();
+        base.Die(deathDelaySeconds);
         stopMovement = true;
         animator.SetTrigger("Dead");
     }

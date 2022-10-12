@@ -125,9 +125,9 @@ public class Turret : Building
         }
     }
 
-    public override void Die()
+    public override void Die(float deathDelaySeconds)
     {
-        base.Die();
+        base.Die(deathDelaySeconds);
         animator.SetTrigger("Destroy");
     }
 

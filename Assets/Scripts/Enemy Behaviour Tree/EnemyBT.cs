@@ -202,9 +202,9 @@ public class EnemyBT : Unit
         return base.TakeDamage(value);
     }
 
-    public override void Die()
+    public override void Die(float deathDelaySeconds)
     {
-        base.Die();
+        base.Die(deathDelaySeconds);
         animator.SetTrigger("Die");
         rb.simulated = false;
         if (Utilities.Roll(33))

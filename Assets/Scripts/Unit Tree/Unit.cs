@@ -37,15 +37,15 @@ public class Unit : BehaviourTree.Tree
     public float MaxHealth     { get { return maxHealth; }     set { maxHealth     = value; OnSetMaxHealth?.Invoke(); } }
     public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; OnSetMovementSpeed?.Invoke(value); } }
 
-    public    System.Action        OnDisableEvent;
+    public    System.Action        OnDestroyCallback;
     public    System.Action        OnSetIsDead;
     public    System.Action        OnSetHealth;
     public    System.Action        OnSetMaxHealth;
     protected System.Action<float> OnSetMovementSpeed;
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        OnDisableEvent?.Invoke();
+        OnDestroyCallback?.Invoke();
     }
 
     // Make a new event like OnDisable/OnDestroy to catch when our Unit is gone
@@ -169,13 +169,13 @@ public class Unit : BehaviourTree.Tree
         MovementSpeed = unitData.movementSpeed;
     }
 
-    public virtual void Die()
+    public virtual void Die(float deathDelaySeconds = 3)
     {
         IsDead = true;
 
         if (type != UnitTypes.Player)
         {
-            StartCoroutine(DeathDelay());
+            StartCoroutine(DeathDelay(deathDelaySeconds));
         }
 
         if (CompareTag("Player") || CompareTag("Farm"))
@@ -184,9 +184,9 @@ public class Unit : BehaviourTree.Tree
         }
     }
 
-    private IEnumerator DeathDelay()
+    private IEnumerator DeathDelay(float seconds)
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
     }
 

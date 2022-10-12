@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
@@ -19,14 +20,26 @@ public class SelectionController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI health;
     [SerializeField] private RectTransform   healthbar;
 
+    [SerializeField] private Image upgradeButton;
+    [SerializeField] private Image repairButton;
+
+    private Color originalButtonColor;
+
     private Building selectedTarget;
 
     private float timeSinceLastDataUpdate;
     private float dataUpdateCooldown = 0.5f;
 
+    private bool hoveringSellButton;
+
+    private void Awake()
+    {
+        originalButtonColor = upgradeButton.color;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1) && selectedTarget && !BuildingSystem.Instance.buildMode)
+        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Escape) && selectedTarget && !BuildingSystem.Instance.buildMode)
         {
             ClearSelection();
         }
@@ -52,36 +65,49 @@ public class SelectionController : MonoBehaviour
                 timeSinceLastDataUpdate = 0;
                 UpdateTargetHealth();
                 UpdateTargetLevel();
+
+                repairButton.color = selectedTarget.Health >= selectedTarget.MaxHealth ? Utilities.RedColor : originalButtonColor;
+                if (hoveringSellButton)
+                {
+                    InjectHoverTooltipData("Sell", GetSellInput());
+                }
             }
         }
     }
 
     private void SelectTarget()
     {
-        PointerEventData pointerEventData = new(EventSystem.current);
-        if (pointerEventData.selectedObject)
-        {
-            return;
-        }
-
         if (Utilities.GetRaycastAllOnMousePoint(out RaycastHit2D[] hits))
         {
             for (int i = 0; i < hits.Length; i++)
             {
-                if (hits[i].transform.TryGetComponent(out selectedTarget))
+                Building target = hits[i].transform.GetComponent<Building>();
+                if (target && !target.IsDead)
                 {
+                    selectedTarget = target;
                     selector.SetActive(true);
                     selector.transform.localScale = selectedTarget.GetComponent<BoxCollider2D>().size;
                     DisplaySelectedInterface(true);
+
+                    if (selectedTarget.Level >= selectedTarget.MaxLevel)
+                    {
+                        upgradeButton.color = Utilities.RedColor;
+                    }
+                    else
+                    {
+                        upgradeButton.color = originalButtonColor;
+                    }
+
                     break;
                 }
             }
         }
     }
 
-    private void ClearSelection()
+    public void ClearSelection()
     {
         selector.SetActive(false);
+        hoverTooltip.SetActive(false);
         DisplaySelectedInterface(false);
         selectedTarget = null;
     }
@@ -119,22 +145,32 @@ public class SelectionController : MonoBehaviour
 
     public void Upgrade()
     {
-        selectedTarget.UpgradeBuilding();
-        InjectHoverTooltipData("Upgrade", GetUpgradeData());
+        if (selectedTarget.UpgradeBuilding())
+        {
+            if (selectedTarget.Level >= selectedTarget.MaxLevel)
+                upgradeButton.color = Utilities.RedColor;
+
+            InjectHoverTooltipData("Upgrade", GetUpgradeInput());
+        }
     }
 
     public void Repair()
     {
-        selectedTarget.RepairBuilding();
+        if (selectedTarget.RepairBuilding())
+        {
+            InjectHoverTooltipData("Repair", GetRepairInput());
+        }
     }
 
     public void Sell()
     {
-        selectedTarget.SellBuilding();
-        ClearSelection();
+        if (selectedTarget.SellBuilding())
+        {
+            ClearSelection();
+        }
     }
 
-    public void OnMouseEnter()
+    public void OnMouseEnterButton()
     {
         hoverTooltip.SetActive(true);
         
@@ -143,17 +179,17 @@ public class SelectionController : MonoBehaviour
         EventSystem.current.RaycastAll(eventData, results);
         for (int i = 0; i < results.Count; i++)
         {
-
             switch (results[i].gameObject.tag)
             {
                 case "UI Upgrade":
-                    InjectHoverTooltipData("Upgrade", GetUpgradeData());
+                    InjectHoverTooltipData("Upgrade", GetUpgradeInput());
                     break;
                 case "UI Repair":
-                    InjectHoverTooltipData("Repair", GetRepairData());
+                    InjectHoverTooltipData("Repair", GetRepairInput());
                     break;
                 case "UI Sell":
-                    InjectHoverTooltipData("Sell", GetSellData());
+                    InjectHoverTooltipData("Sell", GetSellInput());
+                    hoveringSellButton = true;
                     break;
                 default:
                     continue;
@@ -167,7 +203,7 @@ public class SelectionController : MonoBehaviour
         hoverBody.text  = body;
     }
 
-    private string GetUpgradeData()
+    private string GetUpgradeInput()
     {
         switch (selectedTarget.Level)
         {
@@ -176,11 +212,11 @@ public class SelectionController : MonoBehaviour
                 {
                     return $"This building is already fully upgraded! Nice!";
                 }
-                return $"Costs: Wood: {selectedTarget.buildingData.level2UpgradeWoodCost}" +
+                return $"Wood: {selectedTarget.buildingData.level2UpgradeWoodCost}" +
                        $" - Stone: {selectedTarget.buildingData.level2UpgradeStoneCost}" +
                        $" - Metal: {selectedTarget.buildingData.level2UpgradeMetalCost}";
             case 2:
-                return $"Costs: Wood: {selectedTarget.buildingData.level3UpgradeWoodCost}" +
+                return $"Wood: {selectedTarget.buildingData.level3UpgradeWoodCost}" +
                        $" - Stone: {selectedTarget.buildingData.level3UpgradeStoneCost}" +
                        $" - Metal: {selectedTarget.buildingData.level3UpgradeMetalCost}";
             case 3:
@@ -190,56 +226,40 @@ public class SelectionController : MonoBehaviour
         }
     }
 
-    // @TODO:
-    private string GetRepairData()
+    private string GetRepairInput()
     {
-        switch (selectedTarget.Level)
-        {
-            case 1:
-                if (selectedTarget.Level >= selectedTarget.MaxLevel)
-                {
-                    return $"This building is already fully upgraded! Nice!";
-                }
-                return $"Costs: Wood: {selectedTarget.buildingData.level2UpgradeWoodCost}" +
-                       $" - Stone: {selectedTarget.buildingData.level2UpgradeStoneCost}" +
-                       $" - Metal: {selectedTarget.buildingData.level2UpgradeMetalCost}";
-            case 2:
-                return $"Costs: Wood: {selectedTarget.buildingData.level3UpgradeWoodCost}" +
-                       $" - Stone: {selectedTarget.buildingData.level3UpgradeStoneCost}" +
-                       $" - Metal: {selectedTarget.buildingData.level3UpgradeMetalCost}";
-            case 3:
-                return $"This building is already fully upgraded! Nice!";
-            default:
-                return "Unknown hover tooltip";
-        }
+        ResourceDataObject repairDataByLevel = ResourceManager.Instance.GetRepairDataByLevel(selectedTarget.buildingData, selectedTarget.Level);
+        return
+        (
+            $"Wood: {repairDataByLevel.wood}" +
+            $" - Stone: {repairDataByLevel.stone}" +
+            $" - Metal: {repairDataByLevel.metal}"
+        );
     }
 
-    // @TODO:
-    private string GetSellData()
+    private string GetSellInput()
     {
-        switch (selectedTarget.Level)
+        ResourceDataObject sellDataByLevel;
+
+        if (selectedTarget.Health < selectedTarget.MaxHealth)
         {
-            case 1:
-                if (selectedTarget.Level >= selectedTarget.MaxLevel)
-                {
-                    return $"This building is already fully upgraded! Nice!";
-                }
-                return $"Costs: Wood: {selectedTarget.buildingData.level2UpgradeWoodCost}" +
-                       $" - Stone: {selectedTarget.buildingData.level2UpgradeStoneCost}" +
-                       $" - Metal: {selectedTarget.buildingData.level2UpgradeMetalCost}";
-            case 2:
-                return $"Costs: Wood: {selectedTarget.buildingData.level3UpgradeWoodCost}" +
-                       $" - Stone: {selectedTarget.buildingData.level3UpgradeStoneCost}" +
-                       $" - Metal: {selectedTarget.buildingData.level3UpgradeMetalCost}";
-            case 3:
-                return $"This building is already fully upgraded! Nice!";
-            default:
-                return "Unknown hover tooltip";
+            sellDataByLevel = ResourceManager.Instance.GetSellDataByLevel(selectedTarget.buildingData, selectedTarget.Level, damaged: true);
         }
+        else
+        {
+            sellDataByLevel = ResourceManager.Instance.GetSellDataByLevel(selectedTarget.buildingData, selectedTarget.Level, damaged: false);
+        }
+
+        return $"Wood: {sellDataByLevel.wood}" +
+               $" - Stone: {sellDataByLevel.stone}" +
+               $" - Metal: {sellDataByLevel.metal}";
     }
 
-    public void OnMouseExit()
+    public void OnMouseExitButton()
     {
+        if (hoveringSellButton)
+            hoveringSellButton = false;
+
         hoverTooltip.SetActive(false);
     }
 

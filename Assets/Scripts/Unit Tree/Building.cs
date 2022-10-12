@@ -25,22 +25,22 @@ public class Building : Unit
         playerLayerMask = LayerMask.GetMask("Player");
     }
 
-    public void UpgradeBuilding()
+    public bool UpgradeBuilding()
     {
         if (!IsPlayerWithinInteractRange())
         {
-            return;
+            return false;
         }
 
         if (MaxLevel == 0 || Level >= MaxLevel)
         {
             UIGame.LogToScreen("Building is already at max level");
-            return;
+            return false;
         }
 
         if (!ResourceManager.Instance.PayForUpgrade(buildingData, Level))
         {
-            return;
+            return false;
         }
 
         switch (Level)
@@ -59,61 +59,63 @@ public class Building : Unit
                 break;
             default:
                 Debug.LogError("Something went wrong trying to upgrade building, unknown level");
-                return;
+                return false;
         }
 
         Level++;
+        return true;
     }
 
-    public void SellBuilding()
+    public bool SellBuilding()
     {
         if (!IsPlayerWithinInteractRange())
         {
-            return;
+            return false;
         }
 
-        // If the building has taken damage, the resources returned will be halfed
+        ResourceDataObject sellResourceData;
         if (Health < MaxHealth)
         {
-            ResourceManager.Instance.Wood += (int)(buildingData.woodCost * 0.5f);
-            ResourceManager.Instance.Stone += (int)(buildingData.stoneCost * 0.5f);
-            ResourceManager.Instance.Metal += (int)(buildingData.metalCost * 0.5f);
+            sellResourceData = ResourceManager.Instance.GetSellDataByLevel(buildingData, Level, damaged: true);
         }
         else
         {
-            ResourceManager.Instance.Wood += buildingData.woodCost;
-            ResourceManager.Instance.Stone += buildingData.stoneCost;
-            ResourceManager.Instance.Metal += buildingData.metalCost;
+            sellResourceData = ResourceManager.Instance.GetSellDataByLevel(buildingData, Level, damaged: false);
         }
+        ResourceManager.Instance.Sell(sellResourceData);
 
-        Destroy(gameObject);
+        Die(0.3f);
+        return true;
     }
 
-    public void RepairBuilding()
+    public bool RepairBuilding()
     {
         if (!IsPlayerWithinInteractRange())
         {
-            return;
+            return false;
         }
 
-        if (!ResourceManager.Instance.HasSufficientResourcesToBuild(buildingData))
+        if (!ResourceManager.Instance.HasSufficientResourcesToRepair(buildingData, level, out ResourceDataObject repairCostData))
         {
-            return;
+            return false;
         }
 
         // If the building has taken damage, the resources returned will be halfed
         if (Health >= MaxHealth)
         {
             UIGame.LogToScreen($"Already fully repaired");
-            return;
+            return false;
         }
 
-        // Repairing always costs at least 1 or half (rounded away from zero) the price to build it
-        ResourceManager.Instance.Wood -= (int)System.Math.Round((decimal)buildingData.woodCost / 2, System.MidpointRounding.AwayFromZero);
-        ResourceManager.Instance.Stone -= (int)System.Math.Round((decimal)buildingData.stoneCost / 2, System.MidpointRounding.AwayFromZero);
-
+        
+        if (!ResourceManager.Instance.PayForRepair(repairCostData))
+        {
+            return false;
+        }
+        
         // Repairing always heals half the buildings max health
         Heal(MaxHealth * 0.5f);
+        return true;
     }
 
     private bool IsPlayerWithinInteractRange()

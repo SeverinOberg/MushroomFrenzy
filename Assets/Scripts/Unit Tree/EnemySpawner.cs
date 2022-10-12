@@ -120,9 +120,9 @@ public class EnemySpawner : Unit
         UIGame.LogToScreen("The enemy didn't like that, they grow stronger...");
     }
 
-    public override void Die()
+    public override void Die(float deathDelaySeconds)
     {
-        base.Die();
+        base.Die(deathDelaySeconds);
         animator.SetTrigger("Destroy");
         OnDeath?.Invoke();
     }
