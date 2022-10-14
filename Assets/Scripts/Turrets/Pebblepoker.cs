@@ -22,7 +22,7 @@ public class Pebblepoker : Turret
 
         shootEffect.Play();
         
-        projectile.Spawn(projectilePrefab, transform.position, target);
+        projectile.Spawn(projectilePrefab, transform.position, this, target);
     }
 
     protected override bool FlipTowardsTargetPosition()

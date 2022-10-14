@@ -63,10 +63,8 @@ public class EnemySpawner : Unit
         InvokeRepeating("OnStronger", minutesUntilStronger, minutesUntilStronger);
     }
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
-
         if (IsDead || minutesUntilSpawn >= Time.time)
             return;
 

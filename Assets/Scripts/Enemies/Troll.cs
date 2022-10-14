@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Troll : EnemyBT
+public class Troll : Enemy
 {
 
     //public override void Attack(int attackDamage)

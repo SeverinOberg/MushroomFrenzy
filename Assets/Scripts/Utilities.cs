@@ -1,3 +1,4 @@
+using Pathfinding;
 using UnityEngine;
 
 public enum Factions { Player, Enemy, Neutral }
@@ -79,4 +80,5 @@ public static class Utilities
     {
         return (100.0f / max) * current / 100.0f;
     }
+
 }

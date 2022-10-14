@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Goblin : EnemyBT 
+public class Goblin : Enemy
 {
 
     //public override void Attack(int attackDamage)

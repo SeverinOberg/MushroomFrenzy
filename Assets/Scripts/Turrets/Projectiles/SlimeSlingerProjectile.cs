@@ -15,7 +15,7 @@ public class SlimeSlingerProjectile : Projectile
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out EnemyBT enemy) && !enemy.IsDead)
+        if (collision.TryGetComponent(out Enemy enemy) && !enemy.IsDead)
         {
             Invoke("DestroyProjectile", turretData.slowDuration);
 
@@ -29,7 +29,7 @@ public class SlimeSlingerProjectile : Projectile
             rb.velocity = Vector2.zero;
 
             // @TODO: Consider making this a slow damage decay instead while in the goo pool
-            enemy.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
+            enemy.TakeDamage(instigator, Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
 
             enemy.SetMovementSpeedByPct(turretData.slowPercentage);
             enemy.SetAIState(false);
@@ -39,7 +39,7 @@ public class SlimeSlingerProjectile : Projectile
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out EnemyBT enemy))
+        if (collision.TryGetComponent(out Enemy enemy))
         {
             enemy.MovementSpeed = enemy.unitData.movementSpeed;
             enemy.SetAIState(true);

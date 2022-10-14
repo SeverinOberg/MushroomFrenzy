@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Boar : EnemyBT
+public class Boar : Enemy
 {
 
 }

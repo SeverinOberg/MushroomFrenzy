@@ -11,7 +11,7 @@ public class IceCannon : Turret
     {
         base.Shoot(target);
         shootEffect.Play();
-        projectile.Spawn(projectilePrefab, transform.position, target);
+        projectile.Spawn(projectilePrefab, transform.position, this, target);
     }
 
 }

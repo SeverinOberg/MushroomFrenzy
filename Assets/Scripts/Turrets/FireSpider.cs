@@ -35,7 +35,7 @@ public class FireSpider : Turret
                     shootPS.Play();
                 }
 
-                hit.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
+                hit.TakeDamage(this, Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
                 hit.Blink(Color.red);
             }
         }

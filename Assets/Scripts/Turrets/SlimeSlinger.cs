@@ -22,7 +22,7 @@ public class SlimeSlinger : Turret
     {
         yield return new WaitForSeconds(0.3f);
         
-        projectile.Spawn(projectilePrefab, transform.position, target);
+        projectile.Spawn(projectilePrefab, transform.position, this, target);
 
         SetLoaded(false);
         StartCoroutine(ReloadRoutine());

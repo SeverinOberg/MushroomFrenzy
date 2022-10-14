@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private   float          knockbackForceMultiplier = 5f;
 
     protected Rigidbody2D rb;
+    protected Unit instigator;
 
     private Vector2 targetDirection;
     private Vector2 spawnPoint;
@@ -44,9 +45,9 @@ public class Projectile : MonoBehaviour
                 if (impactParticle)
                     impactParticle.Play();
                 
-                unit.TakeDamage(Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
+                unit.TakeDamage(instigator, Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
                 unit.Blink(Color.red);
-                if (knockbackForceMultiplier > 0 && unit.TryGetComponent(out EnemyBT enemy))
+                if (knockbackForceMultiplier > 0 && unit.TryGetComponent(out Enemy enemy))
                 {
                     enemy.PauseAI(0.2f);
                     enemy.AddForce(targetDirection, knockbackForceMultiplier);
@@ -60,8 +61,9 @@ public class Projectile : MonoBehaviour
 
     #region Methods
 
-    public void Spawn(GameObject projectile, Vector2 position, Unit target)
+    public void Spawn(GameObject projectile, Vector2 position, Unit instigator, Unit target)
     {
+        this.instigator = instigator;
         Projectile spawn = Instantiate(projectile, position, Quaternion.identity).GetComponent<Projectile>();
         spawn.Shoot(target);
     }

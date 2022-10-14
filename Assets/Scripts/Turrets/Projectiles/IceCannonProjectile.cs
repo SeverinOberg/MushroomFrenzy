@@ -26,7 +26,7 @@ public class IceCannonProjectile : Projectile
                     unit.SetMovementSpeedByPct(turretData.slowPercentage, turretData.slowDuration);
                 }
             }
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject);
         }
     }
 

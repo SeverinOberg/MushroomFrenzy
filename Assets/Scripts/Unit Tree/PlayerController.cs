@@ -1,4 +1,3 @@
-using BehaviourTree;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -65,7 +64,7 @@ public class PlayerController : Unit
         inputController.OnKeyV     -= UpgradeBuilding;
     }
 
-    protected override void Update()
+    private void Update()
     {
         Utilities.ForceReduceVelocity(ref rb);
         HandleTimer();
@@ -76,8 +75,6 @@ public class PlayerController : Unit
         {
             HandleMovement();
         }
-
-        base.Update();
     }
 
     #endregion
@@ -166,9 +163,9 @@ public class PlayerController : Unit
             
             if (hits[i].transform.TryGetComponent(out Unit unit) && !unit.IsDead)
             {
-                unit.TakeDamage(Random.Range(attackDamage * 0.5f, attackDamage * 2));
+                unit.TakeDamage(this, Random.Range(attackDamage * 0.5f, attackDamage * 2));
                 unit.Blink(Color.red);
-                if (unit.TryGetComponent(out EnemyBT enemy))
+                if (unit.TryGetComponent(out Enemy enemy))
                 {
                     enemy.rb.AddForce(mouseDirectionFromPlayer * 10, ForceMode2D.Impulse);
                     enemy.PauseAI(0.2f);

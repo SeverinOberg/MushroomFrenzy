@@ -249,18 +249,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   unitData: {fileID: 11400000, guid: 1f26951e5da728e4e9455ef169687137, type: 2}
+  spriteRenderer: {fileID: 0}
   scanDiameter: 15
   meleeAttackRange: 3
   attackCooldown: 3
   minDamage: 7
   maxDamage: 12
-  meleeAttackRangeDefault: 0
+  pursuitReachedDistance: 5
   animator: {fileID: 0}
   collision: {fileID: 0}
   rb: {fileID: 0}
   aiDestinationSetter: {fileID: 0}
   aiPath: {fileID: 0}
   target: {fileID: 0}
+  instigatorTarget: {fileID: 0}
 --- !u!114 &2836422623283600677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,7 +328,7 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 0.2
   pickNextWaypointDist: 3
-  endReachedDistance: 2.5
+  endReachedDistance: 1
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0

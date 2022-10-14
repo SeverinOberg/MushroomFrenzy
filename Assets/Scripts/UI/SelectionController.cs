@@ -35,6 +35,7 @@ public class SelectionController : MonoBehaviour
     private void Awake()
     {
         originalButtonColor = upgradeButton.color;
+        repairButton.color = Utilities.RedColor;
     }
 
     private void Update()

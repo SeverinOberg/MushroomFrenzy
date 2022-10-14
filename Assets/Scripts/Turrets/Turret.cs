@@ -35,7 +35,7 @@ public class Turret : Building
         enemyMask = LayerMask.GetMask("Enemy");
     }
 
-    protected override void Update()
+    private void Update()
     {
         if (isSleeping || IsDead)
         {
@@ -68,8 +68,6 @@ public class Turret : Building
                 ClearTarget(ref target);
             }
         }
-
-        base.Update();
     }
 
     #endregion

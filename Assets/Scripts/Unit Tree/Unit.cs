@@ -1,8 +1,9 @@
+using BehaviorDesigner.Runtime;
 using System.Collections;
 using UnityEngine;
-using BehaviourTree;
 
-public class Unit : BehaviourTree.Tree
+[System.Serializable]
+public class Unit : MonoBehaviour
 {
     #region Variables/Properties
 
@@ -32,7 +33,7 @@ public class Unit : BehaviourTree.Tree
     private float maxHealth;
     private float movementSpeed;
 
-    public bool  IsDead        { get { return isDead; }        set { if (value == false) { Debug.LogWarning("IsDead must only be true"); return; } isDead = value; OnSetIsDead?.Invoke(); } }
+    public bool  IsDead        { get { return isDead; } set { if (value == false) { Debug.LogWarning("IsDead must only be true"); return; } isDead = value; OnSetIsDead?.Invoke(); } }
     public float Health        { get { return health; }        set { health        = value; OnSetHealth?.Invoke(); } }
     public float MaxHealth     { get { return maxHealth; }     set { maxHealth     = value; OnSetMaxHealth?.Invoke(); } }
     public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; OnSetMovementSpeed?.Invoke(value); } }
@@ -62,10 +63,8 @@ public class Unit : BehaviourTree.Tree
         defaultColor = spriteRenderer.color;
     }
 
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
-        
         MaxHealth     = unitData.health;
         Health        = MaxHealth;
         MovementSpeed = unitData.movementSpeed;
@@ -74,6 +73,22 @@ public class Unit : BehaviourTree.Tree
     #endregion
 
     #region Methods
+
+    public virtual bool TakeDamage(Unit instigator, float value)
+    {
+        if (!IsDead)
+        {
+            if (Health - value <= 0)
+            {
+                Health = 0;
+                Die();
+                return true;
+            }
+
+            Health -= value;
+        }
+        return false;
+    }
 
     public virtual bool TakeDamage(float value)
     {
@@ -190,11 +205,12 @@ public class Unit : BehaviourTree.Tree
         Destroy(gameObject);
     }
 
-    protected override Node SetupTree()
-    {
-        return null;
-    }
-
     #endregion
 
+}
+
+[System.Serializable]
+public class SharedUnit : SharedVariable<Unit>
+{
+    public static implicit operator SharedUnit(Unit value) { return new SharedUnit { Value = value }; }
 }
