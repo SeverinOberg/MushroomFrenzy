@@ -21,7 +21,7 @@ public class BuildingDrag : MonoBehaviour
     private float dragSpeed = 15;
 
     private bool  pauseCanBuildHereValuation;
-    private float clearCanBuildHereValuationDuration = 0.5f;
+    private float clearCanBuildHereValuationDuration = 0.25f;
 
     #endregion
 

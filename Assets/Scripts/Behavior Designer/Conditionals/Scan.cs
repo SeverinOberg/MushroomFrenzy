@@ -28,26 +28,26 @@ public class Scan : Conditional
             {
                 if (SortTargetsOfType(Unit.UnitTypes.Obstacle, targets, out List<Unit> targetsFound))
                 {
-                    SortClosestTarget(targetsFound, out Unit target);
-                    if (lastImpossiblePathTarget == target)
+                    if (SortClosestTarget(targetsFound, out Unit newTarget))
                     {
-                        ScanForTargets(out targets);
-                        SortTargetsOfType(Unit.UnitTypes.Obstacle, targets, out targetsFound);
-                        for (int i = 0; i < targetsFound.Count; i++)
+                        if (lastImpossiblePathTarget == newTarget)
                         {
-                            if (lastImpossiblePathTarget != targetsFound[i])
+                            for (int i = 0; i < targetsFound.Count; i++)
                             {
-                                self.Value.SetTarget(targetsFound[i]);
-                                self.Value.SetMeleeAttackRange(target.GetComponent<Collider2D>().bounds.size.x * 0.5f + initialMeleeAttackRange);
-                                return TaskStatus.Success;
+                                if (lastImpossiblePathTarget != targetsFound[i])
+                                {
+                                    self.Value.SetTarget(targetsFound[i]);
+                                    self.Value.SetMeleeAttackRange(newTarget.GetComponent<Collider2D>().bounds.size.x * 0.5f + initialMeleeAttackRange);
+                                    return TaskStatus.Success;
+                                }
                             }
+                            return TaskStatus.Failure;
                         }
-                        return TaskStatus.Failure;
+                        lastImpossiblePathTarget = newTarget;
+                        self.Value.SetTarget(newTarget);
+                        self.Value.SetMeleeAttackRange(newTarget.GetComponent<Collider2D>().bounds.size.x * 0.5f + initialMeleeAttackRange);
+                        return TaskStatus.Success;
                     }
-                    lastImpossiblePathTarget = target;
-                    self.Value.SetTarget(target);
-                    self.Value.SetMeleeAttackRange(target.GetComponent<Collider2D>().bounds.size.x * 0.5f + initialMeleeAttackRange);
-                    return TaskStatus.Success;
                 }
             }
         }
@@ -71,6 +71,7 @@ public class Scan : Conditional
                     target = targets[0];
                 }
 
+                // If the path isn't possible, it's likely to be because of an Obstacle. Target the Obstacle instead if that is the case.
                 if (!self.Value.IsPathPossible(transform.position, target.transform.position))
                 {
                     if (SortTargetsOfType(Unit.UnitTypes.Obstacle, targets, out targetsFound))

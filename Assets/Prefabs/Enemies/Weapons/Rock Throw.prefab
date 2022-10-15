@@ -4961,4 +4961,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   impactParticle: {fileID: 5863153814200547328}
   shootForceMultiplier: 2000
-  knockbackForceMultiplier: 5
+  knockbackForceMultiplier: 10

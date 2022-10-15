@@ -10,7 +10,7 @@ public class AttackMelee : Action
 
     public override void OnStart()
     {
-        attackTimer = self.Value.AttackCooldown;
+        attackTimer = self.Value.AttackCooldown * 0.5f;
     }
 
     public override TaskStatus OnUpdate()

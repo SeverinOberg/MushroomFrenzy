@@ -1,4 +1,5 @@
 using BehaviorDesigner.Runtime.Tasks;
+using UnityEditor.UI;
 using UnityEngine;
 
 [TaskDescription("This semi-conditional Action will FAILURE if the target has gone too far away, or SUCCESS if we are within melee or ranged attack range." +
@@ -7,6 +8,7 @@ public class Pursue : Action
 {
 
     [SerializeField] private SharedEnemy self;
+
     private float rangedAttackCooldown;
 
     private float rangedTimer;
@@ -24,8 +26,13 @@ public class Pursue : Action
             return TaskStatus.Failure;
         }
 
-        if (self.Value.RangedAttackRange > 0)
+        if (self.Value.IsRanged)
         {
+            if (self.Value.IsRanged && !self.Value.IsMelee && self.Value.IsWithinRangedAttackRange())
+            {
+                self.Value.PausePathing(5);
+            }
+
             rangedTimer += Time.deltaTime;
             if (rangedTimer > rangedAttackCooldown && self.Value.IsWithinRangedAttackRange())
             {

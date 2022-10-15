@@ -5,13 +5,13 @@ using UnityEngine;
 public class AttackRange : Action
 {
     [SerializeField] private SharedEnemy self;
-    [SerializeField] private GameObject rockPrefab;
+    [SerializeField] private GameObject projectilePrefab;
 
-    private RockThrow rockThrow;
+    private EnemyProjectile enemyWeapon;
 
     public override void OnAwake()
     {
-        rockThrow = rockPrefab.GetComponent<RockThrow>();
+        enemyWeapon = projectilePrefab.GetComponent<EnemyProjectile>();
     }
 
     public override TaskStatus OnUpdate()
@@ -24,11 +24,11 @@ public class AttackRange : Action
 
     private IEnumerator Throw()
     {
-        //self.Value.animator.SetTrigger("Throw Rock");
+        //self.Value.animator.SetTrigger("Throw");
 
         // Animation delay
         yield return new WaitForSeconds(1.5f);
-        rockThrow.Spawn(rockPrefab, transform.position, self.Value, self.Value.Target);
+        enemyWeapon.Spawn(projectilePrefab, transform.position, self.Value, self.Value.Target);
     }
 
 }

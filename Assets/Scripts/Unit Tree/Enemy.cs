@@ -13,6 +13,8 @@ public class Enemy : Unit
     private Unit                target;
     private Unit                instigator;
 
+    [SerializeField] private bool  isMelee = true;
+    [SerializeField] private bool  isRanged;
     [SerializeField] private float scanDiameter            = 15; 
     [SerializeField] private float meleeAttackRange        = 2.5f;
     [SerializeField] private float attackCooldown          = 2f;
@@ -31,6 +33,8 @@ public class Enemy : Unit
     public Unit                Target               { get { return target; }              private set { target              = value; } }
     public Unit                Instigator           { get { return instigator; }          private set { instigator          = value; } }
 
+    public bool  IsMelee                 { get { return isMelee; }                 private set { isMelee                 = value; } }
+    public bool  IsRanged                { get { return isRanged; }                private set { isRanged                = value; } }
     public float ScanDiameter            { get { return scanDiameter; }            private set { scanDiameter            = value; } }
     public float MeleeAttackRange        { get { return meleeAttackRange; }        private set { meleeAttackRange        = value; } }
     public float AttackCooldown          { get { return attackCooldown; }          private set { attackCooldown          = value; } }
