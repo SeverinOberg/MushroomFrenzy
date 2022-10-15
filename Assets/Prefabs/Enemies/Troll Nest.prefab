@@ -131,8 +131,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 4}
-  m_EdgeRadius: 0
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0.5
 --- !u!114 &927783302426516565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   unitData: {fileID: 11400000, guid: cc46c4f04ef65c14eb7b1514061b092e, type: 2}
+  spriteRenderer: {fileID: 0}
   nestType: 2
   enemyPrefabs:
   - {fileID: 4550206164777577080, guid: dfaf78d1e306edb46b57e1a0c4071571, type: 3}

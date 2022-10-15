@@ -16,6 +16,7 @@ public class Enemy : Unit
     [SerializeField] private float scanDiameter            = 15; 
     [SerializeField] private float meleeAttackRange        = 2.5f;
     [SerializeField] private float attackCooldown          = 2f;
+    [SerializeField] private float attackKnockbackForce    = 0;
     [SerializeField] private float minDamage               = 2;
     [SerializeField] private float maxDamage               = 5;
     [SerializeField] private float rangedAttackRange       = 0;
@@ -33,6 +34,7 @@ public class Enemy : Unit
     public float ScanDiameter            { get { return scanDiameter; }            private set { scanDiameter            = value; } }
     public float MeleeAttackRange        { get { return meleeAttackRange; }        private set { meleeAttackRange        = value; } }
     public float AttackCooldown          { get { return attackCooldown; }          private set { attackCooldown          = value; } }
+    public float AttackKnockbackForce    { get { return attackKnockbackForce; }    private set { attackKnockbackForce    = value; } }
     public float MinDamage               { get { return minDamage; }               private set { minDamage               = value; } }
     public float MaxDamage               { get { return maxDamage; }               private set { maxDamage               = value; } }
     public float RangedAttackRange       { get { return rangedAttackRange; }       private set { rangedAttackRange       = value; } }

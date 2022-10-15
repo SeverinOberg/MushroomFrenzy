@@ -31,7 +31,12 @@ public class AttackMelee : Action
         {
             attackTimer = 0;
             self.Value.TriggerAnimation("Attack");
+
             self.Value.Target.TakeDamage(Utilities.GetMinMaxDamageRoll(self.Value.MinDamage, self.Value.MaxDamage));
+            self.Value.Target.Blink(Color.red);
+
+            Vector2 targetDirection = (transform.position - self.Value.Target.transform.position).normalized;
+            self.Value.Target.AddForce(-targetDirection, self.Value.AttackKnockbackForce);
         }
 
         return TaskStatus.Running;

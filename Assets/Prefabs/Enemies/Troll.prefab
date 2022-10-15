@@ -316,6 +316,7 @@ MonoBehaviour:
   scanDiameter: 15
   meleeAttackRange: 3
   attackCooldown: 3
+  attackKnockbackForce: 10
   minDamage: 7
   maxDamage: 12
   rangedAttackRange: 20
