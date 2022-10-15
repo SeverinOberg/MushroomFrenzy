@@ -8,15 +8,12 @@ public class IsPathPossible : Conditional
 
     public override TaskStatus OnUpdate()
     {
-        if (!self.Value.target)
+        if (!self.Value.Target)
         {
             return TaskStatus.Failure;
         }
 
-        GraphNode fromNode = AstarPath.active.GetNearest(transform.position, NNConstraint.Default).node;
-        GraphNode toNode = AstarPath.active.GetNearest(self.Value.target.transform.position, NNConstraint.Default).node;
-
-        if (PathUtilities.IsPathPossible(fromNode, toNode))
+        if (self.Value.IsPathPossible(transform.position, self.Value.Target.transform.position))
         {
             return TaskStatus.Success;
         }

@@ -32,8 +32,7 @@ public class SlimeSlingerProjectile : Projectile
             enemy.TakeDamage(instigator, Utilities.GetMinMaxDamageRoll(turretData.minDamage, turretData.maxDamage));
 
             enemy.SetMovementSpeedByPct(turretData.slowPercentage);
-            enemy.SetAIState(false);
-            enemy.rb.bodyType = RigidbodyType2D.Kinematic;
+            enemy.SetPathingActive(false);
         }
     }
 
@@ -42,8 +41,7 @@ public class SlimeSlingerProjectile : Projectile
         if (collision.TryGetComponent(out Enemy enemy))
         {
             enemy.MovementSpeed = enemy.unitData.movementSpeed;
-            enemy.SetAIState(true);
-            enemy.rb.bodyType = RigidbodyType2D.Dynamic;
+            enemy.SetPathingActive(true);
         }
     }
 

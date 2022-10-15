@@ -1,12 +1,13 @@
-using BehaviorDesigner.Runtime;
+using System;
 using System.Collections;
 using UnityEngine;
+using BehaviorDesigner.Runtime;
 
-[System.Serializable]
+[Serializable]
 public class Unit : MonoBehaviour
 {
-    #region Variables/Properties
 
+    #region Variables/Properties
     public enum UnitTypes
     {
         Default,
@@ -21,44 +22,39 @@ public class Unit : MonoBehaviour
 
     public UnitTypes type;
 
-    // Do not set any of the data in this Scriptable Object, only get.
+    // DO NOT set any of the data in this Scriptable Object, only get.
     public UnitSO unitData;
     // ---
 
     [SerializeField] protected SpriteRenderer spriteRenderer;
-    private Color defaultColor;
+    protected Rigidbody2D rb;
 
     private bool  isDead;
     private float health;
     private float maxHealth;
     private float movementSpeed;
 
-    public bool  IsDead        { get { return isDead; } set { if (value == false) { Debug.LogWarning("IsDead must only be true"); return; } isDead = value; OnSetIsDead?.Invoke(); } }
+    public bool  IsDead        { get { return isDead; }        set { if (value == false) { Debug.LogWarning("IsDead must only be true"); return; } isDead = value; OnSetIsDead?.Invoke(); } }
     public float Health        { get { return health; }        set { health        = value; OnSetHealth?.Invoke(); } }
     public float MaxHealth     { get { return maxHealth; }     set { maxHealth     = value; OnSetMaxHealth?.Invoke(); } }
     public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; OnSetMovementSpeed?.Invoke(value); } }
 
-    public    System.Action        OnDestroyCallback;
-    public    System.Action        OnSetIsDead;
-    public    System.Action        OnSetHealth;
-    public    System.Action        OnSetMaxHealth;
-    protected System.Action<float> OnSetMovementSpeed;
+    public    Action        OnSetIsDead;
+    public    Action        OnSetHealth;
+    public    Action        OnSetMaxHealth;
+    protected Action<float> OnSetMovementSpeed;
 
-    private void OnDestroy()
-    {
-        OnDestroyCallback?.Invoke();
-    }
-
-    // Make a new event like OnDisable/OnDestroy to catch when our Unit is gone
-
+    private Color         defaultColor;
+    private Coroutine     doClearSlow;
     #endregion
 
     #region Unity
-
     protected virtual void Awake()
     {
         if (!spriteRenderer)
             spriteRenderer = GetComponent<SpriteRenderer>();
+
+        rb = GetComponent<Rigidbody2D>();
 
         defaultColor = spriteRenderer.color;
     }
@@ -69,11 +65,9 @@ public class Unit : MonoBehaviour
         Health        = MaxHealth;
         MovementSpeed = unitData.movementSpeed;
     }
-
     #endregion
 
     #region Methods
-
     public virtual bool TakeDamage(Unit instigator, float value)
     {
         if (!IsDead)
@@ -119,6 +113,21 @@ public class Unit : MonoBehaviour
         }
     }
 
+    // Force reduce velocity to keep Unit from gliding
+    protected void ForceReduceVelocity()
+    {
+        if (rb.velocity.normalized != Vector2.zero)
+        {
+            rb.velocity = rb.velocity * 0.95f;
+        }
+    }
+
+    public void AddForce(Vector2 direction, float forceMultiplier)
+    {
+        if (!rb) return;
+        rb.AddForce(direction * forceMultiplier, ForceMode2D.Impulse);
+    }
+
     public void Blink(Color color, bool returnToDefaultColor = true)
     {
         if (returnToDefaultColor)
@@ -154,8 +163,6 @@ public class Unit : MonoBehaviour
             MovementSpeed = (unitData.movementSpeed * percent) / 100.0f;
         }
     }
-
-    Coroutine doClearSlow;
 
     public void SetMovementSpeedByPct(float percent, float slowDuration)
     {
@@ -204,12 +211,11 @@ public class Unit : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
     }
-
     #endregion
 
 }
 
-[System.Serializable]
+[Serializable]
 public class SharedUnit : SharedVariable<Unit>
 {
     public static implicit operator SharedUnit(Unit value) { return new SharedUnit { Value = value }; }

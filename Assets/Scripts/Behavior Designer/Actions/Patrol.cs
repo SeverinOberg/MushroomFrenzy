@@ -19,15 +19,15 @@ public class Patrol : Action
 
     public override TaskStatus OnUpdate()
     {
-        if (!self.Value.aiDestinationSetter.target)
+        if (!self.Value.AIDestinationSetter.target)
         {
-            self.Value.aiDestinationSetter.target = waypoints[currentWaypointIndex];
+            self.Value.AIDestinationSetter.target = waypoints[currentWaypointIndex];
         }
 
         if (Vector2.Distance(transform.position, waypoints[currentWaypointIndex].position) < waypointReachedDistance && waypoints.Count - 1 > currentWaypointIndex)
         {
             currentWaypointIndex++;
-            self.Value.aiDestinationSetter.target = waypoints[currentWaypointIndex].transform;
+            self.Value.AIDestinationSetter.target = waypoints[currentWaypointIndex].transform;
 
             if (currentWaypointIndex >= waypoints.Count)
             {

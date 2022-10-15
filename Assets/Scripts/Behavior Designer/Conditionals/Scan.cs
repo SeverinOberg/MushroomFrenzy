@@ -10,15 +10,17 @@ public class Scan : Conditional
     private LayerMask scanLayerMask;
     private float initialMeleeAttackRange;
 
+    private Unit lastImpossiblePathTarget;
+
     public override void OnAwake()
     {
-        initialMeleeAttackRange = self.Value.meleeAttackRange;
+        initialMeleeAttackRange = self.Value.MeleeAttackRange;
         scanLayerMask = LayerMask.GetMask("Turret", "Player", "Obstacle");
     }
 
     public override TaskStatus OnUpdate()
     {
-        if (self.Value.target && !self.Value.IsPathPossible(transform.position, self.Value.target.transform.position))
+        if (self.Value.Target && !self.Value.IsPathPossible(transform.position, self.Value.Target.transform.position))
         {
             self.Value.ClearTarget();
 
@@ -27,14 +29,30 @@ public class Scan : Conditional
                 if (SortTargetsOfType(Unit.UnitTypes.Obstacle, targets, out List<Unit> targetsFound))
                 {
                     SortClosestTarget(targetsFound, out Unit target);
+                    if (lastImpossiblePathTarget == target)
+                    {
+                        ScanForTargets(out targets);
+                        SortTargetsOfType(Unit.UnitTypes.Obstacle, targets, out targetsFound);
+                        for (int i = 0; i < targetsFound.Count; i++)
+                        {
+                            if (lastImpossiblePathTarget != targetsFound[i])
+                            {
+                                self.Value.SetTarget(targetsFound[i]);
+                                self.Value.SetMeleeAttackRange(target.GetComponent<Collider2D>().bounds.size.x * 0.5f + initialMeleeAttackRange);
+                                return TaskStatus.Success;
+                            }
+                        }
+                        return TaskStatus.Failure;
+                    }
+                    lastImpossiblePathTarget = target;
                     self.Value.SetTarget(target);
-                    self.Value.meleeAttackRange = (target.GetComponent<Collider2D>().bounds.size.x * 0.5f) + initialMeleeAttackRange;
+                    self.Value.SetMeleeAttackRange(target.GetComponent<Collider2D>().bounds.size.x * 0.5f + initialMeleeAttackRange);
                     return TaskStatus.Success;
                 }
             }
         }
 
-        if (!self.Value.target)
+        if (!self.Value.Target)
         {
             if (ScanForTargets(out List<Unit> targets))
             {
@@ -62,7 +80,7 @@ public class Scan : Conditional
                 }
 
                 self.Value.SetTarget(target);
-                self.Value.meleeAttackRange = (target.GetComponent<Collider2D>().bounds.size.x * 0.5f) + initialMeleeAttackRange;
+                self.Value.SetMeleeAttackRange(target.GetComponent<Collider2D>().bounds.size.x * 0.5f + initialMeleeAttackRange);
                 return TaskStatus.Success;
             }
         }
@@ -77,7 +95,7 @@ public class Scan : Conditional
     private bool ScanForTargets(out List<Unit> result)
     {
         result = new List<Unit>();
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, self.Value.scanDiameter, scanLayerMask);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, self.Value.ScanDiameter, scanLayerMask);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].CompareTag("Enemy") || !colliders[i].TryGetComponent(out Unit unit) || unit.IsDead)

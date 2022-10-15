@@ -9,12 +9,12 @@ public class WithinMeleeRange : Conditional
 
     public override TaskStatus OnUpdate()
     {
-        if (!self.Value.target || self.Value.target.IsDead)
+        if (!self.Value.Target || self.Value.Target.IsDead)
         {
             return TaskStatus.Failure;
         }
 
-        if (Vector2.Distance(transform.position, self.Value.target.transform.position) <= self.Value.meleeAttackRange)
+        if (Vector2.Distance(transform.position, self.Value.Target.transform.position) <= self.Value.MeleeAttackRange)
         {
             return TaskStatus.Success;
         }

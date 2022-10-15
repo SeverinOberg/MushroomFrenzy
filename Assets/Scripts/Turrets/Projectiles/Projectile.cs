@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private   float          knockbackForceMultiplier = 5f;
 
     protected Rigidbody2D rb;
-    protected Unit instigator;
+    protected Unit        instigator;
 
     private Vector2 targetDirection;
     private Vector2 spawnPoint;
@@ -23,7 +23,7 @@ public class Projectile : MonoBehaviour
 
     protected virtual void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb         = GetComponent<Rigidbody2D>();
         spawnPoint = transform.position;
     }
 
@@ -49,7 +49,7 @@ public class Projectile : MonoBehaviour
                 unit.Blink(Color.red);
                 if (knockbackForceMultiplier > 0 && unit.TryGetComponent(out Enemy enemy))
                 {
-                    enemy.PauseAI(0.2f);
+                    enemy.PausePathing(0.2f);
                     enemy.AddForce(targetDirection, knockbackForceMultiplier);
                 }
                 Destroy(gameObject, 0.5f);
@@ -63,8 +63,8 @@ public class Projectile : MonoBehaviour
 
     public void Spawn(GameObject projectile, Vector2 position, Unit instigator, Unit target)
     {
-        this.instigator = instigator;
         Projectile spawn = Instantiate(projectile, position, Quaternion.identity).GetComponent<Projectile>();
+        spawn.instigator = instigator;
         spawn.Shoot(target);
     }
 

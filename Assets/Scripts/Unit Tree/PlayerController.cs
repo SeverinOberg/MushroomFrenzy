@@ -30,8 +30,6 @@ public class PlayerController : Unit
     private float attackDamage = 3;
     private float interactRange = 5f;
 
-    private Rigidbody2D rb;
-
     Vector2 mouseDirectionFromPlayer;
     float distanceFromMouse;
 
@@ -45,7 +43,6 @@ public class PlayerController : Unit
 
         type = UnitTypes.Player;
         inputController = GetComponent<InputController>();
-        rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
@@ -66,7 +63,7 @@ public class PlayerController : Unit
 
     private void Update()
     {
-        Utilities.ForceReduceVelocity(ref rb);
+        ForceReduceVelocity();
         HandleTimer();
         HandleMouseDirection();
         HandleFlipPlayer();
@@ -167,8 +164,8 @@ public class PlayerController : Unit
                 unit.Blink(Color.red);
                 if (unit.TryGetComponent(out Enemy enemy))
                 {
-                    enemy.rb.AddForce(mouseDirectionFromPlayer * 10, ForceMode2D.Impulse);
-                    enemy.PauseAI(0.2f);
+                    enemy.AddForce(mouseDirectionFromPlayer, 10);
+                    enemy.PausePathing(0.2f);
                 }
             }
         }

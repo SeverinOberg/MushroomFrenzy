@@ -6,54 +6,60 @@ using BehaviorDesigner.Runtime;
 [System.Serializable]
 public class Enemy : Unit
 {
-    public float scanDiameter           = 15;
-    public float meleeAttackRange       = 2.5f;
-    public float attackCooldown         = 2f;
-    public float minDamage              = 2;
-    public float maxDamage              = 5;
+    private AIPath              aiPath;
+    private AIDestinationSetter aiDestinationSetter;
+    private BehaviorTree        behaviorTree;
+    private Animator            animator;
+    private Unit                target;
+    private Unit                instigator;
 
-    public float ScanDiameter     { get; private set; }
-    public float MeleeAttackRange { get; private set; }
-    public float AttackCooldown   { get; private set; }
-    public float MinDamage        { get; private set; }
-    public float MaxDamage        { get; private set; }
+    [SerializeField] private float scanDiameter            = 15; 
+    [SerializeField] private float meleeAttackRange        = 2.5f;
+    [SerializeField] private float attackCooldown          = 2f;
+    [SerializeField] private float minDamage               = 2;
+    [SerializeField] private float maxDamage               = 5;
+    [SerializeField] private float rangedAttackRange       = 0;
+    [SerializeField] private float minRangedAccuracyOffset = 0;
+    [SerializeField] private float maxRangedAccuracyOffset = 0;
+    [SerializeField] private float minRangedAttackCooldown = 0;
+    [SerializeField] private float maxRangedAttackCooldown = 0;
+    [SerializeField] private float runAnimationThreshold   = 1;
 
-    [HideInInspector] public Animator animator;
-    [HideInInspector] public Collider2D collision;
-    [HideInInspector] public Rigidbody2D rb;
+    public AIPath              AIPath               { get { return aiPath; }              private set { aiPath              = value; } }
+    public AIDestinationSetter AIDestinationSetter  { get { return aiDestinationSetter; } private set { aiDestinationSetter = value; } }
+    public Unit                Target               { get { return target; }              private set { target              = value; } }
+    public Unit                Instigator           { get { return instigator; }          private set { instigator          = value; } }
 
-    [HideInInspector] public AIDestinationSetter aiDestinationSetter;
-    [HideInInspector] public AIPath aiPath;
-    [HideInInspector] private BehaviorTree behaviorTree;
-
-    public Unit target;
-
-    public Unit instigatorTarget;
-
-    public System.Action OnDisableAction;
+    public float ScanDiameter            { get { return scanDiameter; }            private set { scanDiameter            = value; } }
+    public float MeleeAttackRange        { get { return meleeAttackRange; }        private set { meleeAttackRange        = value; } }
+    public float AttackCooldown          { get { return attackCooldown; }          private set { attackCooldown          = value; } }
+    public float MinDamage               { get { return minDamage; }               private set { minDamage               = value; } }
+    public float MaxDamage               { get { return maxDamage; }               private set { maxDamage               = value; } }
+    public float RangedAttackRange       { get { return rangedAttackRange; }       private set { rangedAttackRange       = value; } }
+    public float MinRangedAccuracyOffset { get { return minRangedAccuracyOffset; } private set { minRangedAccuracyOffset = value; } }
+    public float MaxRangedAccuracyOffset { get { return maxRangedAccuracyOffset; } private set { maxRangedAccuracyOffset = value; } }
+    public float MinRangedAttackCooldown { get { return minRangedAttackCooldown; } private set { minRangedAttackCooldown = value; } }
+    public float MaxRangedAttackCooldown { get { return maxRangedAttackCooldown; } private set { maxRangedAttackCooldown = value; } }
+    public float RunAnimationThreshold   { get { return runAnimationThreshold; }   private set { runAnimationThreshold   = value; } }
 
     protected override void Awake()
     {
         base.Awake();
+        aiPath              = GetComponent<AIPath>();
+        aiDestinationSetter = GetComponent<AIDestinationSetter>();
+        behaviorTree        = GetComponent<BehaviorTree>();
 
         animator = spriteRenderer.GetComponent<Animator>();
-        collision = GetComponent<Collider2D>();
-        rb = GetComponent<Rigidbody2D>();
-
-        aiDestinationSetter = GetComponent<AIDestinationSetter>();
-        aiPath = GetComponent<AIPath>();
-        behaviorTree = GetComponent<BehaviorTree>();
     }
 
     private void OnEnable()
     {
-        OnSetMovementSpeed += OnMovementSpeedChangedCallback;
+        OnSetMovementSpeed += OnSetMovementSpeedCallback;
     }
 
     private void OnDisable()
     {
-        OnDisableAction?.Invoke();
-        OnSetMovementSpeed -= OnMovementSpeedChangedCallback;
+        OnSetMovementSpeed -= OnSetMovementSpeedCallback;
     }
 
     protected override void Start()
@@ -67,26 +73,33 @@ public class Enemy : Unit
     private void Update()
     {
         HandleRunningAnimation();
-        Utilities.ForceReduceVelocity(ref rb);
+        ForceReduceVelocity();
 
-        // Stop AI and block Behaviour Tree Evaluations (AI updates) if IsDead
         if (IsDead)
         {
-            SetAIState(false);
+            SetPathingActive(false);
             return;
         }
 
-        if (target)
+        if (Target)
         {
             FlipTowardsTarget();
         }
     }
 
     #region Methods
-
     public bool IsWithinMeleeAttackRange()
     {
-        if (Vector2.Distance(transform.position, target.transform.position) <= meleeAttackRange)
+        if (Vector2.Distance(transform.position, Target.transform.position) <= MeleeAttackRange)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsWithinRangedAttackRange()
+    {
+        if (Vector2.Distance(transform.position, Target.transform.position) <= RangedAttackRange)
         {
             return true;
         }
@@ -113,60 +126,36 @@ public class Enemy : Unit
     public void ClearTarget()
     {
         aiDestinationSetter.target = null;
-        target = null;
+        Target = null;
     }
 
-    public void AddForce(Vector2 direction, float forceMultiplier)
+    public void ClearInstigator()
     {
-        rb.AddForce(direction * forceMultiplier, ForceMode2D.Impulse);
+        Instigator = null;
     }
 
     public void SetTarget(Unit target)
     {
-        this.target = target;
+        Target = target;
         aiDestinationSetter.target = target.transform;
     }
 
-    public void SetAIState(bool state)
+    public void SetPathingActive(bool value)
     {
-        aiDestinationSetter.enabled = state;
-        aiPath.enabled = state;
+        aiDestinationSetter.enabled = value;
+        aiPath.enabled              = value;
     }
 
-    public void PauseAI(float pauseForSeconds = 1.0f)
+    public void PausePathing(float pauseForSeconds = 1.0f)
     {
-        SetAIState(false);
+        SetPathingActive(false);
         StartCoroutine(ResumeAIDelay(pauseForSeconds));
     }
 
     private IEnumerator ResumeAIDelay(float pauseForSeconds)
     {
         yield return new WaitForSeconds(pauseForSeconds);
-        SetAIState(true);
-    }
-
-    private void HandleRunningAnimation()
-    {
-        if (aiPath.velocity.magnitude >= 1)
-        {
-            animator.SetFloat("Run", 1);
-        }
-        else
-        {
-            animator.SetFloat("Run", 0);
-        }
-    }
-
-    private void SpawnResource()
-    {
-        GameObject[] randomResources = ResourceManager.Instance.resources;
-        GameObject resource = randomResources[Random.Range(0, randomResources.Length)];
-        Instantiate(resource, transform.position, Quaternion.identity);
-    }
-
-    private void OnMovementSpeedChangedCallback(float value)
-    {
-        aiPath.maxSpeed = value;
+        SetPathingActive(true);
     }
 
     public bool IsPathPossible(Vector2 from, Vector2 to)
@@ -182,9 +171,53 @@ public class Enemy : Unit
         return false;
     }
 
+    // Get a random +/- accuracy offset value
+    public float GetRangedAccuracyOffset()
+    {
+        if (Utilities.Roll(50))
+        {
+            return Random.Range(MinRangedAccuracyOffset, MaxRangedAccuracyOffset);
+        }
+        else
+        {
+            return Random.Range(-MinRangedAccuracyOffset, -MaxRangedAccuracyOffset);
+        }
+        
+    }
+
+    public void SetMeleeAttackRange(float value)
+    {
+        MeleeAttackRange = value;
+    }
+
+    public void TriggerAnimation(string value)
+    {
+        animator.SetTrigger(value);
+    }
+
+    private void SpawnResource()
+    {
+        GameObject[] randomResources = ResourceManager.Instance.resources;
+        GameObject resource = randomResources[Random.Range(0, randomResources.Length)];
+        Instantiate(resource, transform.position, Quaternion.identity);
+    }
+
+    private void HandleRunningAnimation()
+    {
+        if (aiPath.velocity.magnitude >= RunAnimationThreshold)
+        {
+            animator.SetFloat("Run", 1);
+        }
+        else
+        {
+            animator.SetFloat("Run", 0);
+        }
+    }
+
+    #region Polymorphism
     public override bool TakeDamage(Unit instigator, float value)
     {
-        this.instigatorTarget = instigator;
+        Instigator = instigator;
         behaviorTree.SendEvent("OnTakeDamage");
         animator.SetTrigger("Take Damage");
         return base.TakeDamage(instigator, value);
@@ -200,6 +233,14 @@ public class Enemy : Unit
             SpawnResource();
         }
     }
+    #endregion
+
+    #region Events
+    private void OnSetMovementSpeedCallback(float value)
+    {
+        aiPath.maxSpeed = value;
+    }
+    #endregion
 
     #endregion
 

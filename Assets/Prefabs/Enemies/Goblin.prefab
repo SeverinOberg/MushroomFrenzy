@@ -186,7 +186,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1653580317, guid: 12eb13f7a49ab774ea941904ca545135, type: 3}
   m_Color: {r: 0.42052335, g: 0.6603774, b: 0.43429306, a: 1}
   m_FlipX: 0
@@ -255,14 +255,12 @@ MonoBehaviour:
   attackCooldown: 2
   minDamage: 3
   maxDamage: 7
-  pursuitReachedDistance: 5
-  animator: {fileID: 0}
-  collision: {fileID: 0}
-  rb: {fileID: 0}
-  aiDestinationSetter: {fileID: 0}
-  aiPath: {fileID: 0}
-  target: {fileID: 0}
-  instigatorTarget: {fileID: 0}
+  rangedAttackRange: 0
+  minRangedAccuracyOffset: 0
+  maxRangedAccuracyOffset: 0
+  minRangedAttackCooldown: 0
+  maxRangedAttackCooldown: 0
+  runAnimationThreshold: 1
 --- !u!114 &2836422623283600677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,7 +326,7 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 0.2
   pickNextWaypointDist: 3
-  endReachedDistance: 1
+  endReachedDistance: 2.5
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0

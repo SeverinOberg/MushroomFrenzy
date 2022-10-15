@@ -1,29 +1,29 @@
-using UnityEngine;
-using BehaviourTree;
+//using UnityEngine;
+//using BehaviourTree;
 
-public class CheckEnemyInMeleeRange : Node 
-{
+//public class CheckEnemyInMeleeRange : Node 
+//{
 
-    private EnemyBT self;
+//    private EnemyBT self;
 
-    public CheckEnemyInMeleeRange(EnemyBT self)
-    {
-        this.self = self; ;
-    }
+//    public CheckEnemyInMeleeRange(EnemyBT self)
+//    {
+//        this.self = self; ;
+//    }
 
-    public override NodeState Evalute()
-    {
-        if (!self.target || self.target.IsDead)
-        {
-            return state = NodeState.FAILURE;
-        }
+//    public override NodeState Evalute()
+//    {
+//        if (!self.target || self.target.IsDead)
+//        {
+//            return state = NodeState.FAILURE;
+//        }
 
-        if (Vector2.Distance(self.transform.position, self.target.transform.position) <= self.meleeAttackRange)
-        {
-            return state = NodeState.SUCCESS;
-        }
+//        if (Vector2.Distance(self.transform.position, self.target.transform.position) <= self.meleeAttackRange)
+//        {
+//            return state = NodeState.SUCCESS;
+//        }
 
-        return state = NodeState.FAILURE;
-    }
+//        return state = NodeState.FAILURE;
+//    }
 
-}
+//}
