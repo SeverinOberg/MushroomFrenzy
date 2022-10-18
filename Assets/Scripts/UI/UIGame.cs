@@ -10,29 +10,27 @@ using UnityEditor;
 public class UIGame : MonoBehaviour
 {
 
-    #region Variables & Properties
-
     public static UIGame Instance;
+
+    private PlayerController player;
 
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject lostScreen;
 
-    [SerializeField] private GameObject      escapeMenu;
-    [SerializeField] private GameObject      keybindingsMenu;
+    [SerializeField] private GameObject escapeMenu;
+    [SerializeField] private GameObject keybindingsMenu;
 
+    [SerializeField] private TextMeshProUGUI spiritEssenceResourceText;
     [SerializeField] private TextMeshProUGUI woodResourceText;
     [SerializeField] private TextMeshProUGUI stoneResourceText;
-    [SerializeField] private TextMeshProUGUI metalResourceText;
+    [SerializeField] private TextMeshProUGUI ironOreResourceText;
+    [SerializeField] private TextMeshProUGUI ironBarResourceText;
 
     [SerializeField] private TextMeshProUGUI logToScreenText;
 
     [SerializeField] private GameObject selectedTargetInterface;
 
-    private static System.Action<string> OnLogToScreen;
-
-    #endregion
-
-    #region Unity
+    private static System.Action<string, float> OnLogToScreen;
 
     private void Awake()
     {
@@ -40,29 +38,31 @@ public class UIGame : MonoBehaviour
         {
             Instance = this;
         }
+
+        player = GetComponentInParent<PlayerController>();
     }
 
-    #region Subscriptions
-
-    private void OnEnable()
+    private void Start()
     {
         OnLogToScreen += SetLogToScreen;
 
-        ResourceManager.OnWoodChanged  += SetWoodText;
-        ResourceManager.OnStoneChanged += SetStoneText;
-        ResourceManager.OnMetalChanged += SetMetalText;
+        player.resourceManager.OnSetSpiritEssence += SetSpiritEssenceText;
+        player.resourceManager.OnSetWood          += SetWoodText;
+        player.resourceManager.OnSetStone         += SetStoneText;
+        player.resourceManager.OnSetIronOre       += SetIronOreText;
+        player.resourceManager.OnSetIronBar       += SetIronBarText;
     }
 
     private void OnDisable()
     {
         OnLogToScreen -= SetLogToScreen;
 
-        ResourceManager.OnWoodChanged  -= SetWoodText;
-        ResourceManager.OnStoneChanged -= SetStoneText;
-        ResourceManager.OnMetalChanged -= SetMetalText;
+        player.resourceManager.OnSetSpiritEssence -= SetSpiritEssenceText;
+        player.resourceManager.OnSetWood          -= SetWoodText;
+        player.resourceManager.OnSetStone         -= SetStoneText;
+        player.resourceManager.OnSetIronOre       -= SetIronOreText;
+        player.resourceManager.OnSetIronBar       -= SetIronBarText;
     }
-
-    #endregion
 
     private void Update()
     {
@@ -72,25 +72,26 @@ public class UIGame : MonoBehaviour
         }
     }
 
-    #endregion
-
-    #region Methods
-
-    public static void LogToScreen(string text)
+    public static void LogToScreen(string text, float seconds = 1)
     {
-        OnLogToScreen?.Invoke(text);
+        OnLogToScreen?.Invoke(text, seconds);
     }
 
-    private void SetLogToScreen(string text)
+    private void SetLogToScreen(string text, float seconds)
     {
         logToScreenText.text = text;
-        StartCoroutine(RemoveLogScreenTextRoutine());
+        StartCoroutine(RemoveLogScreenTextRoutine(seconds));
     }
 
-    private IEnumerator RemoveLogScreenTextRoutine()
+    private IEnumerator RemoveLogScreenTextRoutine(float seconds)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(seconds);
         logToScreenText.text = "";
+    }
+
+    public void SetSpiritEssenceText(int amount)
+    {
+        spiritEssenceResourceText.text = $"Spirit Essence: {amount}";
     }
 
     public void SetWoodText(int amount)
@@ -103,9 +104,14 @@ public class UIGame : MonoBehaviour
         stoneResourceText.text = $"Stone: {amount}";
     }
 
-    public void SetMetalText(int amount)
+    public void SetIronOreText(int amount)
     {
-        metalResourceText.text = $"Metal: {amount}";
+        ironOreResourceText.text = $"Iron Ore: {amount}";
+    }
+
+    public void SetIronBarText(int amount)
+    {
+        ironBarResourceText.text = $"Iron Bars: {amount}";
     }
 
     public void TriggerSelectedTargetInterface()
@@ -181,7 +187,5 @@ public class UIGame : MonoBehaviour
         Application.Quit();
     #endif
     }
-
-    #endregion
 
 }

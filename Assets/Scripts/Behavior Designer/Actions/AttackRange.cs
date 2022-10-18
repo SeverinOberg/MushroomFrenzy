@@ -6,6 +6,7 @@ public class AttackRange : Action
 {
     [SerializeField] private SharedEnemy self;
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private float animationDelay;
 
     private EnemyProjectile enemyWeapon;
 
@@ -17,17 +18,28 @@ public class AttackRange : Action
     public override TaskStatus OnUpdate()
     {
         self.Value.PausePathing(2);
-        StartCoroutine(Throw());
+        if (animationDelay > 0)
+        {
+            StartCoroutine(Throw(animationDelay));
+        }
+        else
+        {
+            Throw();
+        }
         
         return TaskStatus.Success;
     }
 
-    private IEnumerator Throw()
+    private void Throw()
     {
-        //self.Value.animator.SetTrigger("Throw");
+        self.Value.TriggerAnimation("Throw");
+        enemyWeapon.Spawn(projectilePrefab, transform.position, self.Value, self.Value.Target);
+    }
 
-        // Animation delay
-        yield return new WaitForSeconds(1.5f);
+    private IEnumerator Throw(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        self.Value.TriggerAnimation("Throw");
         enemyWeapon.Spawn(projectilePrefab, transform.position, self.Value, self.Value.Target);
     }
 

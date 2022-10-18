@@ -5,8 +5,12 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager Instance;
-    public bool hasWon { get; private set; }
-    public bool hasLost { get; private set; }
+
+    private bool hasWon;
+    private bool hasLost;
+
+    public bool HasWon  { get { return hasWon;  } private set { hasWon  = value; } }
+    public bool HasLost { get { return hasLost; } private set { hasLost = value; } }
 
     private void Awake()
     {
@@ -16,6 +20,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             StartCoroutine(AstarPathScan(3));
         }
+
+        UIGame.LogToScreen("The monsters are hungry for mushrooms and are drawing near. Protect yourself!", 5);
     }
 
     private IEnumerator AstarPathScan(float everySeconds)
@@ -30,12 +36,12 @@ public class GameManager : MonoBehaviour
     public void WinGame()
     {
         UIGame.Instance.ToggleWinScreen();
-        hasWon = true;
+        HasWon = true;
     }
 
     public void LoseGame()
     {
-        hasLost = true;
+        HasLost = true;
         UIGame.Instance.ToggleLoseScreen();
     }
 }

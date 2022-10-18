@@ -14,14 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   woodCost: 2
   stoneCost: 2
-  metalCost: 0
+  ironBarCost: 0
   maxLevel: 3
-  level1UpgradeWoodCost: 2
-  level1UpgradeStoneCost: 2
-  level1UpgradeMetalCost: 1
   level2UpgradeWoodCost: 3
   level2UpgradeStoneCost: 3
-  level2UpgradeMetalCost: 2
+  level2UpgradeIronBarCost: 1
   level3UpgradeWoodCost: 3
   level3UpgradeStoneCost: 3
-  level3UpgradeMetalCost: 3
+  level3UpgradeIronBarCost: 2

@@ -7,7 +7,7 @@ public class BuildingSO : ScriptableObject
     [Header("Build Data")]
     public int woodCost;
     public int stoneCost;
-    public int metalCost;
+    public int ironBarCost;
 
     // Upgrade
     [Header("Upgrade Data")]
@@ -18,11 +18,11 @@ public class BuildingSO : ScriptableObject
     [Header("Level 2")]
     public int level2UpgradeWoodCost;
     public int level2UpgradeStoneCost;
-    public int level2UpgradeMetalCost;
+    public int level2UpgradeIronBarCost;
 
     [Header("Level 3")]
     public int level3UpgradeWoodCost;
     public int level3UpgradeStoneCost;
-    public int level3UpgradeMetalCost;
+    public int level3UpgradeIronBarCost;
 
 }

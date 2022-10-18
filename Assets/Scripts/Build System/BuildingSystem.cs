@@ -1,37 +1,28 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class BuildingSystem : MonoBehaviour 
 {
-    #region Variables & Properties
 
-    public static BuildingSystem Instance;
+    public BuildingTooltip buildingTooltip;
 
-    [SerializeField] private GridLayout gridLayout;
+    private GridLayout gridLayout;
     private Grid grid;
+    private PlayerController player;
 
-    [HideInInspector] public bool buildMode;
-
-    #endregion
-
-    #region Unity
+    private bool buildMode;
+    public  bool BuildMode { get { return buildMode; } set { buildMode = value; } }
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        
+        gridLayout = GameObject.Find("Tilemap").GetComponent<GridLayout>();
+        grid       = gridLayout.GetComponent<Grid>();
 
-        grid = gridLayout.GetComponent<Grid>();
+        player     = GetComponent<PlayerController>();
     }
-
-    #endregion
-
-    #region Methods
 
     public void InitializeWithObject(GameObject prefab)
     {
-        if (buildMode)
+        if (BuildMode)
         {
             UIGame.LogToScreen("Place or cancel your current building to build another");
             return;
@@ -39,10 +30,10 @@ public class BuildingSystem : MonoBehaviour
 
         Vector3 position = SnapCoordinateToGrid(Utilities.GetMouseWorldPosition());
 
-        GameObject obj = Instantiate(prefab, position, Quaternion.identity);
-
-        obj.AddComponent<BuildingDrag>();
-        buildMode = true;
+        Building building = Instantiate(prefab, position, Quaternion.identity).GetComponent<Building>();
+        building.SetOwner(player);
+        building.gameObject.AddComponent<BuildingDrag>();
+        BuildMode = true;
     }
 
     public Vector3 SnapCoordinateToGrid(Vector3 position)
@@ -52,5 +43,4 @@ public class BuildingSystem : MonoBehaviour
         return position;
     }
 
-    #endregion
 }

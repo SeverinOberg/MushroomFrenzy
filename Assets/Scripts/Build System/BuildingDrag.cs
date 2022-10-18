@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class BuildingDrag : MonoBehaviour 
 {
 
-    #region Variables & Properties
+    private PlayerController owner;
 
     private Unit unit;
     private Building building;
@@ -23,13 +23,13 @@ public class BuildingDrag : MonoBehaviour
     private bool  pauseCanBuildHereValuation;
     private float clearCanBuildHereValuationDuration = 0.25f;
 
-    #endregion
-
-    #region Unity
 
     private void Awake()
     {
-        unit = GetComponent<Unit>();
+        building = GetComponent<Building>();
+        owner    = building.GetOwner();
+
+        unit     = GetComponent<Unit>();
 
         BoxCollider2D[] boxColliders = GetComponents<BoxCollider2D>();
         for (int i = 0; i < boxColliders.Length; i++)
@@ -73,10 +73,10 @@ public class BuildingDrag : MonoBehaviour
     private void LateUpdate()
     {
         // Drag
-        if (BuildingSystem.Instance.buildMode)
+        if (owner.buildingSystem.BuildMode)
         {
             mousePosition = Utilities.GetMouseWorldPosition();
-            transform.position = Vector3.Lerp(transform.position, BuildingSystem.Instance.SnapCoordinateToGrid(mousePosition), Time.deltaTime * dragSpeed);
+            transform.position = Vector3.Lerp(transform.position, owner.buildingSystem.SnapCoordinateToGrid(mousePosition), Time.deltaTime * dragSpeed);
 
             if (!pauseCanBuildHereValuation && !CanBuildHere())
             {
@@ -90,27 +90,23 @@ public class BuildingDrag : MonoBehaviour
         }
 
         // Cancel
-        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Escape) && BuildingSystem.Instance.buildMode)
+        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Escape) && owner.buildingSystem.BuildMode)
         {
-            BuildingSystem.Instance.buildMode = false;
+            owner.buildingSystem.BuildMode = false;
             Destroy(gameObject);
         }
 
         // Build
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Mouse0) && BuildingSystem.Instance.buildMode)
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Mouse0) && owner.buildingSystem.BuildMode)
         {
             BuildMultiple();
         } 
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && BuildingSystem.Instance.buildMode)
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && owner.buildingSystem.BuildMode)
         {
             Build();
         }
 
     }
-
-    #endregion
-
-    #region Methods
 
     private bool Build()
     {
@@ -121,7 +117,7 @@ public class BuildingDrag : MonoBehaviour
             return false;
         }
 
-        transform.position = BuildingSystem.Instance.SnapCoordinateToGrid(mousePosition);
+        transform.position = owner.buildingSystem.SnapCoordinateToGrid(mousePosition);
 
         if (!CanBuildHere())
         {
@@ -129,24 +125,20 @@ public class BuildingDrag : MonoBehaviour
             return false;
         }
 
-        if (TryGetComponent(out Building building))
-        {
-            this.building = building;
-            ResourceManager.Instance.PayForBuild(building.buildingData);
-        }
-
+        owner.resourceManager.PayForBuild(building.buildingData);
+ 
         if (TryGetComponent(out Turret turret))
         {
             turret.isSleeping = false;
         }
 
-        if (TryGetComponent(out Mushroom mushroom))
+        if (TryGetComponent(out MendingMushroom mendingMushroom))
         {
-            mushroom.enabled = true;
+            mendingMushroom.enabled = true;
         }
 
-        unit.Blink(Color.green, true);
-        unit.StartCoroutine(unit.SetColorDelay(Color.white, 0.3f));
+        unit.Blink(Color.green, default, true);
+        unit.StartCoroutine(unit.DoSetColorDelay(Color.white, 0.3f));
         spriteRenderer.sortingOrder = initialSpriteRendererSortingOrder;
 
         if (animator)
@@ -156,26 +148,19 @@ public class BuildingDrag : MonoBehaviour
         if (boxCollider)
             boxCollider.enabled = true;
 
-        BuildingSystem.Instance.buildMode = false;
+        owner.buildingSystem.BuildMode = false;
         Destroy(this);
         return true;
     }
 
     private void BuildMultiple()
     {
-        if (!Build() || !ResourceManager.Instance.HasSufficientResourcesToBuild(building.buildingData))
+        if (!Build() || !owner.resourceManager.HasSufficientResourcesToBuild(building.buildingData))
         {
             return; 
         }
 
-
-        if (!TryGetComponent(out Unit unit))
-        {
-            Debug.LogError("Could not find unit for the rebuild");
-            return;
-        }
-
-        BuildingSystem.Instance.InitializeWithObject(unit.unitData.prefab);
+        owner.buildingSystem.InitializeWithObject(building.unitData.prefab);
     }
 
     private IEnumerator DoClearPauseCanBuildHereValuation()
@@ -198,7 +183,5 @@ public class BuildingDrag : MonoBehaviour
 
         return true;
     }
-
-    #endregion
 
 }

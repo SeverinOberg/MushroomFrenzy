@@ -5273,6 +5273,7 @@ MonoBehaviour:
   type: 1
   unitData: {fileID: 11400000, guid: e4b0d8c060c631447ba1d37f679d2b22, type: 2}
   spriteRenderer: {fileID: 8266524555444991132}
+  owner: {fileID: 0}
   buildingData: {fileID: 11400000, guid: b2ade9b0e415764438502f614c51d70f, type: 2}
   turretData: {fileID: 11400000, guid: 55dc0640a6c1ece4cb0e9ba021affd45, type: 2}
   projectilePrefab: {fileID: 1477133989141385451, guid: f5a5433541974c147be12238d42d0a43, type: 3}
@@ -5306,7 +5307,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.5}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -5317,7 +5318,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 3}
+  m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
 --- !u!1 &5092589221866973176
 GameObject:
