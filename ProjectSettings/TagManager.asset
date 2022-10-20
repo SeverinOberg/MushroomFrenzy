@@ -12,6 +12,7 @@ TagManager:
   - UI Upgrade
   - UI Repair
   - UI Sell
+  - Resource Node
   layers:
   - Default
   - TransparentFX

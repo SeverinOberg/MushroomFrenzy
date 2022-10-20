@@ -3,24 +3,33 @@ using DG.Tweening;
 
 public class Pickup : MonoBehaviour 
 {
+    private Collider2D collision;
 
-    private enum TypeOfResource {wood, stone, ironOre, ironBar};
+    public enum Type {wood, stone, ironOre, ironBar};
 
-    [SerializeField] private TypeOfResource typeOfResource;
+    public Type type;
     [SerializeField] private int amount;
 
     public bool animate = true;
+
+    private void Awake()
+    {
+        collision = GetComponent<Collider2D>();
+    }
 
     private void Start()
     {
         Utilities.DestroyAfterDelay(gameObject, 120);
         if (animate)
         {
-            transform.DOJump(new Vector2(transform.position.x + Random.Range(-2, 2), transform.position.y), 2, 1, 1).SetEase(Ease.InSine)
+            float offsetX = Random.Range(0, 1 + 1) > 0 ? Random.Range(1f, 2f) : Random.Range(-1f, -2f);
+            float offsetY = Random.Range(0, 1 + 1) > 0 ? Random.Range(1f, 2f) : Random.Range(-1f, -2f);
+            transform.DOJump(new Vector2(transform.position.x + offsetX, transform.position.y + offsetY), 2, 1, 0.5f).SetEase(Ease.InSine)
             .OnComplete(() =>
             {
                 transform.DOShakeRotation(0.3f, new Vector3(0, 0, 45));
                 transform.DOShakeScale(1f);
+                collision.enabled = true;
             });
         }
     }
@@ -35,18 +44,18 @@ public class Pickup : MonoBehaviour
                 return;
             }
 
-            switch (typeOfResource)
+            switch (type)
             {
-                case TypeOfResource.wood:
+                case Type.wood:
                     resourceManager.Wood += amount;
                     break;
-                case TypeOfResource.stone:
+                case Type.stone:
                     resourceManager.Stone += amount;
                     break;
-                case TypeOfResource.ironOre:
+                case Type.ironOre:
                     resourceManager.IronOre += amount;
                     break;
-                case TypeOfResource.ironBar:
+                case Type.ironBar:
                     resourceManager.IronBar += amount;
                     break;
                 default:

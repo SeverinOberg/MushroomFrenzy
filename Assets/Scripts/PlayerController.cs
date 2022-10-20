@@ -29,6 +29,8 @@ public class PlayerController : Unit
     private float offsetPosMultiplier = 1.8f;
     private float attackDamage = 3;
 
+    private float interactCooldown = 1.5f;
+    private float timeSinceLastInteract;
     public float InteractRange { get; private set; } = 5f;
 
     private Vector2 mouseDirectionFromPlayer;
@@ -53,7 +55,7 @@ public class PlayerController : Unit
 
     private void OnEnable()
     {
-        inputController.OnMouse0   += Attack;
+        inputController.OnMouse0   += OnMouse0Callback;
         inputController.OnKeyT     += SellBuilding;
         inputController.OnKeyR     += RepairBuilding;
         inputController.OnKeyV     += UpgradeBuilding;
@@ -61,7 +63,7 @@ public class PlayerController : Unit
 
     private void OnDisable()
     {
-        inputController.OnMouse0   -= Attack;
+        inputController.OnMouse0   -= OnMouse0Callback;
         inputController.OnKeyT     -= SellBuilding;
         inputController.OnKeyR     -= RepairBuilding;
         inputController.OnKeyV     -= UpgradeBuilding;
@@ -125,10 +127,35 @@ public class PlayerController : Unit
 
     private void HandleTimer()
     {
+        timeSinceLastInteract += Time.deltaTime;
         timeSinceLastAttack += Time.deltaTime;
     }
 
     #endregion
+
+    private void OnMouse0Callback()
+    {
+        if (timeSinceLastInteract >= interactCooldown)
+        {
+            Utilities.GetRaycastAllOnMousePoint(out RaycastHit2D[] result);
+            for (int i = 0; i < result.Length; i++)
+            {
+                if (result[i].collider.CompareTag("Resource Node") && IsPlayerWithinInteractRange())
+                {
+                    timeSinceLastInteract = 0;
+                    Gather(result[i].collider.GetComponent<ResourceNode>());
+                    return;
+                }
+            }
+            Attack();
+        }
+    }
+
+    private void Gather(ResourceNode resourceNode)
+    {
+        animator.SetTrigger("Attack");
+        resourceNode.Gather();
+    }
 
     private void Attack()
     {
@@ -277,7 +304,7 @@ public class PlayerController : Unit
         {
             UIGame.LogToScreen($"Too far away");
             return false;
-            }
+        }
 
         return true;
     }

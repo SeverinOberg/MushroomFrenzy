@@ -91,27 +91,27 @@ public class UIGame : MonoBehaviour
 
     public void SetSpiritEssenceText(int amount)
     {
-        spiritEssenceResourceText.text = $"Spirit Essence: {amount}";
+        spiritEssenceResourceText.text = $"{amount}";
     }
 
     public void SetWoodText(int amount)
     {
-        woodResourceText.text = $"Wood: {amount}";
+        woodResourceText.text = $"{amount}";
     }
 
     public void SetStoneText(int amount)
     {
-        stoneResourceText.text = $"Stone: {amount}";
+        stoneResourceText.text = $"{amount}";
     }
 
     public void SetIronOreText(int amount)
     {
-        ironOreResourceText.text = $"Iron Ore: {amount}";
+        ironOreResourceText.text = $"{amount}";
     }
 
     public void SetIronBarText(int amount)
     {
-        ironBarResourceText.text = $"Iron Bars: {amount}";
+        ironBarResourceText.text = $"{amount}";
     }
 
     public void TriggerSelectedTargetInterface()

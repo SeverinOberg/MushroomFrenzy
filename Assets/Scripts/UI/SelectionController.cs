@@ -24,6 +24,7 @@ public class SelectionController : MonoBehaviour
 
     [SerializeField] private Image upgradeButton;
     [SerializeField] private Image repairButton;
+    [SerializeField] private Image sellButton;
 
     private Color originalButtonColor;
 
@@ -97,6 +98,16 @@ public class SelectionController : MonoBehaviour
                     selector.SetActive(true);
                     selector.transform.localScale = selectedTarget.GetComponent<BoxCollider2D>().size;
                     DisplaySelectedInterface(true);
+
+                    if (selectedTarget.type == Unit.UnitTypes.Base)
+                    {
+                        sellButton.color = Utilities.RedColor;
+                    }
+                    else
+                    {
+                        sellButton.color = originalButtonColor;
+                    }
+  
 
                     if (selectedTarget.Level >= selectedTarget.MaxLevel)
                     {
@@ -173,6 +184,13 @@ public class SelectionController : MonoBehaviour
 
     public void Sell()
     {
+        if (selectedTarget.type == Unit.UnitTypes.Base)
+        {
+            UIGame.LogToScreen("You can't sell your own base...");
+            return; 
+        }
+            
+
         if (selectedTarget.SellBuilding())
         {
             ClearSelection();

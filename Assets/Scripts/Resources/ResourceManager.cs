@@ -24,11 +24,11 @@ public class ResourceManager : MonoBehaviour
 
     private void Start()
     {
-        SpiritEssence = 100;
-        Wood          = 100;
-        Stone         = 100;
-        IronOre       = 100;
-        IronBar       = 100;
+        SpiritEssence = 25;
+        Wood          = 50;
+        Stone         = 50;
+        IronOre       = 50;
+        IronBar       = 50;
     }
 
     public bool PayForBuild(BuildingSO buildingData)
