@@ -4,14 +4,12 @@ public class Gate : Building
 {
 
     [SerializeField] private BoxCollider2D boxCollider;
-
-    private Animator animator;
+    [SerializeField] private Animator animator;
 
     protected override void Awake()
     {
         base.Awake();
         type = UnitTypes.Obstacle;
-        animator = GetComponent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

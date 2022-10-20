@@ -136,6 +136,7 @@ MonoBehaviour:
   type: 7
   unitData: {fileID: 11400000, guid: c5bf7f5c7d528a644a1eabc56e883578, type: 2}
   spriteRenderer: {fileID: 0}
+  owner: {fileID: 0}
   buildingData: {fileID: 11400000, guid: c10f19bd0cce82247833cde28699a7c7, type: 2}
 --- !u!114 &6520007993362071780
 MonoBehaviour:
@@ -192,7 +193,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 7d48857e7d8e63e4398a4a6ddb5353e8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4753041ab4f9d5547ab017f8082308c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

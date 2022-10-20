@@ -192,8 +192,8 @@ MonoBehaviour:
   rangedAttackRange: 10
   minRangedAccuracyOffset: 0.5
   maxRangedAccuracyOffset: 0.15
-  minRangedAttackCooldown: 2
-  maxRangedAttackCooldown: 4
+  minRangedAttackCooldown: 5
+  maxRangedAttackCooldown: 10
   runAnimationThreshold: 1
 --- !u!114 &2836422623283600677
 MonoBehaviour:

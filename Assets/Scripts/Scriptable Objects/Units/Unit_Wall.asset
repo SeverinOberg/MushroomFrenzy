@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Unit_Wall
   m_EditorClassIdentifier: 
   prefab: {fileID: 4365776368011592592, guid: 90f3921137cfa0a45add8adc1d953392, type: 3}
-  title: Mushroom Wall
+  title: Wall
   description: Build a sturdy wall to keep mischievous monsters out of your farm.
     It can take a lot of hits!
   faction: 0

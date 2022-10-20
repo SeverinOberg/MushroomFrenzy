@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Unit_Base
   m_EditorClassIdentifier: 
   prefab: {fileID: 2079369842383021190, guid: 1748653682dcbcd4eb1fa382eab2abd6, type: 3}
-  title: Farm
+  title: Home
+  description: 
   faction: 0
   health: 30
   movementSpeed: 0

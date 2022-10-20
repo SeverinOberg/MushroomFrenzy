@@ -59,6 +59,9 @@ public class EnemyProjectile : MonoBehaviour
 
     private void Throw(Unit target)
     {
+        if (!target)
+            return;
+
         targetDirection = (target.transform.position - transform.position).normalized;
         transform.up = targetDirection;
         rb.AddForce(targetDirection * shootForceMultiplier, ForceMode2D.Force);
