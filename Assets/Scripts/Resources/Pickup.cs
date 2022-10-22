@@ -4,13 +4,19 @@ using UnityEditor;
 
 public class Pickup : MonoBehaviour 
 {
+    [SerializeField] private GameObject body;
+    [SerializeField] private GameObject shadow;
+    [SerializeField] private ParticleSystem impactPS;
+    [SerializeField] private int amount;
+    [SerializeField] private float destroyAfter = 120;
+
+
     private Collider2D collision;
 
     public enum Type {SpiritEssence, Wood, Stone, IronOre, IronBar};
 
     public Type type;
-    [SerializeField] private int amount;
-    [SerializeField] private float destroyAfter = 120;
+
 
     public bool      animate = true;
     public Direction spawnDirection;
@@ -67,7 +73,14 @@ public class Pickup : MonoBehaviour
             }
 
             transform.DOKill();
-            Destroy(gameObject);
+
+            if (impactPS)
+                impactPS.Play();
+
+
+            body.SetActive(false);
+            shadow.SetActive(false);
+            Destroy(gameObject, 2f);
         }
     }
 
@@ -100,8 +113,7 @@ public class Pickup : MonoBehaviour
          transform.DOJump(new Vector2(transform.position.x + offsetX * spawnForce, transform.position.y + offsetY * spawnForce), 2, 1, 1f).SetEase(Ease.Flash)
         .OnComplete(() =>
         {
-            transform.DOShakeRotation(0.3f, new Vector3(0, 0, 45));
-            transform.DOShakeScale(1f);
+            transform.DOPunchScale(Vector2.one * 0.5f, 0.5f);
             collision.enabled = true;
         });
     }
