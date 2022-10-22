@@ -18,6 +18,7 @@ public class Unit : MonoBehaviour
         Mushroom,
         Base,
         Obstacle,
+        Smelter,
     }
 
     public UnitTypes type;

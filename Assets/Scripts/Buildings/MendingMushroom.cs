@@ -35,7 +35,7 @@ public class MendingMushroom : Building
     {
         if (stage != Stages.ripe)
         {
-            UIGame.LogToScreen($"{unitData.title} is not ripe yet");
+            UIManager.LogToScreen($"{unitData.title} is not ripe yet");
             return;
         }
 
@@ -43,7 +43,7 @@ public class MendingMushroom : Building
         {
             if (player.Health >= player.MaxHealth)
             {
-                UIGame.LogToScreen($"Can't pick up {unitData.title} while at full health");
+                UIManager.LogToScreen($"Can't pick up {unitData.title} while at full health");
                 return;
             }
 

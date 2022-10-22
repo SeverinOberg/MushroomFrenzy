@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public class BuildButton : MonoBehaviour
 {
 
-    [SerializeField] private Building building;
+    [SerializeField] private GameObject buildingPrefab;
+    private Building building;
     private PlayerController player;
     
     private Button button;
@@ -14,6 +15,7 @@ public class BuildButton : MonoBehaviour
     private void Awake()
     {
         button = GetComponent<Button>();
+        building = buildingPrefab.GetComponent<Building>();
         player = GetComponentInParent<PlayerController>();
     }
 

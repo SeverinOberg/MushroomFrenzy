@@ -2,6 +2,7 @@ using Pathfinding;
 using UnityEngine;
 
 public enum Factions { Player, Enemy, Neutral }
+public enum Direction { Left, Up, Right, Down, Random }
 
 public static class Utilities 
 {

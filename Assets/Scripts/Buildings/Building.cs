@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Building : Unit
 {
-    [SerializeField] private PlayerController owner;
+    [SerializeField] protected PlayerController owner;
     // Do not set any of the data in this Scriptable Object, only get.
     public BuildingSO buildingData;
 
@@ -41,7 +41,7 @@ public class Building : Unit
 
         if (MaxLevel == 0 || Level >= MaxLevel)
         {
-            UIGame.LogToScreen("Building is already at max level");
+            UIManager.LogToScreen("Building is already at max level");
             return false;
         }
 
@@ -109,7 +109,7 @@ public class Building : Unit
         // If the building has taken damage, the resources returned will be halfed
         if (Health >= MaxHealth)
         {
-            UIGame.LogToScreen($"Already fully repaired");
+            UIManager.LogToScreen($"Already fully repaired");
             return false;
         }
 
@@ -129,7 +129,7 @@ public class Building : Unit
     {
         if (Utilities.GetDistanceBetween(owner.transform.position, transform.position) >= owner.InteractRange)
         {
-            UIGame.LogToScreen($"Too far away");
+            UIManager.LogToScreen($"Too far away");
             return false;
         }
 

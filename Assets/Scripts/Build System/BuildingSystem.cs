@@ -24,7 +24,7 @@ public class BuildingSystem : MonoBehaviour
     {
         if (BuildMode)
         {
-            UIGame.LogToScreen("Place or cancel your current building to build another");
+            UIManager.LogToScreen("Place or cancel your current building to build another");
             return;
         }
 

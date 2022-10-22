@@ -27,7 +27,7 @@ public class ResourceManager : MonoBehaviour
         SpiritEssence = 25;
         Wood          = 50;
         Stone         = 50;
-        IronOre       = 50;
+        IronOre       = 9;
         IronBar       = 50;
     }
 
@@ -113,7 +113,7 @@ public class ResourceManager : MonoBehaviour
         if (Wood >= buildingData.woodCost && Stone >= buildingData.stoneCost && IronBar >= buildingData.ironBarCost)
             return true;
         
-        UIGame.LogToScreen($"Not enough resources to build");
+        UIManager.LogToScreen($"Not enough resources to build");
         return false;
     }
 
@@ -141,7 +141,7 @@ public class ResourceManager : MonoBehaviour
                 break;
         }
 
-        UIGame.LogToScreen($"Not enough resources to upgrade");
+        UIManager.LogToScreen($"Not enough resources to upgrade");
         return false;
     }
 
@@ -178,7 +178,7 @@ public class ResourceManager : MonoBehaviour
                 break;
         }
 
-        UIGame.LogToScreen($"Not enough resources to repair");
+        UIManager.LogToScreen($"Not enough resources to repair");
         return false;
     }
 

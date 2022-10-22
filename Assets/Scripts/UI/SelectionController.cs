@@ -37,6 +37,8 @@ public class SelectionController : MonoBehaviour
 
     private PointerEventData pointerEventData;
 
+    public static System.Action<Building> OnSelectTarget;
+
     private void Awake()
     {
         player = GetComponentInParent<PlayerController>();
@@ -98,6 +100,7 @@ public class SelectionController : MonoBehaviour
                     selector.SetActive(true);
                     selector.transform.localScale = selectedTarget.GetComponent<BoxCollider2D>().size;
                     DisplaySelectedInterface(true);
+                    OnSelectTarget?.Invoke(target);
 
                     if (selectedTarget.type == Unit.UnitTypes.Base)
                     {
@@ -186,7 +189,7 @@ public class SelectionController : MonoBehaviour
     {
         if (selectedTarget.type == Unit.UnitTypes.Base)
         {
-            UIGame.LogToScreen("You can't sell your own base...");
+            UIManager.LogToScreen("You can't sell your own base...");
             return; 
         }
             

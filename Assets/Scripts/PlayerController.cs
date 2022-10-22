@@ -7,14 +7,15 @@ public class PlayerController : Unit
 
     #region Variables & Properties
 
-    [HideInInspector] public ResourceManager resourceManager;
-    [HideInInspector] public BuildingSystem buildingSystem;
-
+    public InputController  inputController;
+    public ResourceManager  resourceManager;
+    public BuildingSystem   buildingSystem;
+    public UIManager        uiManager;
+    
+    [SerializeField] private Animator animator;
     [SerializeField] private Animator effectsAnimator;
     [SerializeField] private Transform arm;
-
-    private InputController inputController;
-    private Animator animator;
+    
 
     private float horizontalInput;
     private float verticalInput;
@@ -43,13 +44,6 @@ public class PlayerController : Unit
     protected override void Awake()
     {
         base.Awake();
-        resourceManager = GetComponent<ResourceManager>();
-        buildingSystem  = GetComponent<BuildingSystem>();
-        inputController = GetComponent<InputController>();
-        animator        = spriteRenderer.GetComponent<Animator>();
-
-        type = UnitTypes.Player;
-
         MovementSpeed = 7;
     }
 
@@ -71,6 +65,21 @@ public class PlayerController : Unit
 
     private void Update()
     {
+        //// DEBUG MOUSE RAYCAST HIT
+        //if (Input.GetKeyDown(KeyCode.Mouse0))
+        //{
+        //    Utilities.GetRaycastAllOnMousePoint(out RaycastHit2D[] results);
+        //    for (int i = 0; i < results.Length; i++)
+        //    {
+        //        Debug.Log($"Raycast: {results[i].transform.name}");
+        //    }
+
+        //    // DEBUG MOUSE UI EVENT DATA
+        //    PointerEventData pointerEventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
+        //    Debug.Log($"pointerEventData: {pointerEventData.selectedObject}");
+        //}
+        //// DEBUG
+
         ForceReduceVelocity();
         HandleTimer();
         HandleMouseDirection();
@@ -140,7 +149,7 @@ public class PlayerController : Unit
             Utilities.GetRaycastAllOnMousePoint(out RaycastHit2D[] result);
             for (int i = 0; i < result.Length; i++)
             {
-                if (result[i].collider.CompareTag("Resource Node") && IsPlayerWithinInteractRange())
+                if (result[i].collider.CompareTag("Resource Node") && IsWithinInteractRange())
                 {
                     timeSinceLastInteract = 0;
                     Gather(result[i].collider.GetComponent<ResourceNode>());
@@ -220,7 +229,7 @@ public class PlayerController : Unit
         {
             if (hit.transform.TryGetComponent(out Building building) && !building.IsDead) 
             {
-                if (!IsPlayerWithinInteractRange())
+                if (!IsWithinInteractRange())
                 {
                     return;
                 }
@@ -246,7 +255,7 @@ public class PlayerController : Unit
 
             if (hit.transform.TryGetComponent(out Building building) && !building.IsDead)
             {
-                if (!IsPlayerWithinInteractRange())
+                if (!IsWithinInteractRange())
                 {
                     return;
                 }
@@ -272,7 +281,7 @@ public class PlayerController : Unit
 
             if (hit.transform.TryGetComponent(out Building building) && !building.IsDead)
             {
-                if (!IsPlayerWithinInteractRange())
+                if (!IsWithinInteractRange())
                 {
                     return;
                 }
@@ -297,12 +306,14 @@ public class PlayerController : Unit
         return false;
     }
 
-    private bool IsPlayerWithinInteractRange()
+    public bool IsWithinInteractRange(bool logToScreen = true)
     {
         distanceFromMouse = Vector2.Distance(transform.position, Utilities.GetMouseWorldPosition());
         if (distanceFromMouse >= InteractRange)
         {
-            UIGame.LogToScreen($"Too far away");
+            if (logToScreen)
+                UIManager.LogToScreen($"Too far away");
+
             return false;
         }
 

@@ -23,6 +23,8 @@ public class BuildingDrag : MonoBehaviour
     private bool  pauseCanBuildHereValuation;
     private float clearCanBuildHereValuationDuration = 0.25f;
 
+    private bool shouldRotate;
+
 
     private void Awake()
     {
@@ -70,6 +72,16 @@ public class BuildingDrag : MonoBehaviour
         StartCoroutine(DoClearPauseCanBuildHereValuation());
     }
 
+    private void OnEnable()
+    {
+        owner.inputController.OnKeyR += OnKeyRCallback;
+    }
+
+    private void OnDisable()
+    {
+        owner.inputController.OnKeyR -= OnKeyRCallback;
+    }
+
     private void LateUpdate()
     {
         // Drag
@@ -77,6 +89,20 @@ public class BuildingDrag : MonoBehaviour
         {
             mousePosition = Utilities.GetMouseWorldPosition();
             transform.position = Vector3.Lerp(transform.position, owner.buildingSystem.SnapCoordinateToGrid(mousePosition), Time.deltaTime * dragSpeed);
+
+            if (shouldRotate)
+            {
+                shouldRotate = false;
+
+                if (transform.localScale.x == 1)
+                {
+                    transform.localScale = new Vector2(-1, 1);
+                }
+                else
+                {
+                    transform.localScale = new Vector2(1, 1);
+                }
+            }
 
             if (!pauseCanBuildHereValuation && !CanBuildHere())
             {
@@ -108,6 +134,12 @@ public class BuildingDrag : MonoBehaviour
 
     }
 
+    private void OnKeyRCallback()
+    {
+        if (owner.buildingSystem.BuildMode)
+            shouldRotate = true;
+    }
+
     private bool Build()
     {
         // Do nothing if mouse is over UI
@@ -121,7 +153,7 @@ public class BuildingDrag : MonoBehaviour
 
         if (!CanBuildHere())
         {
-            UIGame.LogToScreen("Can't build here");
+            UIManager.LogToScreen("Can't build here");
             return false;
         }
 
@@ -147,6 +179,9 @@ public class BuildingDrag : MonoBehaviour
             boxTrigger.enabled  = true;
         if (boxCollider)
             boxCollider.enabled = true;
+
+        if (!unit.isActiveAndEnabled)
+            unit.enabled = true;
 
         owner.buildingSystem.BuildMode = false;
         Destroy(this);

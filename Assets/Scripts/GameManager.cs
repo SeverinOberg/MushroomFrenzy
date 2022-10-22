@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(AstarPathScan(3));
         }
 
-        UIGame.LogToScreen("The monsters are hungry for mushrooms and are drawing near. Protect yourself!", 5);
+        UIManager.LogToScreen("The monsters are hungry for mushrooms and are drawing near. Protect yourself!", 5);
     }
 
     private IEnumerator AstarPathScan(float everySeconds)
@@ -35,13 +35,13 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
-        UIGame.Instance.ToggleWinScreen();
+        UIManager.Instance.ToggleWinScreen();
         HasWon = true;
     }
 
     public void LoseGame()
     {
         HasLost = true;
-        UIGame.Instance.ToggleLoseScreen();
+        UIManager.Instance.ToggleLoseScreen();
     }
 }

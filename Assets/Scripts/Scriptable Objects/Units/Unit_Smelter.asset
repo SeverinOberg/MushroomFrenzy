@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4365776368011592592, guid: b1d6b9c62087660439d0e61f893b3a3d, type: 3}
   title: Smelter
-  description: 
+  description: Bring your Iron Ore to the Smelter to turn them into Iron Bars.
   faction: 0
   health: 25
   movementSpeed: 0

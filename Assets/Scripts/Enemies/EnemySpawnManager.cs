@@ -115,7 +115,7 @@ public class EnemySpawnManager : Unit
         if (secondsBetweenWaves > minSecondsBetweenWaves)
             secondsBetweenWaves -= decreaseSecondsBetweenWavesBy;
 
-        UIGame.LogToScreen("The enemy didn't like that, they grow stronger...");
+        UIManager.LogToScreen("The enemy didn't like that, they grow stronger...");
     }
 
     public override void Die(float deathDelaySeconds)
