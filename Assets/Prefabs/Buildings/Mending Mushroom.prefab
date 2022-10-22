@@ -51,7 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 5
   unitData: {fileID: 11400000, guid: 84946388c8f070d48a626a73ae8b2eb7, type: 2}
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 2747977375059953886}
+  owner: {fileID: 0}
   buildingData: {fileID: 11400000, guid: 55f92335a97446540b4903b71e4c8f11, type: 2}
   healAmount: 10
   sapling: {fileID: 1916794971, guid: a60d90a80e31bf74ab49744bdd99c659, type: 3}

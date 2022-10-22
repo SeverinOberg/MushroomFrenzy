@@ -6,7 +6,7 @@ public class Pickup : MonoBehaviour
 {
     private Collider2D collision;
 
-    public enum Type {wood, stone, ironOre, ironBar};
+    public enum Type {SpiritEssence, Wood, Stone, IronOre, IronBar};
 
     public Type type;
     [SerializeField] private int amount;
@@ -16,7 +16,6 @@ public class Pickup : MonoBehaviour
     public Direction spawnDirection;
     public float     spawnForce = 1f;
     
-
     private void Awake()
     {
         collision = GetComponent<Collider2D>();
@@ -28,6 +27,10 @@ public class Pickup : MonoBehaviour
         if (animate)
         {
             DoJumpInDirection(spawnDirection);
+        }
+        else
+        {
+            collision.enabled = true;
         }
     }
 
@@ -43,16 +46,19 @@ public class Pickup : MonoBehaviour
 
             switch (type)
             {
-                case Type.wood:
+                case Type.SpiritEssence:
+                    resourceManager.SpiritEssence += amount;
+                    break;
+                case Type.Wood:
                     resourceManager.Wood += amount;
                     break;
-                case Type.stone:
+                case Type.Stone:
                     resourceManager.Stone += amount;
                     break;
-                case Type.ironOre:
+                case Type.IronOre:
                     resourceManager.IronOre += amount;
                     break;
-                case Type.ironBar:
+                case Type.IronBar:
                     resourceManager.IronBar += amount;
                     break;
                 default:

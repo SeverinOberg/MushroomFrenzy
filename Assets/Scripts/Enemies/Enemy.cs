@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using Pathfinding;
 using BehaviorDesigner.Runtime;
-using System.Collections.Generic;
 
 [System.Serializable]
 public class Enemy : Unit

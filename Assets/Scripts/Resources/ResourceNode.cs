@@ -55,13 +55,13 @@ public class ResourceNode : MonoBehaviour
         switch (type)
         {
             case Type.wood:
-                SpawnResourcePickup(PickupDatabase.Instance.Get(Pickup.Type.wood));
+                SpawnResourcePickup(PickupDatabase.Instance.Get(Pickup.Type.Wood));
                 break;
             case Type.stone:
-                SpawnResourcePickup(PickupDatabase.Instance.Get(Pickup.Type.stone));
+                SpawnResourcePickup(PickupDatabase.Instance.Get(Pickup.Type.Stone));
                 break;
             case Type.ironOre:
-                SpawnResourcePickup(PickupDatabase.Instance.Get(Pickup.Type.ironOre));
+                SpawnResourcePickup(PickupDatabase.Instance.Get(Pickup.Type.IronOre));
                 break;
             default:
                 Debug.LogError("unknown gather type");

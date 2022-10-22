@@ -342,6 +342,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8508836750867036553}
   dropTable:
     data:
+    - prefab: {fileID: 5092453427305243391, guid: bceec4be1ca2b764fa07317583494fc5, type: 3}
+      dropChance: 50
     - prefab: {fileID: 5092453427305243391, guid: 60e896d396c037b4f95553ed7ef10d0c, type: 3}
       dropChance: 10
   isMelee: 1

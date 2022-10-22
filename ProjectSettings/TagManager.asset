@@ -13,6 +13,7 @@ TagManager:
   - UI Repair
   - UI Sell
   - Resource Node
+  - Spirit Essence
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - Enemy
   - Turret
   - UI Hover
-  - 
+  - Spirit Essence
   - 
   - 
   - 
