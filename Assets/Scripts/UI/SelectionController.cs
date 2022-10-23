@@ -98,7 +98,7 @@ public class SelectionController : MonoBehaviour
                 {
                     selectedTarget = target;
                     selector.SetActive(true);
-                    selector.transform.localScale = selectedTarget.GetComponent<BoxCollider2D>().size;
+                    selector.transform.localScale = selectedTarget.selectionSize;
                     DisplaySelectedInterface(true);
                     OnSelectTarget?.Invoke(target);
 

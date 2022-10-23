@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Instance;
 
-    private PlayerController player;
+    [SerializeField] private PlayerController player;
 
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject lostScreen;
@@ -34,6 +34,8 @@ public class UIManager : MonoBehaviour
 
     public System.Action OnSmelterUILoadBtnClick;
 
+    //public System.Action OnInfiniteModeBtnClick;
+
     private static System.Action<string, float> OnLogToScreen;
 
     private void Awake()
@@ -42,8 +44,6 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        player = GetComponentInParent<PlayerController>();
     }
 
     private void Start()
@@ -193,13 +193,26 @@ public class UIManager : MonoBehaviour
         OnSmelterUILoadBtnClick?.Invoke();
     }
 
+    //public void OnInfiniteModeBtnClickCallback()
+    //{
+    //    ToggleWinScreen();
+    //    GameManager.Instance.HasWon = false;
+    //    OnInfiniteModeBtnClick?.Invoke();
+    //}
+
     public static void Restart()
     {
+        GameManager.Instance.HasLost = false;
+        GameManager.Instance.HasWon  = false;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public static void Quit()
     {
+        GameManager.Instance.HasLost = false;
+        GameManager.Instance.HasWon  = false;
+
     #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
     #else

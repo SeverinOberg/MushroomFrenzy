@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
     private bool hasWon;
     private bool hasLost;
 
-    public bool HasWon  { get { return hasWon;  } private set { hasWon  = value; } }
-    public bool HasLost { get { return hasLost; } private set { hasLost = value; } }
+    public bool HasWon  { get { return hasWon;  } set { hasWon  = value; } }
+    public bool HasLost { get { return hasLost; } set { hasLost = value; } }
 
     private void Awake()
     {

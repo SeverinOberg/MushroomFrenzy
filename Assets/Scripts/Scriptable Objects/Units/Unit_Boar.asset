@@ -17,4 +17,4 @@ MonoBehaviour:
   description: 
   faction: 1
   health: 12
-  movementSpeed: 2
+  movementSpeed: 1

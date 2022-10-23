@@ -93,10 +93,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9124117133434891502}
-  - component: {fileID: 8684376202568763390}
-  - component: {fileID: 6520007993362071780}
   - component: {fileID: 3290010015989213649}
   - component: {fileID: 1015974085237363805}
+  - component: {fileID: 8684376202568763390}
+  - component: {fileID: 6520007993362071780}
   m_Layer: 8
   m_Name: Gate
   m_TagString: Obstacle
@@ -122,39 +122,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8684376202568763390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365776368011592592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aef8d38d8b6176647a58e8da158e85d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 7
-  unitData: {fileID: 11400000, guid: dc8316416d519564bab0ee2c996c9811, type: 2}
-  spriteRenderer: {fileID: 6507985654295314586}
-  owner: {fileID: 0}
-  buildingData: {fileID: 11400000, guid: a14aeae5e0b5aee4388ee7b87901fb65, type: 2}
-  boxCollider: {fileID: 3290010015989213649}
-  animator: {fileID: 7579241786913994908}
---- !u!114 &6520007993362071780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365776368011592592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6486cc2c729f6174da5c0e1d6f8fd105, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiUnitCanvas: {fileID: 871238820349323562}
-  uiHealth: {fileID: 4574873391415374085}
 --- !u!61 &3290010015989213649
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -207,6 +174,40 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
+--- !u!114 &8684376202568763390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365776368011592592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aef8d38d8b6176647a58e8da158e85d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 8
+  unitData: {fileID: 11400000, guid: dc8316416d519564bab0ee2c996c9811, type: 2}
+  spriteRenderer: {fileID: 6507985654295314586}
+  selectionSize: {x: 2, y: 2}
+  owner: {fileID: 0}
+  buildingData: {fileID: 11400000, guid: a14aeae5e0b5aee4388ee7b87901fb65, type: 2}
+  boxCollider: {fileID: 3290010015989213649}
+  animator: {fileID: 7579241786913994908}
+--- !u!114 &6520007993362071780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365776368011592592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6486cc2c729f6174da5c0e1d6f8fd105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiUnitCanvas: {fileID: 871238820349323562}
+  uiHealth: {fileID: 4574873391415374085}
 --- !u!1 &4894128723510001953
 GameObject:
   m_ObjectHideFlags: 0

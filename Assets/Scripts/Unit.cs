@@ -41,6 +41,8 @@ public class Unit : MonoBehaviour
     public float MaxHealth     { get { return maxHealth; }     set { maxHealth     = value; OnSetMaxHealth?.Invoke(); } }
     public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; OnSetMovementSpeed?.Invoke(value); } }
 
+    public Vector2 selectionSize = new Vector2(2, 2);
+
     public    Action        OnSetIsDead;
     public    Action        OnSetHealth;
     public    Action        OnSetMaxHealth;
@@ -200,14 +202,9 @@ public class Unit : MonoBehaviour
     {
         IsDead = true;
 
-        if (type != UnitTypes.Player)
+        if (type != UnitTypes.Player && type != UnitTypes.Base)
         {
             StartCoroutine(DoDestroyDelay(destroyDelaySeconds));
-        }
-
-        if (CompareTag("Player") || CompareTag("Farm"))
-        {
-            GameManager.Instance.LoseGame();
         }
     }
 

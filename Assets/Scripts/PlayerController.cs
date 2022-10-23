@@ -79,8 +79,15 @@ public class PlayerController : Unit
         //    Debug.Log($"pointerEventData: {pointerEventData.selectedObject}");
         //}
         //// DEBUG
+        ///
 
         ForceReduceVelocity();
+
+        if (IsDead || GameManager.Instance.HasLost || GameManager.Instance.HasWon)
+        {
+            return;
+        }
+
         HandleTimer();
         HandleMouseDirection();
         HandleFlipPlayer();
@@ -357,6 +364,7 @@ public class PlayerController : Unit
         base.Die(destroyDelaySeconds);
         stopMovement = true;
         animator.SetTrigger("Dead");
+        GameManager.Instance.LoseGame();
     }
 
     #endregion

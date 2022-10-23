@@ -86,9 +86,11 @@ public class Enemy : Unit
     {
         ForceReduceVelocity();
 
-        if (IsDead)
+        if (IsDead || GameManager.Instance.HasLost || GameManager.Instance.HasWon)
         {
+            behaviorTree.enabled = false;
             SetPathingActive(false);
+            enabled = false;
             return;
         }
 

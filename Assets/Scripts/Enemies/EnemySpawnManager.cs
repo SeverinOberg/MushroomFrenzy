@@ -1,128 +1,112 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemySpawnManager : Unit 
+public class EnemySpawnManager : MonoBehaviour 
 {
-    public enum NestTypes
+    [System.Serializable]
+    private class WaveObject
     {
-        Boar,
-        Goblin,
-        Troll,
+        public int level;
+        public WaveData[] data;
     }
 
-    public NestTypes nestType;
-
-    [SerializeField] private GameObject[] enemyPrefabs;
-
-    [SerializeField] private float minutesUntilSpawn             = 0f;
-    [SerializeField] private float minutesUntilStronger          = 3f;
-    [SerializeField] private float secondsBetweenWaves           = 10f;
-    [SerializeField] private float minSecondsBetweenWaves        = 10f;
-    [SerializeField] private float decreaseSecondsBetweenWavesBy = 10f;
-
-    [SerializeField] private int currentEnemyAmountToSpawn = 5;
-    [SerializeField] private int maxEnemyAmountToSpawn     = 50;
-    [SerializeField] private int increaseEnemyAmountBy     = 10;
-
-    private float   timeSinceLastSpawn;
-    private Vector2 spawnLocationOffset;
-
-    public static System.Action OnDeath;
-
-    private Animator animator;
-
-    #region Unity
-
-    #region Subscriptions
-
-    private void OnEnable()
+    [System.Serializable]
+    private class WaveData
     {
-        OnDeath += OnDeathCallback;
+        public GameObject enemyPrefab;
+        public int        spawnCount;
+        public float      secondsBetweenSpawns;
     }
 
-    private void OnDisable()
+    [Header("Essentials")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator       animator;
+    [SerializeField] private Transform      spawnPoint;
+    [SerializeField] private GameObject     observer;
+    [SerializeField] private WaveObject[]   waves;
+    
+    [Header("Variables")]
+    [SerializeField] private float defaultSecondsBetweenSpawns     = 1f; // If secondsBetweenSpawns in WaveData is 0, then use this one instead.
+    [SerializeField] private float secondsBetweenWaves             = 60;
+    //[SerializeField] private float minSecondsBetweenWaves        = 45;
+    //[SerializeField] private float maxSecondsBetweenWaves        = 90;
+    //[SerializeField] private int   currentEnemyAmountToSpawn     = 50;
+    //[SerializeField] private int   maxEnemyAmountToSpawn         = 250;
+    //[SerializeField] private int   increaseEnemyAmountBy         = 3;
+
+    private float secondsBetweenSpawns;
+    private float timeUntilNextWave;
+    private int   currentLevel = 0;
+    private int   lastLevel = 0;
+    private bool  isWaveActive;
+
+    public static System.Action<float> OnWaitNextWave;
+
+    private void Awake()
     {
-        OnDeath -= OnDeathCallback;
-    }
+        lastLevel = waves.Length;
+        secondsBetweenSpawns = defaultSecondsBetweenSpawns;
+        timeUntilNextWave = secondsBetweenWaves;
 
-    #endregion
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        animator = GetComponent<Animator>();
-        type     = UnitTypes.Nest;
-
-        // Convert minutes to seconds
-        minutesUntilSpawn    *= 60; 
-        minutesUntilStronger *= 60;
-        // ---
-
-        timeSinceLastSpawn += minSecondsBetweenWaves;
-
-        InvokeRepeating("OnStronger", minutesUntilStronger, minutesUntilStronger);
+        OnWaitNextWave?.Invoke(secondsBetweenWaves);
     }
 
     private void Update()
     {
-        if (IsDead || minutesUntilSpawn >= Time.time)
-            return;
-
-        timeSinceLastSpawn += Time.deltaTime;
-        if (timeSinceLastSpawn >= secondsBetweenWaves)
+        if (GameManager.Instance.HasWon)
         {
-            if (transform.childCount < currentEnemyAmountToSpawn * 0.5f)
+            enabled = false;
+            return;
+        }
+
+        if (currentLevel >= lastLevel)
+        {
+            GameManager.Instance.WinGame();
+            return;
+        }
+
+        timeUntilNextWave -= Time.deltaTime;
+
+        if (timeUntilNextWave < 1 && !isWaveActive)
+        {
+            isWaveActive = true;
+            StartCoroutine(DoSpawnWave());
+        }
+
+        if (observer.transform.childCount <= 0 && isWaveActive)
+        {
+            isWaveActive = false;
+            currentLevel++;
+            if (currentLevel >= lastLevel)
             {
-                timeSinceLastSpawn = 0;
-                SpawnWave();
+                GameManager.Instance.WinGame();
+                return;
+            }
+
+            timeUntilNextWave = secondsBetweenWaves;
+            OnWaitNextWave?.Invoke(secondsBetweenWaves);
+        }
+
+    }
+
+    private IEnumerator DoSpawnWave()
+    {
+        for (int i = 0; i < waves[currentLevel].data.Length; i++)
+        {
+            if (waves[currentLevel].data[i].secondsBetweenSpawns > 0)
+            {
+                secondsBetweenSpawns = waves[currentLevel].data[i].secondsBetweenSpawns;
+            }
+
+            for (int j = 0; j < waves[currentLevel].data[i].spawnCount; j++)
+            {
+                Instantiate(waves[currentLevel].data[i].enemyPrefab, spawnPoint.position, Quaternion.identity).transform.SetParent(observer.transform, true);
+                yield return new WaitForSeconds(secondsBetweenSpawns);
             }
         }
-    }
 
-    #endregion
-
-    private void SpawnWave()
-    {
-        for (int i = 0; i < currentEnemyAmountToSpawn; i++)
-        {
-            spawnLocationOffset = new Vector2
-            (
-                transform.localPosition.x - Random.Range(-1.0f, 3.0f),
-                transform.localPosition.y - Random.Range(-1.0f, 3.0f)
-            );
-            Instantiate(GetRandomEnemyPrefab(), spawnLocationOffset, Quaternion.identity).transform.SetParent(transform, true);
-        }
-    }
-
-    private GameObject GetRandomEnemyPrefab()
-    {
-        return enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-    }
-
-    private void OnStronger()
-    {
-        if (minutesUntilSpawn >= Time.time || currentEnemyAmountToSpawn >= maxEnemyAmountToSpawn)
-            return;
-
-        currentEnemyAmountToSpawn += increaseEnemyAmountBy;
-        secondsBetweenWaves -= decreaseSecondsBetweenWavesBy;
-    }
-
-    private void OnDeathCallback()
-    {
-        if (currentEnemyAmountToSpawn <= maxEnemyAmountToSpawn)
-            currentEnemyAmountToSpawn += increaseEnemyAmountBy;
-        if (secondsBetweenWaves > minSecondsBetweenWaves)
-            secondsBetweenWaves -= decreaseSecondsBetweenWavesBy;
-
-        UIManager.LogToScreen("The enemy didn't like that, they grow stronger...");
-    }
-
-    public override void Die(float deathDelaySeconds)
-    {
-        base.Die(deathDelaySeconds);
-        animator.SetTrigger("Destroy");
-        OnDeath?.Invoke();
+        secondsBetweenSpawns = defaultSecondsBetweenSpawns;
     }
 
 }

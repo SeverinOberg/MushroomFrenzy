@@ -543,9 +543,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 287d3c0f64c1c3b4eb5f71b8bcdd209d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 8
+  type: 9
   unitData: {fileID: 11400000, guid: bae78098bd4863849affb397e1c5d150, type: 2}
   spriteRenderer: {fileID: 3123520708017465120}
+  selectionSize: {x: 3, y: 3}
   owner: {fileID: 0}
   buildingData: {fileID: 11400000, guid: 0908643a05a4cc9408ded8fb845f1f6b, type: 2}
   ironBarPickup: {fileID: 548507470978393450, guid: 17d8492ca1b9167489f98cf4cd384e6c, type: 3}
@@ -576,7 +577,7 @@ GameObject:
   - component: {fileID: 2067728717497017269}
   - component: {fileID: 3123520708017465120}
   m_Layer: 10
-  m_Name: Body
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

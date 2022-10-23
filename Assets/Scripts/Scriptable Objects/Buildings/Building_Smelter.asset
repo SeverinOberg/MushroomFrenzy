@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f9fff8b832e8fe439e17d325f665422, type: 3}
   m_Name: Building_Smelter
   m_EditorClassIdentifier: 
-  woodCost: 10
-  stoneCost: 10
-  ironBarCost: 10
+  spiritEssenceCost: 0
+  woodCost: 12
+  stoneCost: 12
+  ironBarCost: 0
   maxLevel: 1
+  level2UpgradeSpiritEssenceCost: 0
   level2UpgradeWoodCost: 0
   level2UpgradeStoneCost: 0
   level2UpgradeIronBarCost: 0
+  level3UpgradeSpiritEssenceCost: 0
   level3UpgradeWoodCost: 0
   level3UpgradeStoneCost: 0
   level3UpgradeIronBarCost: 0
