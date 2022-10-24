@@ -42,6 +42,7 @@ public class EnemySpawnManager : MonoBehaviour
     private bool  isWaveActive;
 
     public static System.Action<float> OnWaitNextWave;
+    public static System.Action OnNextLevel;
 
     private void Awake()
     {
@@ -78,11 +79,14 @@ public class EnemySpawnManager : MonoBehaviour
         {
             isWaveActive = false;
             currentLevel++;
+            OnNextLevel?.Invoke();
             if (currentLevel >= lastLevel)
             {
                 GameManager.Instance.WinGame();
                 return;
             }
+
+            
 
             timeUntilNextWave = secondsBetweenWaves;
             OnWaitNextWave?.Invoke(secondsBetweenWaves);

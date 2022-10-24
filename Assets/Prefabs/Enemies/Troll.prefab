@@ -282,6 +282,7 @@ MonoBehaviour:
   minRangedAttackCooldown: 10
   maxRangedAttackCooldown: 16
   runAnimationThreshold: 1
+  enemyType: 2
 --- !u!114 &2836422623283600677
 MonoBehaviour:
   m_ObjectHideFlags: 0

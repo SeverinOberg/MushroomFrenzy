@@ -12,6 +12,7 @@ public class InfiniteSpawnManager : MonoBehaviour
     }
 
     [Header("Essentials")]
+    //[SerializeField] private EnemySpawnManager    enemySpawnManager;
     [SerializeField] private Transform            spawnPoint;
     [SerializeField] private GameObject           observer;
     [SerializeField] private InfiniteWaveObject[] enemyPrefabs;
@@ -22,15 +23,23 @@ public class InfiniteSpawnManager : MonoBehaviour
     [SerializeField] private float secondsBetweenWaves           = 45;
     [SerializeField] private float secondsBetweenSpawns          = 0.5f;
     [SerializeField] private int   currentEnemyAmountToSpawn     = 150;
-    [SerializeField] private int   maxEnemyAmountToSpawn         = 250;
+    //[SerializeField] private int   maxEnemyAmountToSpawn         = 250;
     [SerializeField] private int   increaseEnemyAmountBy         = 10;
-    
-
-    private float timeUntilNextUpdate;
-    private float updateCooldown = 1;
     
     private float timeUntilNextWave;
     private bool  isWaveActive;
+
+    private bool isInfiniteModeOn;
+
+    private void OnEnable()
+    {
+        UIManager.Instance.OnInfiniteModeBtnClick += TurnInfiniteModeOn;
+    }
+
+    private void OnDisable()
+    {
+        UIManager.Instance.OnInfiniteModeBtnClick -= TurnInfiniteModeOn;
+    }
 
     private void Start()
     {
@@ -39,8 +48,11 @@ public class InfiniteSpawnManager : MonoBehaviour
 
     private void Update()
     {
+        if (!isInfiniteModeOn)
+            return;
+
+
         timeUntilNextWave   -= Time.deltaTime;
-        timeUntilNextUpdate -= Time.deltaTime;
 
         if (timeUntilNextWave < 1 && !isWaveActive)
         {
@@ -52,19 +64,10 @@ public class InfiniteSpawnManager : MonoBehaviour
         {
             isWaveActive = false;
             timeUntilNextWave = secondsBetweenWaves;
-
-            if (currentEnemyAmountToSpawn >= maxEnemyAmountToSpawn)
-            {
-                return;
-            }
-
             currentEnemyAmountToSpawn += increaseEnemyAmountBy;
-        }
 
-        if (timeUntilNextUpdate <= 0 && !isWaveActive)
-        {
-            timeUntilNextUpdate = updateCooldown;
-            Debug.Log((int)timeUntilNextWave);
+            EnemySpawnManager.OnNextLevel?.Invoke();
+            EnemySpawnManager.OnWaitNextWave?.Invoke(secondsBetweenWaves);
         }
     }
 
@@ -90,6 +93,12 @@ public class InfiniteSpawnManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void TurnInfiniteModeOn()
+    {
+        EnemySpawnManager.OnWaitNextWave?.Invoke(secondsBetweenWaves);
+        isInfiniteModeOn = true;
     }
 
 }

@@ -6,6 +6,14 @@ using BehaviorDesigner.Runtime;
 [System.Serializable]
 public class Enemy : Unit
 {
+
+    public enum Type
+    {
+        Boar,
+        Goblin,
+        Troll
+    }
+
     private Collider2D          collision;
     private Animator            animator;
     private BehaviorTree        behaviorTree;
@@ -36,6 +44,8 @@ public class Enemy : Unit
     public AIDestinationSetter AIDestinationSetter  { get { return aiDestinationSetter; } private set { aiDestinationSetter = value; } }
     public Unit                Target               { get { return target; }              private set { target              = value; } }
     public Unit                Instigator           { get { return instigator; }          private set { instigator          = value; } }
+
+    public Type enemyType;
 
     public bool  IsMelee                 { get { return isMelee; }                 private set { isMelee                 = value; } }
     public bool  IsRanged                { get { return isRanged; }                private set { isRanged                = value; } }

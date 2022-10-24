@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
 
     public System.Action OnSmelterUILoadBtnClick;
 
-    //public System.Action OnInfiniteModeBtnClick;
+    public System.Action OnInfiniteModeBtnClick;
 
     private static System.Action<string, float> OnLogToScreen;
 
@@ -193,12 +193,12 @@ public class UIManager : MonoBehaviour
         OnSmelterUILoadBtnClick?.Invoke();
     }
 
-    //public void OnInfiniteModeBtnClickCallback()
-    //{
-    //    ToggleWinScreen();
-    //    GameManager.Instance.HasWon = false;
-    //    OnInfiniteModeBtnClick?.Invoke();
-    //}
+    public void OnInfiniteModeBtnClickCallback()
+    {
+        ToggleWinScreen();
+        GameManager.Instance.HasWon = false;
+        OnInfiniteModeBtnClick?.Invoke();
+    }
 
     public static void Restart()
     {
