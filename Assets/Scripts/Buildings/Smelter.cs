@@ -10,10 +10,18 @@ public class Smelter : Building
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float spawnForce = 1f;
 
+    [SerializeField] private GameObject progressBarfolder;
+    [SerializeField] private Transform  progressBar;
+
     private bool  isUIActive;
+    private bool  currentTarget;
     private int   ironBarsProcessing;
     private float secondsPerProcess = 5;
-    private bool currentTarget;
+    private float processTime;
+    private float processTimeMutable;
+    private float totalProcessTime;
+
+    private Coroutine doProcess;
     
     protected override void Awake()
     {
@@ -52,11 +60,6 @@ public class Smelter : Building
         {
             SetUIActive(false);
         }
-
-        if (ironBarsProcessing > 0)
-        {
-            // process and spawn iron bars every time one is done
-        }
     }
 
     private void OnLoadBtnCallback()
@@ -75,29 +78,56 @@ public class Smelter : Building
         }
     }
 
-    private Coroutine doProcess;
-
     private void Process()
     {
         // Each Iron Bar costs 2 Iron Ore to make
-        int ironBarsToMake = (int)(owner.resourceManager.IronOre * 0.5f);
-        ironBarsProcessing += ironBarsToMake;
-        owner.uiManager.SetSmelterUIResourceAmount(ironBarsProcessing);
-        owner.resourceManager.IronOre -= ironBarsToMake * 2;
+        int ironBarsToSmelt = (int)(owner.resourceManager.IronOre * 0.5f);
 
+        ironBarsProcessing += ironBarsToSmelt;
+        processTime        += ironBarsToSmelt    * secondsPerProcess;
+        processTimeMutable += ironBarsToSmelt    * secondsPerProcess;
+        totalProcessTime    = ironBarsProcessing * secondsPerProcess;
+        
         doProcess ??= StartCoroutine(DoProcess());
+
+        owner.uiManager.SetSmelterUIResourceAmount(ironBarsProcessing);
+        owner.resourceManager.IronOre -= ironBarsToSmelt * 2;
     }
 
     private IEnumerator DoProcess()
     {
-        while (ironBarsProcessing > 0)
+        progressBarfolder.SetActive(true);
+        while (processTime > 0)
         {
-            yield return new WaitForSeconds(secondsPerProcess);
-            Instantiate(ironBarPickup.gameObject, spawnPoint.position, Quaternion.identity);
-            ironBarsProcessing--;
-            owner.uiManager.SetSmelterUIResourceAmount(ironBarsProcessing);
+            processTime -= Time.deltaTime;
+            if (processTime < processTimeMutable - secondsPerProcess)
+            {
+                processTimeMutable -= secondsPerProcess;
+                ironBarsProcessing--;
+                Instantiate(ironBarPickup.gameObject, spawnPoint.position, Quaternion.identity);
+                owner.uiManager.SetSmelterUIResourceAmount(ironBarsProcessing);
+            }
+
+            progressBar.localScale = new Vector2(processTime / totalProcessTime, progressBar.localScale.y);
+
+            yield return null;
         }
+        progressBarfolder.SetActive(false);
         doProcess = null;
+    }
+
+    private void SetUIActive(bool value)
+    {
+        if (owner)
+        {
+            owner.uiManager.SetSmelterUIActive(value);
+            isUIActive = value;
+        }
+    }
+
+    private bool IsOwnerOutsideInteractRange()
+    {
+        return Utilities.GetDistanceBetween(transform.position, owner.transform.position) > owner.InteractRange;
     }
 
     private void OnSelectTargetCallback(Unit target)
@@ -110,24 +140,12 @@ public class Smelter : Building
         }
     }
 
-    private void SetUIActive(bool value)
-    {
-        if (owner)
-        {
-            owner.uiManager.SetSmelterUIActive(value);
-            isUIActive = value;
-        }
-    }
-
     private void OnCancelCallback()
     {
         SetUIActive(false);
         currentTarget = false;
     }
 
-    private bool IsOwnerOutsideInteractRange()
-    {
-        return Utilities.GetDistanceBetween(transform.position, owner.transform.position) > owner.InteractRange;
-    }
+
 
 }

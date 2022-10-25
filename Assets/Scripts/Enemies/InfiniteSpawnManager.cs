@@ -52,7 +52,7 @@ public class InfiniteSpawnManager : MonoBehaviour
             return;
 
 
-        timeUntilNextWave   -= Time.deltaTime;
+        timeUntilNextWave -= Time.deltaTime;
 
         if (timeUntilNextWave < 1 && !isWaveActive)
         {
