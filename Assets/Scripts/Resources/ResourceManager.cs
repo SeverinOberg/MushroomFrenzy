@@ -27,7 +27,7 @@ public class ResourceManager : MonoBehaviour
         SpiritEssence = 25;
         Wood          = 50;
         Stone         = 50;
-        IronOre       = 4;
+        IronOre       = 5;
         IronBar       = 50;
     }
 

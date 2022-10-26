@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Smelter : Building
 {
@@ -8,17 +8,17 @@ public class Smelter : Building
     [SerializeField] private Pickup ironBarPickup;
 
     [SerializeField] private Transform spawnPoint;
-    [SerializeField] private float spawnForce = 1f;
+    [SerializeField] private float     spawnForce = 1f;
 
-    [SerializeField] private GameObject progressBarfolder;
-    [SerializeField] private Transform  progressBar;
+    [SerializeField] private GameObject progressBarFolder;
+    [SerializeField] private Image      progressBarImage;
+
+    [SerializeField] private float secondsPerProcess = 5;
 
     private bool  isUIActive;
     private bool  currentTarget;
     private int   ironBarsProcessing;
-    private float secondsPerProcess = 5;
     private float processTime;
-    private float processTimeMutable;
     private float totalProcessTime;
 
     private Coroutine doProcess;
@@ -85,7 +85,6 @@ public class Smelter : Building
 
         ironBarsProcessing += ironBarsToSmelt;
         processTime        += ironBarsToSmelt    * secondsPerProcess;
-        processTimeMutable += ironBarsToSmelt    * secondsPerProcess;
         totalProcessTime    = ironBarsProcessing * secondsPerProcess;
         
         doProcess ??= StartCoroutine(DoProcess());
@@ -96,23 +95,35 @@ public class Smelter : Building
 
     private IEnumerator DoProcess()
     {
-        progressBarfolder.SetActive(true);
-        while (processTime > 0)
+        progressBarFolder.SetActive(true);
+
+        float secondsPerProcessTime = secondsPerProcess;
+        owner.uiManager.SetSmelterUIProgressBarFillAmount(1, 4);
+        while (ironBarsProcessing > 0)
         {
-            processTime -= Time.deltaTime;
-            if (processTime < processTimeMutable - secondsPerProcess)
+            processTime           -= Time.deltaTime;
+            secondsPerProcessTime -= Time.deltaTime;
+
+            progressBarImage.fillAmount = processTime / totalProcessTime;
+            
+            if (secondsPerProcessTime < 0)
             {
-                processTimeMutable -= secondsPerProcess;
+                secondsPerProcessTime = secondsPerProcess;
                 ironBarsProcessing--;
                 Instantiate(ironBarPickup.gameObject, spawnPoint.position, Quaternion.identity);
-                owner.uiManager.SetSmelterUIResourceAmount(ironBarsProcessing);
-            }
 
-            progressBar.localScale = new Vector2(processTime / totalProcessTime, progressBar.localScale.y);
+                owner.uiManager.SetSmelterUIResourceAmount(ironBarsProcessing);
+
+                if (ironBarsProcessing > 0)
+                {
+                    owner.uiManager.SetSmelterUIProgressBarFillAmount(1, 4);
+                }   
+            }
 
             yield return null;
         }
-        progressBarfolder.SetActive(false);
+        
+        progressBarFolder.SetActive(false);
         doProcess = null;
     }
 

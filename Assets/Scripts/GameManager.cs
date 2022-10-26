@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(everySeconds);
+            if (!AstarPath.active)
+            {
+                continue;
+            }
             AstarPath.active.Scan();
         }
     }

@@ -8,7 +8,7 @@ public class Hover : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.DOLocalMoveY(transform.position.y + offset, duration).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
+        transform.DOMoveY(transform.position.y + offset, duration).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
     }
 
     private void OnDisable()

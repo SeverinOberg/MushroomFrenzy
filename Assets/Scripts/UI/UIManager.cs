@@ -1,11 +1,9 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Collections;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
@@ -31,6 +29,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject selectedTargetUI;
     [SerializeField] private GameObject smelterUI;
     [SerializeField] private TextMeshProUGUI smelterUIResourceAmountText;
+    [SerializeField] private Image smelterUIProgressBarImage;
 
     public System.Action OnSmelterUILoadBtnClick;
 
@@ -59,6 +58,7 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
+        transform.DOKill();
         OnLogToScreen -= SetLogToScreen;
 
         player.resourceManager.OnSetSpiritEssence -= SetSpiritEssenceText;
@@ -188,6 +188,14 @@ public class UIManager : MonoBehaviour
         smelterUIResourceAmountText.text = $"{value}";
     }
 
+    public void SetSmelterUIProgressBarFillAmount(float reloadSeconds, float smeltSeconds)
+    {
+        smelterUIProgressBarImage.DOFillAmount(1, reloadSeconds).SetEase(Ease.OutBounce).OnComplete(() =>
+        {
+            smelterUIProgressBarImage.DOFillAmount(0, smeltSeconds);
+        });
+    }
+
     public void OnSmelterUILoadBtnClickEvent()
     {
         OnSmelterUILoadBtnClick?.Invoke();
@@ -208,16 +216,14 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+
+
     public static void Quit()
     {
         GameManager.Instance.HasLost = false;
         GameManager.Instance.HasWon  = false;
 
-    #if UNITY_EDITOR
-        EditorApplication.ExitPlaymode();
-    #else
-        Application.Quit();
-    #endif
+        SceneManager.LoadScene(0);
     }
 
 }
