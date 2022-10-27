@@ -42,6 +42,10 @@ public class HealthBar : MonoBehaviour
             return;
         }
 
-        uiHealth.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Utilities.CalculatePercentageNormalized(unit.MaxHealth, unit.Health));
+        uiHealth.transform.localScale = new Vector2
+        (
+            Utilities.CalculatePercentageNormalized(unit.Health, unit.MaxHealth),
+            uiHealth.transform.localScale.y
+        );
     }
 }

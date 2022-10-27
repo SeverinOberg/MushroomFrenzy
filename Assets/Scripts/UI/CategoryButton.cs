@@ -5,15 +5,15 @@ public class CategoryButton : MonoBehaviour
 {
     [SerializeField] private GameObject[] buildButtons;
     [SerializeField] private Image categoryImageBackground;
-    [SerializeField] private Sprite backgroundSpriteHighlight;
-    private Sprite initialBackgroundSprite;
+    [SerializeField] private Color highlightColor;
+    private Color initialColor;
     
     
     private bool isCategoryButtonActive;
 
     private void Awake()
     {
-        initialBackgroundSprite = categoryImageBackground.sprite;
+        initialColor = categoryImageBackground.color;
     }
 
     private void Update()
@@ -42,7 +42,7 @@ public class CategoryButton : MonoBehaviour
 
     private void HandleSelectedHighlight()
     {
-        categoryImageBackground.sprite = isCategoryButtonActive ? backgroundSpriteHighlight : initialBackgroundSprite;
+        categoryImageBackground.color = isCategoryButtonActive ? highlightColor : initialColor;
     }
 
 }

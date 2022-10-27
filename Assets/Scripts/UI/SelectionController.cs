@@ -9,7 +9,7 @@ public class SelectionController : MonoBehaviour
 
     private PlayerController player;
 
-    [SerializeField] private GameObject selectedTargetInterface;
+    [SerializeField] private GameObject selectedTargetUI;
     [SerializeField] private GameObject hoverTooltip;
     [SerializeField] private GameObject selector;
 
@@ -140,11 +140,11 @@ public class SelectionController : MonoBehaviour
         if (displayInterface)
         {
             InjectTargetDataIntoInterface();
-            selectedTargetInterface.SetActive(true);
+            selectedTargetUI.SetActive(true);
         }
         else
         {
-            selectedTargetInterface.SetActive(false);
+            selectedTargetUI.SetActive(false);
         }
     }
 
@@ -163,7 +163,12 @@ public class SelectionController : MonoBehaviour
     private void UpdateTargetHealth()
     {
         health.text = $"{(int)selectedTarget.Health} / {(int)selectedTarget.MaxHealth}";
-        healthbar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Utilities.CalculatePercentageNormalized(selectedTarget.MaxHealth, selectedTarget.Health));
+
+        healthbar.localScale = new Vector2
+        (
+            Utilities.CalculatePercentageNormalized(selectedTarget.Health, selectedTarget.MaxHealth),
+            healthbar.localScale.y
+        );
     }
 
     public void Upgrade()

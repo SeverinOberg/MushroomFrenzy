@@ -7,7 +7,7 @@ public enum Direction { Left, Up, Right, Down, Random }
 public static class Utilities 
 {
     public static Color DragColor = new Color(0, 1, 1, 0.5f);
-    public static Color RedColor = new Color(0.5f, 0.25f, 0.25f, 1f);
+    public static Color RedColor = new Color(0.60f, 0.40f, 0.40f, 1f);
 
     public static float GetMinMaxDamageRoll(float minDamage, float maxDamage)
     {
@@ -66,7 +66,7 @@ public static class Utilities
         return false;
     }
 
-    public static float CalculatePercentageNormalized(float max, float current)
+    public static float CalculatePercentageNormalized(float current, float max)
     {
         return (100.0f / max) * current / 100.0f;
     }

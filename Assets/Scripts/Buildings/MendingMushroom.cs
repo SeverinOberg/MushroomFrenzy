@@ -27,7 +27,7 @@ public class MendingMushroom : Building
     {
         base.Start();
         
-        animator = GetComponent<Animator>();
+        animator = spriteRenderer.GetComponent<Animator>();
         StartCoroutine("Growth");
     }
 
