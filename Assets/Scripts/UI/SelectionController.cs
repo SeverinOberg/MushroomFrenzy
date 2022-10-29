@@ -38,6 +38,7 @@ public class SelectionController : MonoBehaviour
     private PointerEventData pointerEventData;
 
     public static System.Action<Building> OnSelectTarget;
+    public static System.Action OnClearSelection;
 
     private void Awake()
     {
@@ -46,6 +47,16 @@ public class SelectionController : MonoBehaviour
         timeSinceLastDataUpdate = dataUpdateCooldown;
         originalButtonColor = upgradeButton.color;
         repairButton.color = Utilities.RedColor;
+    }
+    
+    private void OnEnable()
+    {
+        OnClearSelection += ClearSelection;
+    }
+
+    private void OnDisable()
+    {
+        OnClearSelection -= ClearSelection;
     }
 
     private void Update()

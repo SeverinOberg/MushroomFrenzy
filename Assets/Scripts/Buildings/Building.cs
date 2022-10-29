@@ -45,10 +45,12 @@ public class Building : Unit
             return false;
         }
 
-        if (!owner.resourceManager.PayForUpgrade(buildingData, Level))
+        if (!owner.resourceManager.HasSufficientResourcesToUpgrade(buildingData, level, out ResourceObject resourceObject))
         {
             return false;
         }
+
+        owner.resourceManager.PayForUpgrade(resourceObject);
 
         Level++;
 
@@ -88,9 +90,11 @@ public class Building : Unit
         {
             sellResourceData = owner.resourceManager.GetSellDataByLevel(buildingData, Level, damaged: false);
         }
+
         owner.resourceManager.SellBuilding(sellResourceData);
 
-        Die(0.3f);
+        SelectionController.OnClearSelection?.Invoke();
+        Destroy(gameObject);
         return true;
     }
 
@@ -113,12 +117,8 @@ public class Building : Unit
             return false;
         }
 
-        
-        if (!owner.resourceManager.PayForRepair(repairCostData))
-        {
-            return false;
-        }
-        
+        owner.resourceManager.PayForRepair(repairCostData);
+
         // Repairing always heals half the buildings max health
         Heal(MaxHealth * 0.5f);
 

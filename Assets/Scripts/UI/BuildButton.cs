@@ -35,7 +35,7 @@ public class BuildButton : MonoBehaviour
 
     public void BuildButtonClicked()
     {
-        if (player.resourceManager.HasSufficientResourcesToBuild(building.buildingData))
+        if (player.resourceManager.HasSufficientResourcesToBuild(building.buildingData, out _))
         {
             player.buildingSystem.InitializeWithObject(building.unitData.prefab);
         }

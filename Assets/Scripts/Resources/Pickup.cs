@@ -1,31 +1,23 @@
 using UnityEngine;
 using DG.Tweening;
-using UnityEditor;
+using System.Collections.Generic;
 
 public class Pickup : MonoBehaviour 
 {
+    [SerializeField] private Collider2D _collision;
     [SerializeField] private GameObject body;
     [SerializeField] private GameObject shadow;
     [SerializeField] private ParticleSystem impactPS;
     [SerializeField] private int amount;
     [SerializeField] private float destroyAfter = 120;
 
-
-    private Collider2D collision;
-
     public enum Type {SpiritEssence, Wood, Stone, IronOre, IronBar};
 
     public Type type;
 
-
     public bool      animate = true;
     public Direction spawnDirection;
     public float     spawnForce = 1f;
-    
-    private void Awake()
-    {
-        collision = GetComponent<Collider2D>();
-    }
 
     private void Start()
     {
@@ -36,7 +28,7 @@ public class Pickup : MonoBehaviour
         }
         else
         {
-            collision.enabled = true;
+            _collision.enabled = true;
         }
     }
 
@@ -77,9 +69,14 @@ public class Pickup : MonoBehaviour
             if (impactPS)
                 impactPS.Play();
 
-
             body.SetActive(false);
             shadow.SetActive(false);
+            _collision.enabled = false;
+
+            List<PopupData> popupData = new List<PopupData>();
+            popupData.Add(new (amount, GetNameStringFromType(), true));
+            resourceManager.popup.Execute(popupData);
+
             Destroy(gameObject, 2f);
         }
     }
@@ -114,13 +111,32 @@ public class Pickup : MonoBehaviour
         .OnComplete(() =>
         {
             transform.DOPunchScale(Vector2.one * 0.5f, 0.5f);
-            collision.enabled = true;
+            _collision.enabled = true;
         });
     }
 
     private void OnDestroy()
     {
         transform.DOKill();
+    }
+
+    private string GetNameStringFromType()
+    {
+        switch (type)
+        {
+            case Type.SpiritEssence:
+                return "Spirit Essence";
+            case Type.Wood:
+                return "Wood";
+            case Type.Stone:
+                return "Stone";
+            case Type.IronOre:
+                return "Iron Ore";
+            case Type.IronBar:
+                return "Iron Bar";
+            default:
+                return "Unknown";
+        }
     }
 
 }

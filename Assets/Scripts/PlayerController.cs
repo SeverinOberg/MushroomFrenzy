@@ -7,16 +7,15 @@ public class PlayerController : Unit
 
     #region Variables & Properties
 
-    public InputController  inputController;
-    public ResourceManager  resourceManager;
-    public BuildingSystem   buildingSystem;
-    public UIManager        uiManager;
+    public InputController     inputController;
+    public ResourceManager     resourceManager;
+    public BuildingSystem      buildingSystem;
+    public UIManager           uiManager;
     
     [SerializeField] private Animator animator;
     [SerializeField] private Animator effectsAnimator;
     [SerializeField] private Transform arm;
     
-
     private float horizontalInput;
     private float verticalInput;
 

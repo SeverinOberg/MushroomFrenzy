@@ -8,6 +8,7 @@ public class BuildingSO : ScriptableObject
     public int spiritEssenceCost;
     public int woodCost;
     public int stoneCost;
+    public int ironOreCost;
     public int ironBarCost;
 
     // Upgrade
@@ -20,12 +21,14 @@ public class BuildingSO : ScriptableObject
     public int level2UpgradeSpiritEssenceCost;
     public int level2UpgradeWoodCost;
     public int level2UpgradeStoneCost;
+    public int level2UpgradeIronOreCost;
     public int level2UpgradeIronBarCost;
 
     [Header("Level 3")]
     public int level3UpgradeSpiritEssenceCost;
     public int level3UpgradeWoodCost;
     public int level3UpgradeStoneCost;
+    public int level3UpgradeIronOreCost;
     public int level3UpgradeIronBarCost;
 
 }

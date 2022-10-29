@@ -157,7 +157,10 @@ public class BuildingDrag : MonoBehaviour
             return false;
         }
 
-        owner.resourceManager.PayForBuild(building.buildingData);
+        if (!owner.resourceManager.PayForBuild(building.buildingData))
+        {
+            return false;
+        }
  
         if (TryGetComponent(out Turret turret))
         {
@@ -190,7 +193,7 @@ public class BuildingDrag : MonoBehaviour
 
     private void BuildMultiple()
     {
-        if (!Build() || !owner.resourceManager.HasSufficientResourcesToBuild(building.buildingData))
+        if (!Build() || !owner.resourceManager.HasSufficientResourcesToBuild(building.buildingData, out _))
         {
             return; 
         }

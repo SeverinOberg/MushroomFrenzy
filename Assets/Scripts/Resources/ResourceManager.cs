@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ResourceManager : MonoBehaviour 
 {
+    public Popup popup;
 
     private int spiritEssence;
     private int wood;
@@ -31,114 +33,144 @@ public class ResourceManager : MonoBehaviour
         IronBar       = 50;
     }
 
+    private void BuildAndExecutePopups(ResourceObject resourceObject, bool isIncrease)
+    {
+        List<PopupData> popupData = new List<PopupData>();
+
+        if (resourceObject.spiritEssence != 0)
+            popupData.Add(new (resourceObject.spiritEssence, "Spirit Essence", isIncrease));
+        if (resourceObject.wood != 0)
+            popupData.Add(new (resourceObject.wood, "Wood", isIncrease));
+        if (resourceObject.stone != 0)
+            popupData.Add(new (resourceObject.stone, "Stone", isIncrease));
+        if (resourceObject.ironOre != 0)
+            popupData.Add(new (resourceObject.ironOre, "Iron Ore", isIncrease));
+        if (resourceObject.ironBar != 0)
+            popupData.Add(new (resourceObject.ironBar, "Iron Bar", isIncrease));
+
+        if (popupData != null)
+            popup.Execute(popupData);
+    }
+
+
     public bool PayForBuild(BuildingSO buildingData)
     {
-        if (!HasSufficientResourcesToBuild(buildingData))
+        if (!HasSufficientResourcesToBuild(buildingData, out ResourceObject resourceObject))
         {
             return false;
         }
 
-        DecreaseResources(buildingData);
-      
+        DecreaseResources(resourceObject);
+
+        BuildAndExecutePopups(resourceObject, false);
         return true;
     }
 
-    public bool PayForUpgrade(BuildingSO buildingData, int level)
+    public void PayForUpgrade(ResourceObject resourceObject)
     {
-        if (!HasSufficientResourcesToUpgrade(buildingData, level))
+        DecreaseResources(resourceObject);
+
+        BuildAndExecutePopups(resourceObject, false);
+    }
+
+    public void PayForRepair(ResourceObject resourceObject)
+    {
+        DecreaseResources(resourceObject);
+
+        BuildAndExecutePopups(resourceObject, false);
+    }
+
+    public void SellBuilding(ResourceObject resourceObject)
+    {
+        IncreaseResources(resourceObject);
+
+        BuildAndExecutePopups(resourceObject, true);
+    }
+
+    private void IncreaseResources(ResourceObject resourceObject)
+    {
+        SpiritEssence += resourceObject.spiritEssence;
+        Wood          += resourceObject.wood;
+        Stone         += resourceObject.stone;
+        IronOre       += resourceObject.ironOre;
+        IronBar       += resourceObject.ironBar;
+    }
+
+    private void DecreaseResources(ResourceObject resourceObject)
+    {
+        SpiritEssence -= resourceObject.spiritEssence;
+        Wood          -= resourceObject.wood;
+        Stone         -= resourceObject.stone;
+        IronOre       -= resourceObject.ironOre;
+        IronBar       -= resourceObject.ironBar;
+    }
+
+    public bool HasSufficientResourcesToBuild(BuildingSO buildingData, out ResourceObject resourceObject)
+    {
+        resourceObject = null;
+        if (SpiritEssence >= buildingData.spiritEssenceCost &&
+            Wood          >= buildingData.woodCost          &&
+            Stone         >= buildingData.stoneCost         &&
+            IronOre       >= buildingData.ironOreCost       &&
+            IronBar       >= buildingData.ironBarCost)
         {
-            return false;
-        }
-
-        DecreaseResources(buildingData, level);
-
-        return true;
-    }
-
-    public bool PayForRepair(ResourceObject resourceData)
-    {
-        DecreaseResources(resourceData.spiritEssence, resourceData.wood, resourceData.stone, resourceData.ironBar);
-
-        return true;
-    }
-
-    public void SellBuilding(ResourceObject resourceData)
-    {
-        IncreaseResources(resourceData.spiritEssence, resourceData.wood, resourceData.stone, resourceData.ironBar);
-    }
-
-    private void IncreaseResources(int spiritEssence, int wood, int stone, int ironBar)
-    {
-        SpiritEssence += spiritEssence;
-        Wood          += wood;
-        Stone         += stone;
-        IronBar       += ironBar;
-    }
-
-    private void DecreaseResources(int spiritEssence, int wood, int stone, int ironBar)
-    {
-        SpiritEssence -= spiritEssence;
-        Wood          -= wood;
-        Stone         -= stone;
-        IronBar       -= ironBar;
-    }
-
-    private void DecreaseResources(BuildingSO buildingData)
-    {
-        SpiritEssence -= buildingData.spiritEssenceCost;
-        Wood          -= buildingData.woodCost;
-        Stone         -= buildingData.stoneCost;
-        IronBar       -= buildingData.ironBarCost;
-    }
-
-    private void DecreaseResources(BuildingSO buildingData, int level)
-    {
-        switch (level)
-        {
-            case 1:
-                SpiritEssence -= buildingData.level2UpgradeSpiritEssenceCost;
-                Wood          -= buildingData.level2UpgradeWoodCost;
-                Stone         -= buildingData.level2UpgradeStoneCost;
-                IronBar       -= buildingData.level2UpgradeIronBarCost;
-                break;
-            case 2:
-                SpiritEssence -= buildingData.level3UpgradeSpiritEssenceCost;
-                Wood          -= buildingData.level3UpgradeWoodCost;
-                Stone         -= buildingData.level3UpgradeStoneCost;
-                IronBar       -= buildingData.level3UpgradeIronBarCost;
-                break;
-            default:
-                Debug.LogError("Decreasing resources failed, unknown level");
-                break;
-        }
-    }
-
-    public bool HasSufficientResourcesToBuild(BuildingSO buildingData)
-    {
-        if (SpiritEssence >= buildingData.spiritEssenceCost && Wood >= buildingData.woodCost && Stone >= buildingData.stoneCost && IronBar >= buildingData.ironBarCost)
+            resourceObject = new
+            (
+                buildingData.spiritEssenceCost,
+                buildingData.woodCost,
+                buildingData.stoneCost,
+                buildingData.ironOreCost,
+                buildingData.ironBarCost
+            );
             return true;
+        } 
         
         UIManager.LogToScreen($"Not enough resources to build");
         return false;
     }
 
-    public bool HasSufficientResourcesToUpgrade(BuildingSO buildingData, int level)
+    public bool HasSufficientResourcesToUpgrade(BuildingSO buildingData, int level, out ResourceObject resourceCost)
     {
+        resourceCost = null;
+
         switch (level)
         {
             case 1:
-                if (SpiritEssence  >= buildingData.level2UpgradeSpiritEssenceCost &&
-                    Wood           >= buildingData.level2UpgradeWoodCost          &&
-                    Stone          >= buildingData.level2UpgradeStoneCost         &&
-                    IronBar        >= buildingData.level2UpgradeIronBarCost)
+                if (SpiritEssence >= buildingData.level2UpgradeSpiritEssenceCost &&
+                    Wood          >= buildingData.level2UpgradeWoodCost          &&
+                    Stone         >= buildingData.level2UpgradeStoneCost         &&
+                    IronOre       >= buildingData.level2UpgradeIronOreCost       &&
+                    IronBar       >= buildingData.level2UpgradeIronBarCost)
+                {
+                    resourceCost = new
+                    (
+                        buildingData.level2UpgradeSpiritEssenceCost,
+                        buildingData.level2UpgradeWoodCost,
+                        buildingData.level2UpgradeStoneCost,
+                        buildingData.level2UpgradeIronOreCost,
+                        buildingData.level2UpgradeIronBarCost
+                    );
                     return true;
+                }
                 break;
             case 2:
-                if (SpiritEssence  >= buildingData.level3UpgradeSpiritEssenceCost &&
-                    Wood           >= buildingData.level3UpgradeWoodCost          &&
-                    Stone          >= buildingData.level3UpgradeStoneCost         &&
-                    IronBar        >= buildingData.level3UpgradeIronBarCost)
+                if (SpiritEssence >= buildingData.level3UpgradeSpiritEssenceCost &&
+                    Wood          >= buildingData.level3UpgradeWoodCost          &&
+                    Stone         >= buildingData.level3UpgradeStoneCost         &&
+                    IronOre       >= buildingData.level3UpgradeIronOreCost       &&
+                    IronBar       >= buildingData.level3UpgradeIronBarCost)
+                {
+                    resourceCost = new
+                    (
+                        buildingData.level3UpgradeSpiritEssenceCost,
+                        buildingData.level3UpgradeWoodCost,
+                        buildingData.level3UpgradeStoneCost,
+                        buildingData.level3UpgradeIronOreCost,
+                        buildingData.level3UpgradeIronBarCost
+                    );
                     return true;
+                }
+                    
                 break;
             case 3:
                 // Do nothing, this is the max level.
@@ -202,6 +234,7 @@ public class ResourceManager : MonoBehaviour
                     (int)Math.Round(buildingData.spiritEssenceCost    * 0.5f, MidpointRounding.AwayFromZero),
                     (int)Math.Round(buildingData.woodCost             * 0.5f, MidpointRounding.AwayFromZero),
                     (int)Math.Round(buildingData.stoneCost            * 0.5f, MidpointRounding.AwayFromZero),
+                    (int)Math.Round(buildingData.ironOreCost          * 0.5f, MidpointRounding.AwayFromZero),
                     (int)Math.Round(buildingData.ironBarCost          * 0.5f, MidpointRounding.AwayFromZero)
                 );
                 break;
@@ -211,6 +244,7 @@ public class ResourceManager : MonoBehaviour
                     (int)Math.Round(buildingData.level2UpgradeSpiritEssenceCost * 0.5f, MidpointRounding.AwayFromZero),
                     (int)Math.Round(buildingData.level2UpgradeWoodCost          * 0.5f, MidpointRounding.AwayFromZero),
                     (int)Math.Round(buildingData.level2UpgradeStoneCost         * 0.5f, MidpointRounding.AwayFromZero),
+                    (int)Math.Round(buildingData.level2UpgradeIronOreCost       * 0.5f, MidpointRounding.AwayFromZero),
                     (int)Math.Round(buildingData.level2UpgradeIronBarCost       * 0.5f, MidpointRounding.AwayFromZero)
                 );
                 break;
@@ -220,6 +254,7 @@ public class ResourceManager : MonoBehaviour
                     (int)Math.Round(buildingData.level3UpgradeSpiritEssenceCost * 0.75f, MidpointRounding.AwayFromZero),
                     (int)Math.Round(buildingData.level3UpgradeWoodCost          * 0.75f, MidpointRounding.AwayFromZero),
                     (int)Math.Round(buildingData.level3UpgradeStoneCost         * 0.75f, MidpointRounding.AwayFromZero),
+                    (int)Math.Round(buildingData.level3UpgradeIronOreCost       * 0.75f, MidpointRounding.AwayFromZero),
                     (int)Math.Round(buildingData.level3UpgradeIronBarCost       * 0.75f, MidpointRounding.AwayFromZero)
                 );
                 break;
@@ -247,6 +282,7 @@ public class ResourceManager : MonoBehaviour
                         (int)(buildingData.spiritEssenceCost    * 0.5f),
                         (int)(buildingData.woodCost             * 0.5f),
                         (int)(buildingData.stoneCost            * 0.5f),
+                        (int)(buildingData.ironOreCost          * 0.5f),
                         (int)(buildingData.ironBarCost          * 0.5f)
                     );
                     break;
@@ -256,6 +292,7 @@ public class ResourceManager : MonoBehaviour
                         (int)(buildingData.woodCost    * 0.5f) + (int)(buildingData.level2UpgradeSpiritEssenceCost  * 0.5f),
                         (int)(buildingData.woodCost    * 0.5f) + (int)(buildingData.level2UpgradeWoodCost           * 0.5f),
                         (int)(buildingData.stoneCost   * 0.5f) + (int)(buildingData.level2UpgradeStoneCost          * 0.5f),
+                        (int)(buildingData.ironOreCost * 0.5f) + (int)(buildingData.level2UpgradeIronOreCost        * 0.5f),
                         (int)(buildingData.ironBarCost * 0.5f) + (int)(buildingData.level2UpgradeIronBarCost        * 0.5f)
                     );
                     break;
@@ -265,6 +302,7 @@ public class ResourceManager : MonoBehaviour
                         (int)(buildingData.woodCost    * 0.5f) + (int)(buildingData.level2UpgradeSpiritEssenceCost * 0.5f) + (int)(buildingData.level3UpgradeSpiritEssenceCost * 0.5f),
                         (int)(buildingData.woodCost    * 0.5f) + (int)(buildingData.level2UpgradeWoodCost          * 0.5f) + (int)(buildingData.level3UpgradeWoodCost          * 0.5f),
                         (int)(buildingData.stoneCost   * 0.5f) + (int)(buildingData.level2UpgradeStoneCost         * 0.5f) + (int)(buildingData.level3UpgradeStoneCost         * 0.5f),
+                        (int)(buildingData.ironOreCost * 0.5f) + (int)(buildingData.level2UpgradeIronOreCost       * 0.5f) + (int)(buildingData.level3UpgradeIronOreCost       * 0.5f),
                         (int)(buildingData.ironBarCost * 0.5f) + (int)(buildingData.level2UpgradeIronBarCost       * 0.5f) + (int)(buildingData.level3UpgradeIronBarCost       * 0.5f)
                     );
                     break;
@@ -283,6 +321,7 @@ public class ResourceManager : MonoBehaviour
                         buildingData.spiritEssenceCost,
                         buildingData.woodCost,
                         buildingData.stoneCost,
+                        buildingData.ironOreCost,
                         buildingData.ironBarCost
                     );
                     break;
@@ -292,6 +331,7 @@ public class ResourceManager : MonoBehaviour
                         buildingData.spiritEssenceCost + buildingData.level2UpgradeSpiritEssenceCost,
                         buildingData.woodCost          + buildingData.level2UpgradeWoodCost,
                         buildingData.stoneCost         + buildingData.level2UpgradeStoneCost,
+                        buildingData.ironOreCost       + buildingData.level2UpgradeIronOreCost,
                         buildingData.ironBarCost       + buildingData.level2UpgradeIronBarCost
                     );
                     break;
@@ -301,6 +341,7 @@ public class ResourceManager : MonoBehaviour
                         buildingData.spiritEssenceCost + buildingData.level2UpgradeSpiritEssenceCost + buildingData.level3UpgradeSpiritEssenceCost,
                         buildingData.woodCost          + buildingData.level2UpgradeWoodCost          + buildingData.level3UpgradeWoodCost,
                         buildingData.stoneCost         + buildingData.level2UpgradeStoneCost         + buildingData.level3UpgradeStoneCost,
+                        buildingData.ironOreCost       + buildingData.level2UpgradeIronOreCost     + buildingData.level3UpgradeIronOreCost,
                         buildingData.ironBarCost       + buildingData.level2UpgradeIronBarCost       + buildingData.level3UpgradeIronBarCost
                     );
                     break;

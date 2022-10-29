@@ -8,25 +8,11 @@ public class ResourceObject
 
     public ResourceObject(int spiritEssence, int wood, int stone, int ironOre, int ironBar)
     {
-        this.wood = spiritEssence;
-        this.wood = wood;
-        this.stone = stone;
+        this.wood    = spiritEssence;
+        this.wood    = wood;
+        this.stone   = stone;
         this.ironOre = ironOre;
         this.ironBar = ironBar;
     }
 
-    public ResourceObject(int wood, int stone, int ironOre, int ironBar)
-    {
-        this.wood = wood;
-        this.stone = stone;
-        this.ironOre = ironOre;
-        this.ironBar = ironBar;
-    }
-
-    public ResourceObject(int wood, int stone, int ironBar)
-    {
-        this.wood = wood;
-        this.stone = stone;
-        this.ironBar = ironBar;
-    }
 }

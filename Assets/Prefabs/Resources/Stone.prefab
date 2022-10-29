@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5092453427305243390}
-  - component: {fileID: 548507470978393450}
   - component: {fileID: 5297633889552555887}
+  - component: {fileID: 548507470978393450}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Untagged
@@ -35,27 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &548507470978393450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5092453427305243391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d652bce87461a354fbef959ef52a2268, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  body: {fileID: 7144184225035668039}
-  shadow: {fileID: 5499607552985485164}
-  impactPS: {fileID: 0}
-  amount: 1
-  destroyAfter: 120
-  type: 2
-  animate: 1
-  spawnDirection: 4
-  spawnForce: 1
 --- !u!61 &5297633889552555887
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -82,6 +61,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &548507470978393450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092453427305243391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d652bce87461a354fbef959ef52a2268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collision: {fileID: 5297633889552555887}
+  body: {fileID: 7144184225035668039}
+  shadow: {fileID: 5499607552985485164}
+  impactPS: {fileID: 0}
+  amount: 1
+  destroyAfter: 120
+  type: 2
+  animate: 1
+  spawnDirection: 4
+  spawnForce: 1
 --- !u!1 &5499607552985485164
 GameObject:
   m_ObjectHideFlags: 0

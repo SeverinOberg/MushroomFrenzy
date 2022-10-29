@@ -4971,6 +4971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d652bce87461a354fbef959ef52a2268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collision: {fileID: 9018870859546146966}
   body: {fileID: 4215237317553138073}
   shadow: {fileID: 1630601129220778919}
   impactPS: {fileID: 5074151571684923798}
