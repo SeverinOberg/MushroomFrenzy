@@ -14,6 +14,10 @@ TagManager:
   - UI Sell
   - Resource Node
   - Spirit Essence
+  - Merchant
+  - Item
+  - Untargetable
+  - Waypoint
   layers:
   - Default
   - TransparentFX
@@ -28,7 +32,7 @@ TagManager:
   - Turret
   - UI Hover
   - Spirit Essence
-  - 
+  - Item
   - 
   - 
   - 

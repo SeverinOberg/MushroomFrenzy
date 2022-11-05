@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a597550af1005e948a3ba0a72747ee6a, type: 3}
+  m_Name: The Hollow Witch
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4550206164777577080, guid: 1dabc26e4e8dacc47b541c3c844c96b3, type: 3}
+  title: The Hollow Witch
+  description: A wicked spirit essence addicted Merchant who wants nothing in life
+    but to numb herself with even more spirit essence. She might trade you some very
+    interesting items in return for some.
+  faction: 2
+  type: 3
+  maxHealth: 1000
+  movementSpeed: 0.3

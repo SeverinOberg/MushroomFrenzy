@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a597550af1005e948a3ba0a72747ee6a, type: 3}
+  m_Name: Wall
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4365776368011592592, guid: 90f3921137cfa0a45add8adc1d953392, type: 3}
+  title: Wall
+  description: Build a sturdy wall to keep mischievous monsters out of your farm.
+    It can take a lot of hits!
+  faction: 0
+  type: 5
+  maxHealth: 25
+  movementSpeed: 0

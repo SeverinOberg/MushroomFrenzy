@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd71cf1196b19244aa6bea06282e432, type: 3}
+  m_Name: Magic Staff
+  m_EditorClassIdentifier: 
+  id: magic_staff
+  prefab: {fileID: 6931396960418185654, guid: f71169e4bb9ae704c9b2d6a9d457e717, type: 3}
+  icon: {fileID: 21300000, guid: 02ff976d39577774bb44b83610e61dec, type: 3}
+  title: Magic Staff
+  description: End your enemies, now with magic!
+  buyPrice:
+    spiritEssence: 1000
+    wood: 0
+    stone: 0
+    ironOre: 0
+    ironBar: 0
+  sellPrice:
+    spiritEssence: 500
+    wood: 0
+    stone: 0
+    ironOre: 0
+    ironBar: 0

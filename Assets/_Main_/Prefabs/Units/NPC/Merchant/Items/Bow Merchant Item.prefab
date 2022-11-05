@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2731733526677776071
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 693213374403841422, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: m_Name
+      value: Bow Merchant Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 758637028041466738, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: merchantItem.icon
+      value: 
+      objectReference: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
+    - target: {fileID: 758637028041466738, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: merchantItem.title
+      value: Bow
+      objectReference: {fileID: 0}
+    - target: {fileID: 758637028041466738, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: merchantItem.description
+      value: A magnificent bow that will allow you to shoot at your enemies from
+        a distance! What a concept.
+      objectReference: {fileID: 0}
+    - target: {fileID: 758637028041466738, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: merchantItem.cost.spiritEssence
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682979061709872623, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682979061709872623, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682979061709872623, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682979061709872623, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682979061709872623, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682979061709872623, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944580203666908773, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2063282218497570610, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ca192fd291cadae47a8209a498ae5df4, type: 3}
