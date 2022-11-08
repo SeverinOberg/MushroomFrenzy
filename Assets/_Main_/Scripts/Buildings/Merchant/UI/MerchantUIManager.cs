@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class MerchantUIManager : MonoBehaviour
 {
@@ -91,6 +92,11 @@ public class MerchantUIManager : MonoBehaviour
 
         purchaseInterface.Purchase(player, quantity);
         resourceManager.DecreaseResources(payload);
+
+        if (selectedItem.id == "magic_staff")
+        {
+            
+        }
     }
 
     private void OnQuantityDecreaseButtonClickCallback()

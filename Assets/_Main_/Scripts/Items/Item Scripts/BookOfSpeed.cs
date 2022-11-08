@@ -8,7 +8,7 @@ public class BookOfSpeed : Item
 
     public override void Purchase(PlayerController player, int quantity)
     {
-        player.SetMovementSpeed(player.DefaultMovementSpeed + (speed * quantity));
+        player.AddMovementSpeed(speed * quantity);
 
         player.EffectsAnimator.SetTrigger("level_up_1");
         player.SpriteRenderer.transform.DOComplete();

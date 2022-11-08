@@ -13,18 +13,19 @@ MonoBehaviour:
   m_Name: Bow
   m_EditorClassIdentifier: 
   id: bow
-  prefab: {fileID: 6931396960418185654, guid: d66a20aef67334143a8b1a37248de337, type: 3}
+  prefab: {fileID: 6931396960418185654, guid: dad8c6c596fa61d429c7b312acbccc05, type: 3}
   icon: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
   title: Bow
-  description: Deal the same amount of damage, but now at a distance!
+  description: Deal the same amount of damage, but now at a distance! [You can change
+    weapons in your home]
   buyPrice:
-    spiritEssence: 500
+    spiritEssence: 200
     wood: 0
     stone: 0
     ironOre: 0
     ironBar: 0
   sellPrice:
-    spiritEssence: 250
+    spiritEssence: 100
     wood: 0
     stone: 0
     ironOre: 0

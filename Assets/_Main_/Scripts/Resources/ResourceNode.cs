@@ -58,6 +58,7 @@ public class ResourceNode : MonoBehaviour
         GatherLimit = Random.Range(minGatherLimit, maxGatherLimit);
         
         gameObject.SetActive(true);
+        transform.DOPunchScale(originalScale * 0.2f, 1);
     }
 
     // Gather spawns this type's pickup resource
@@ -86,11 +87,11 @@ public class ResourceNode : MonoBehaviour
         if (GatheredTimes >= GatherLimit)
         {
             ResourceNodeManager.OnNodeGathered?.Invoke();
-            gameObject.transform.DOScale(0, 1);
+            transform.DOScale(0, 1);
             spriteRenderer.DOColor(Color.gray, 1).OnComplete(() => 
             {
                 gameObject.SetActive(false);
-                gameObject.transform.localScale = originalScale;
+                //transform.localScale = originalScale;
                 spriteRenderer.color = Color.white;
             });
         }

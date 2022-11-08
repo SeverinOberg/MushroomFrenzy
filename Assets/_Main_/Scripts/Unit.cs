@@ -207,6 +207,11 @@ public class Unit : MonoBehaviour, IAttack
         MovementSpeed = value;
     }
 
+    public void AddMovementSpeed(float value)
+    {
+        MovementSpeed += value;
+    }
+
     private IEnumerator DoClearSlow(float seconds)
     {
         yield return new WaitForSeconds(seconds);

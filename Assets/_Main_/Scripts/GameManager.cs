@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
             StartCoroutine(AstarPathScan(3));
         }
 
+        
+    }
+
+    private void Start()
+    {
         UIManager.LogToScreen("The monsters are hungry for mushrooms and are drawing near. Protect yourself!", 5);
     }
 

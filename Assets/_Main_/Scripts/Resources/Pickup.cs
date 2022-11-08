@@ -2,15 +2,16 @@ using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
 
-public class Pickup : MonoBehaviour 
+public class Pickup : MonoBehaviour
 {
-    [SerializeField] private Collider2D _collision;
-    [SerializeField] private GameObject body;
-    [SerializeField] private GameObject shadow;
+    [SerializeField] private Collider2D     _collision;
+    [SerializeField] private GameObject     body;
+    [SerializeField] private GameObject     shadow;
+    [SerializeField] private AudioClip      pickupClip;
     [SerializeField] private ParticleSystem impactPS;
-    [SerializeField] private int amount;
+    [SerializeField] public int amount;
     [SerializeField] private float destroyAfter = 120;
-
+    
     public enum Type {SpiritEssence, Wood, Stone, IronOre, IronBar};
 
     public Type type;
@@ -68,6 +69,8 @@ public class Pickup : MonoBehaviour
 
             if (impactPS)
                 impactPS.Play();
+
+            AudioSource.PlayClipAtPoint(pickupClip, transform.position);
 
             body.SetActive(false);
             shadow.SetActive(false);

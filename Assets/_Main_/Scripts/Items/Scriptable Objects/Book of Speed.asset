@@ -18,13 +18,13 @@ MonoBehaviour:
   title: Book of Speed
   description: Read the Book of Speed to increase your movement speed.
   buyPrice:
-    spiritEssence: 100
+    spiritEssence: 50
     wood: 0
     stone: 0
     ironOre: 0
     ironBar: 0
   sellPrice:
-    spiritEssence: 50
+    spiritEssence: 25
     wood: 0
     stone: 0
     ironOre: 0

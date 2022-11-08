@@ -18,13 +18,13 @@ MonoBehaviour:
   title: Pickaxe
   description: This pickaxe will let you gather stone and iron ore faster.
   buyPrice:
-    spiritEssence: 250
+    spiritEssence: 100
     wood: 0
     stone: 0
     ironOre: 0
     ironBar: 0
   sellPrice:
-    spiritEssence: 125
+    spiritEssence: 50
     wood: 0
     stone: 0
     ironOre: 0

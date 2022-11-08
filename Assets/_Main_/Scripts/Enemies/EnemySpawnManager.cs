@@ -22,7 +22,7 @@ public class EnemySpawnManager : MonoBehaviour
     [Header("Essentials")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator       animator;
-    [SerializeField] private Transform      spawnPoint;
+    [SerializeField] private Transform[]    spawnPoints;
     [SerializeField] private GameObject     observer;
     [SerializeField] private WaveObject[]   waves;
     
@@ -103,7 +103,7 @@ public class EnemySpawnManager : MonoBehaviour
 
             for (int j = 0; j < waves[currentLevel].data[i].spawnCount; j++)
             {
-                Instantiate(waves[currentLevel].data[i].enemyPrefab, spawnPoint.position, Quaternion.identity).transform.SetParent(observer.transform, true);
+                Instantiate(waves[currentLevel].data[i].enemyPrefab, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity).transform.SetParent(observer.transform, true);
                 yield return new WaitForSeconds(secondsBetweenSpawns);
             }
         }

@@ -22,7 +22,19 @@ public class Lureable : MonoBehaviour
             transform.Translate(direction * speed * Time.deltaTime);
             if (Utilities.GetDistanceBetween(lurePoint.position, transform.position) < 0.1f)
             {
-                gameObject.layer = 0;
+                Collider2D[] nearbySpiritEssence = Physics2D.OverlapCircleAll(transform.position, 0.1f, LayerMask.GetMask("Spirit Essence"));
+                for (int i = 0; i < nearbySpiritEssence.Length; i++)
+                {
+                    if (nearbySpiritEssence[i].gameObject == gameObject)
+                    {
+                        continue;
+                    }
+
+                    nearbySpiritEssence[i].GetComponent<Pickup>().amount += 1;
+                    Destroy(gameObject);
+                    return;
+                }
+
                 enabled = false;
             }
         }

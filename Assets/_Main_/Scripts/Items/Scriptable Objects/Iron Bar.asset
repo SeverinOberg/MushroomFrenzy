@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: Iron Bar
   m_EditorClassIdentifier: 
   id: iron_bar
-  prefab: {fileID: 6931396960418185654, guid: 07e5d19452e93424093ca1a66af944ee, type: 3}
+  prefab: {fileID: 6931396960418185654, guid: dcf906e5d8f8ef14d8c628cfca63848e, type: 3}
   icon: {fileID: 21300000, guid: d5d7f95582604484a87a97c246803bc7, type: 3}
   title: Iron Bar
   description: A sturdy Iron Bar smelted together from 2 Iron Ore's.
   buyPrice:
-    spiritEssence: 20
+    spiritEssence: 10
     wood: 0
     stone: 0
     ironOre: 0
     ironBar: 0
   sellPrice:
-    spiritEssence: 10
+    spiritEssence: 5
     wood: 0
     stone: 0
     ironOre: 0

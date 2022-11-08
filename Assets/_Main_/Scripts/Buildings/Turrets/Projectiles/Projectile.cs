@@ -52,7 +52,7 @@ public class Projectile : MonoBehaviour
                     enemy.PausePathing(0.2f);
                     enemy.AddForce(targetDirection, knockbackForceMultiplier);
                 }
-                Destroy(gameObject, 0.5f);
+                Destroy(gameObject, 0.2f);
             }
         }
     }
@@ -68,11 +68,24 @@ public class Projectile : MonoBehaviour
         spawn.Shoot(target);
     }
 
+    public void Spawn(GameObject projectile, Vector2 position, Unit instigator, Vector2 direction)
+    {
+        Projectile spawn = Instantiate(projectile, position, Quaternion.identity).GetComponent<Projectile>();
+        spawn.instigator = instigator;
+        spawn.Shoot(direction);
+    }
+
     private void Shoot(Unit target)
     {
         targetDirection = (target.transform.position - transform.position).normalized;
         transform.up = targetDirection;
         rb.AddForce(targetDirection * shootForceMultiplier, ForceMode2D.Impulse);
+    }
+
+    private void Shoot(Vector2 direction)
+    {
+        transform.up = direction;
+        rb.AddForce(direction * shootForceMultiplier, ForceMode2D.Impulse);
     }
 
     #endregion

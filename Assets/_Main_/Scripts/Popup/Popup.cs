@@ -6,7 +6,7 @@ public class Popup : MonoBehaviour
 {
     [SerializeField] private Transform     resourcePopupParent;
     [SerializeField] private ResourcePopupText resourcePopupPrefab;
-    [SerializeField] private float     executeDelay      = 0.25f;
+    [SerializeField] private float     executeDelay      = 0.15f;
     [SerializeField] private float     executeBatchDelay = 0.2f;
 
     private Coroutine coroutine;

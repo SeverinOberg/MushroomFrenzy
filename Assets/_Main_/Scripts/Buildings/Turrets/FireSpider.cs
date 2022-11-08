@@ -31,7 +31,7 @@ public class FireSpider : Turret
             {
                 if (!shootPS.isPlaying)
                 {
-                    animator.SetTrigger("Shoot");
+                    animator.SetTrigger("attack");
                     shootPS.Play();
                 }
 

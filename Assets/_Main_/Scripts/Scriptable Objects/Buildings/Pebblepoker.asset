@@ -16,7 +16,7 @@ MonoBehaviour:
   woodCost: 7
   stoneCost: 7
   ironOreCost: 0
-  ironBarCost: 7
+  ironBarCost: 3
   maxLevel: 1
   level2UpgradeSpiritEssenceCost: 0
   level2UpgradeWoodCost: 0

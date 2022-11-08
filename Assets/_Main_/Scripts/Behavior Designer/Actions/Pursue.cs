@@ -12,7 +12,7 @@ public class Pursue : Action
 
     public override TaskStatus OnUpdate()
     {
-        if (IsTargetTooFarAway())
+        if (!aiDestinationSetter.target)
         {
             return TaskStatus.Failure;
         }
@@ -20,6 +20,11 @@ public class Pursue : Action
         if (IsWithinMeleeAttackRange())
         {
             return TaskStatus.Success;
+        }
+
+        if (IsTargetTooFarAway())
+        {
+            return TaskStatus.Failure;
         }
 
         if (!IsPathPossible.Validate(transform, aiDestinationSetter.target))

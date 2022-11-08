@@ -13,7 +13,7 @@ public class InfiniteSpawnManager : MonoBehaviour
 
     [Header("Essentials")]
     //[SerializeField] private EnemySpawnManager    enemySpawnManager;
-    [SerializeField] private Transform            spawnPoint;
+    [SerializeField] private Transform[]            spawnPoints;
     [SerializeField] private GameObject           observer;
     [SerializeField] private InfiniteWaveObject[] enemyPrefabs;
     
@@ -75,7 +75,7 @@ public class InfiniteSpawnManager : MonoBehaviour
     {
         for (int i = 0; i < currentEnemyAmountToSpawn; i++)
         {
-            Instantiate(GetRandomEnemyPrefab(), spawnPoint.position, Quaternion.identity).transform.SetParent(observer.transform, true);
+            Instantiate(GetRandomEnemyPrefab(), spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity).transform.SetParent(observer.transform, true);
             yield return new WaitForSeconds(secondsBetweenSpawns);
         }
     }

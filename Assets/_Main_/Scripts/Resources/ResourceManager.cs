@@ -26,11 +26,11 @@ public class ResourceManager : MonoBehaviour
 
     private void Start()
     {
-        SpiritEssence = 550;
-        Wood          = 50;
-        Stone         = 50;
-        IronOre       = 5;
-        IronBar       = 50;
+        SpiritEssence = 2000;
+        Wood          = 300;
+        Stone         = 300;
+        IronOre       = 100;
+        IronBar       = 100;
     }
 
     private void BuildAndExecutePopups(ResourceObject resourceObject, bool isIncrease)

@@ -16,15 +16,16 @@ MonoBehaviour:
   prefab: {fileID: 6931396960418185654, guid: f71169e4bb9ae704c9b2d6a9d457e717, type: 3}
   icon: {fileID: 21300000, guid: 02ff976d39577774bb44b83610e61dec, type: 3}
   title: Magic Staff
-  description: End your enemies, now with magic!
+  description: End your enemies, now with magic! [You can change weapons in your
+    home]
   buyPrice:
-    spiritEssence: 1000
+    spiritEssence: 300
     wood: 0
     stone: 0
     ironOre: 0
     ironBar: 0
   sellPrice:
-    spiritEssence: 500
+    spiritEssence: 150
     wood: 0
     stone: 0
     ironOre: 0

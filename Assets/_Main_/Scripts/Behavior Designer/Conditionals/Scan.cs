@@ -14,7 +14,6 @@ public class Scan : Conditional
 
     public override void OnAwake()
     {
-        initialMeleeAttackRange = self.Value.MeleeAttackRange;
         scanLayerMask = LayerMask.GetMask("Player", "Obstacle");
     }
 
@@ -50,7 +49,7 @@ public class Scan : Conditional
             }
 
             self.Value.SetTarget(target);
-            self.Value.SetMeleeAttackRange(target.GetComponent<Collider2D>().bounds.size.x * 0.5f + initialMeleeAttackRange);
+            self.Value.AddToMeleeAttackRange(target.GetComponent<Collider2D>().bounds.size.x * 0.5f);
 
             return TaskStatus.Success;
         }

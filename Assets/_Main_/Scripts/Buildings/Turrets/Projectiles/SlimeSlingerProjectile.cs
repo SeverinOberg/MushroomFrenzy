@@ -19,7 +19,7 @@ public class SlimeSlingerProjectile : Projectile
         {
             Invoke("DestroyProjectile", turretData.slowDuration);
 
-            animator.SetTrigger("Impact");
+            animator.SetTrigger("impact");
 
             // Return to default rotation, since parent rotated the goo while shooting
             goo.transform.rotation = Quaternion.identity;

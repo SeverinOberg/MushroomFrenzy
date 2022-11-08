@@ -115,7 +115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5594728459152701680}
-  - component: {fileID: 2676034398448640683}
+  - component: {fileID: 3043525033479484219}
   - component: {fileID: -39698797755197262}
   - component: {fileID: 257178543884637222}
   - component: {fileID: 8866549508346112974}
@@ -147,8 +147,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &2676034398448640683
-CircleCollider2D:
+--- !u!70 &3043525033479484219
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -160,9 +160,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.5
+  m_Offset: {x: 0, y: -0.3}
+  m_Size: {x: 1.5, y: 2.25}
+  m_Direction: 0
 --- !u!50 &-39698797755197262
 Rigidbody2D:
   serializedVersion: 4
@@ -171,7 +171,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4550206164777577080}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -218,20 +218,20 @@ MonoBehaviour:
         Target","Instant":true,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
         Enemy","IsShared":true,"EnemymValue":0},"AIDestinationSetteraiDestinationSetter":1,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Instigator","IsShared":true},"BooleanclearSharedTargetAfterComplete":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(306.963684,134.200867)"},"ID":7,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-66.04797,142.672729)"},"ID":8,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"WithinMeleeRange","NodeData":{"Offset":"(-4.5526123,128.028442)"},"ID":9,"Name":"Within
         Melee Range","Instant":true,"AIDestinationSetteraiDestinationSetter":2,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
-        Enemy","IsShared":true,"EnemymValue":3}},{"Type":"Attack","NodeData":{"Offset":"(132.6648,129.590942)"},"ID":10,"Name":"Attack","Instant":true,"AIDestinationSetteraiDestinationSetter":4,"AIPathaiPath":5,"Animatoranimator":6,"SharedUnitself":{"Type":"SharedUnit","Name":"Self
-        Unit","IsShared":true,"UnitmValue":7},"SharedTransformcurrentWaypoint":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Current
-        Waypoint","IsShared":true},"Typetype":"Melee"}]},{"Type":"Pursue","NodeData":{"Offset":"(146.3888,145.991455)"},"ID":11,"Name":"Pursue","Instant":true,"AIDestinationSetteraiDestinationSetter":8,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
-        Enemy","IsShared":true,"EnemymValue":9}}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(0.208251953,169.64801)"},"ID":12,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"Scan","NodeData":{"Offset":"(5.10327148,135.584045)"},"ID":13,"Name":"Scan","Instant":true,"AIDestinationSetteraiDestinationSetter":10,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
-        Enemy","IsShared":true,"EnemymValue":11}},{"Type":"Pursue","NodeData":{"Offset":"(141.755371,139.628723)"},"ID":14,"Name":"Pursue","Instant":true,"AIDestinationSetteraiDestinationSetter":12,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
-        Enemy","IsShared":true,"EnemymValue":13}},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(293.328979,142.581)"},"ID":15,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Self","Children":[{"Type":"WithinMeleeRange","NodeData":{"Offset":"(-1.54919434,129.282166)"},"ID":16,"Name":"Within
-        Melee Range","Instant":true,"AIDestinationSetteraiDestinationSetter":14,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
-        Enemy","IsShared":true,"EnemymValue":15}},{"Type":"Attack","NodeData":{"Offset":"(127.809822,123.490707)"},"ID":17,"Name":"Attack","Instant":true,"AIDestinationSetteraiDestinationSetter":16,"AIPathaiPath":17,"Animatoranimator":18,"SharedUnitself":{"Type":"SharedUnit","Name":"Self
-        Unit","IsShared":true,"UnitmValue":19},"SharedTransformcurrentWaypoint":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Current
-        Waypoint","IsShared":true},"Typetype":"Melee"}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(630.3689,122.037659)"},"ID":18,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Self","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Inverter","NodeData":{"Offset":"(1.06616211,133.818665)"},"ID":19,"Name":"Inverter","Instant":true,"Children":[{"Type":"Scan","NodeData":{"Offset":"(0.105957031,122.027405)"},"ID":20,"Name":"Scan","Instant":true,"AIDestinationSetteraiDestinationSetter":20,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
-        Enemy","IsShared":true,"EnemymValue":21}}]},{"Type":"Patrol","NodeData":{"Offset":"(142.887451,136.297546)"},"ID":21,"Name":"Patrol","Instant":true,"AIDestinationSetteraiDestinationSetter":22,"SharedTransformcurrentWaypoint":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Current
+        Enemy","IsShared":true,"EnemymValue":3}},{"Type":"Attack","NodeData":{"Offset":"(132.6648,129.590942)"},"ID":10,"Name":"Attack","Instant":true,"AIDestinationSetteraiDestinationSetter":4,"AIPathaiPath":5,"SharedUnitself":{"Type":"SharedUnit","Name":"Self
+        Unit","IsShared":true,"UnitmValue":6},"SharedTransformcurrentWaypoint":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Current
+        Waypoint","IsShared":true},"Typetype":"Melee"}]},{"Type":"Pursue","NodeData":{"Offset":"(146.3888,145.991455)"},"ID":11,"Name":"Pursue","Instant":true,"AIDestinationSetteraiDestinationSetter":7,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
+        Enemy","IsShared":true,"EnemymValue":8}}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(0.208251953,169.64801)"},"ID":12,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"Scan","NodeData":{"Offset":"(5.10327148,135.584045)"},"ID":13,"Name":"Scan","Instant":true,"AIDestinationSetteraiDestinationSetter":9,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
+        Enemy","IsShared":true,"EnemymValue":10}},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(244.797043,138.641)"},"ID":14,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-109.30481,119.533691)"},"ID":15,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"WithinMeleeRange","NodeData":{"Offset":"(-1.54907227,129.282227)"},"ID":16,"Name":"Within
+        Melee Range","Instant":true,"AIDestinationSetteraiDestinationSetter":11,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
+        Enemy","IsShared":true,"EnemymValue":12}},{"Type":"Attack","NodeData":{"Offset":"(142.296753,130.297852)"},"ID":17,"Name":"Attack","Instant":true,"AIDestinationSetteraiDestinationSetter":13,"AIPathaiPath":14,"SharedUnitself":{"Type":"SharedUnit","Name":"Self
+        Unit","IsShared":true,"UnitmValue":15},"SharedTransformcurrentWaypoint":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Current
+        Waypoint","IsShared":true},"Typetype":"Melee"}]},{"Type":"Pursue","NodeData":{"Offset":"(120.644539,118.93335)"},"ID":18,"Name":"Pursue","Instant":true,"AIDestinationSetteraiDestinationSetter":16,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
+        Enemy","IsShared":true,"EnemymValue":17}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(630.3689,122.037659)"},"ID":19,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Self","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Inverter","NodeData":{"Offset":"(1.06616211,133.818665)"},"ID":20,"Name":"Inverter","Instant":true,"Children":[{"Type":"Scan","NodeData":{"Offset":"(0.105957031,122.027405)"},"ID":21,"Name":"Scan","Instant":true,"AIDestinationSetteraiDestinationSetter":18,"SharedEnemyself":{"Type":"SharedEnemy","Name":"Self
+        Enemy","IsShared":true,"EnemymValue":19}}]},{"Type":"Patrol","NodeData":{"Offset":"(142.887451,136.297546)"},"ID":22,"Name":"Patrol","Instant":true,"AIDestinationSetteraiDestinationSetter":20,"SharedTransformcurrentWaypoint":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Current
         Waypoint","IsShared":true},"SinglewaypointReachedDistance":2.5,"StringwaypointsParentName":"Enemy
-        Waypoints"}]}]},"Variables":[{"Type":"SharedUnit","Name":"Self Unit","IsShared":true,"UnitmValue":23},{"Type":"SharedEnemy","Name":"Self
-        Enemy","IsShared":true,"EnemymValue":24},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Instigator","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Current
+        Waypoints"}]}]},"Variables":[{"Type":"SharedUnit","Name":"Self Unit","IsShared":true,"UnitmValue":21},{"Type":"SharedEnemy","Name":"Self
+        Enemy","IsShared":true,"EnemymValue":22},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Instigator","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Current
         Waypoint","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
@@ -245,9 +245,6 @@ MonoBehaviour:
         - {fileID: 8866549508346112974}
         - {fileID: 7851971259387985864}
         - {fileID: 7851971259387985865}
-        - {fileID: 3829017153016117781}
-        - {fileID: 8866549508346112974}
-        - {fileID: 7851971259387985864}
         - {fileID: 8866549508346112974}
         - {fileID: 7851971259387985864}
         - {fileID: 8866549508346112974}
@@ -257,7 +254,8 @@ MonoBehaviour:
         - {fileID: 8866549508346112974}
         - {fileID: 7851971259387985864}
         - {fileID: 7851971259387985865}
-        - {fileID: 3829017153016117781}
+        - {fileID: 8866549508346112974}
+        - {fileID: 7851971259387985864}
         - {fileID: 8866549508346112974}
         - {fileID: 7851971259387985864}
         - {fileID: 8866549508346112974}
@@ -291,7 +289,7 @@ MonoBehaviour:
       dropChance: 100
     - prefab: {fileID: 5092453427305243391, guid: 60e896d396c037b4f95553ed7ef10d0c, type: 3}
       dropChance: 15
-  collision: {fileID: 2676034398448640683}
+  collision: {fileID: 3043525033479484219}
   animator: {fileID: 3829017153016117781}
   aiPath: {fileID: 7851971259387985865}
   aiDestinationSetter: {fileID: 7851971259387985864}
@@ -361,7 +359,7 @@ MonoBehaviour:
   rotationSpeed: 32400
   slowdownDistance: 0.6
   pickNextWaypointDist: 2
-  endReachedDistance: 2.5
+  endReachedDistance: 0.5
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0

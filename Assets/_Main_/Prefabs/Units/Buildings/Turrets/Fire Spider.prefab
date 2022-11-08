@@ -5067,7 +5067,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 4, y: 4}
   m_EdgeRadius: 0
 --- !u!114 &5763682718666288547
 MonoBehaviour:
@@ -5086,7 +5086,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 0}
   buildingSO: {fileID: 11400000, guid: b2ade9b0e415764438502f614c51d70f, type: 2}
   owner: {fileID: 0}
-  selectionSize: {x: 3, y: 3}
+  selectionSize: {x: 4, y: 4}
   turretSO: {fileID: 11400000, guid: 55dc0640a6c1ece4cb0e9ba021affd45, type: 2}
   projectilePrefab: {fileID: 1477133989141385451, guid: f5a5433541974c147be12238d42d0a43, type: 3}
   isSleeping: 1

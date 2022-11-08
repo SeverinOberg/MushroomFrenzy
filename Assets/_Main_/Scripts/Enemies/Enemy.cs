@@ -47,6 +47,8 @@ public class Enemy : Unit
 
     private bool canAttack = true;
 
+    private float initialMeleeAttackRange;
+
     private void OnEnable()
     {
         OnSetMovementSpeed += OnSetMovementSpeedCallback;
@@ -60,9 +62,10 @@ public class Enemy : Unit
     protected override void Start()
     {
         base.Start();
-
+        
         InjectSOIntoBackingFields();
         aiPath.maxSpeed = MovementSpeed;
+        initialMeleeAttackRange = MeleeAttackRange;
     }
 
     private void InjectSOIntoBackingFields()
@@ -87,7 +90,7 @@ public class Enemy : Unit
         if (aiDestinationSetter.target)
         {
             FlipTowardsTarget();
-            HandleStuck();
+            //HandleStuck();
         }
     }
 
@@ -178,9 +181,9 @@ public class Enemy : Unit
         
     }
 
-    public void SetMeleeAttackRange(float value)
+    public void AddToMeleeAttackRange(float value)
     {
-        MeleeAttackRange = value;
+        MeleeAttackRange = initialMeleeAttackRange + value;
     }
 
     private void HandleMovementAnimation()
@@ -228,7 +231,7 @@ public class Enemy : Unit
 
             animator.SetTrigger("attack");
 
-            bool isDead = target.TakeDamage(Utilities.GetRandomFromMinMax(MeleeAttackRange, MeleeAttackRange));
+            bool isDead = target.TakeDamage(Utilities.GetRandomFromMinMax(MinMeleeDamage, MaxMeleeDamage));
             if (isDead)
             {
                 return true;

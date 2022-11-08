@@ -15,7 +15,6 @@ public class Attack : Action
 
     [SerializeField, RequiredField] private AIDestinationSetter aiDestinationSetter;
     [SerializeField, RequiredField] private AIPath              aiPath;
-    [SerializeField, RequiredField] private Animator            animator;
     [SerializeField, RequiredField] private SharedUnit          self;
     [SerializeField, RequiredField] private SharedTransform     currentWaypoint;
 

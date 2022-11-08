@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b405d1ddc5a4305479c1126e49f6c3f4, type: 3}
   m_Name: Fire Spider
   m_EditorClassIdentifier: 
-  minDamage: 1
-  maxDamage: 1.5
-  attackSpeed: 0.5
+  minDamage: 0.35
+  maxDamage: 0.75
+  attackSpeed: 1
   attackRange: 8
   scanCooldown: 1
   scanRange: 8

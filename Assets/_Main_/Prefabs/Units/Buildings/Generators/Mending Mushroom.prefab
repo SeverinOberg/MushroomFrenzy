@@ -80,6 +80,7 @@ MonoBehaviour:
   buildingSO: {fileID: 11400000, guid: 55f92335a97446540b4903b71e4c8f11, type: 2}
   owner: {fileID: 0}
   selectionSize: {x: 2, y: 2}
+  animator: {fileID: 2564114191351952937}
   healAmount: 10
   sapling: {fileID: 1916794971, guid: a60d90a80e31bf74ab49744bdd99c659, type: 3}
   ripe: {fileID: -34493147, guid: a60d90a80e31bf74ab49744bdd99c659, type: 3}
@@ -109,7 +110,7 @@ GameObject:
   - component: {fileID: 3238327388715474224}
   - component: {fileID: 2564114191351952937}
   m_Layer: 0
-  m_Name: Sprite
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

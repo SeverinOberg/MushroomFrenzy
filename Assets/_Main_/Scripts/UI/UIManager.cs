@@ -31,6 +31,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI smelterUIResourceAmountText;
     [SerializeField] private Image smelterUIProgressBarImage;
 
+    [SerializeField] private GameObject armoryUI;
+    [SerializeField] private GameObject armoryUIBowSlot;
+    [SerializeField] private GameObject armoryUIMagicStaffSlot;
+
     [SerializeField] private GameObject merchantUI;
 
     public System.Action OnSmelterUILoadBtnClick;
@@ -227,6 +231,24 @@ public class UIManager : MonoBehaviour
     {
         merchantUI.SetActive(false);
     }
+
+    // + Armory +
+    public void SetArmoryUI(bool value)
+    {
+        armoryUI.SetActive(value);
+    }
+
+    public void EnableArmoryBowSlot()
+    {
+        armoryUIBowSlot.SetActive(true);
+
+    }
+
+    public void EnableArmoryMagicStaffSlot()
+    {
+        armoryUIMagicStaffSlot.SetActive(true);
+    }
+    // - Armory -
 
     public static void Quit()
     {

@@ -18,13 +18,13 @@ MonoBehaviour:
   title: Stone
   description: It's a rock.
   buyPrice:
-    spiritEssence: 10
+    spiritEssence: 5
     wood: 0
     stone: 0
     ironOre: 0
     ironBar: 0
   sellPrice:
-    spiritEssence: 5
+    spiritEssence: 3
     wood: 0
     stone: 0
     ironOre: 0

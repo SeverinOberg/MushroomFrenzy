@@ -3,13 +3,10 @@ using UnityEngine;
 
 public class MendingMushroom : Building 
 {
-    #region Variables & Properties
-
+    [SerializeField] private Animator animator;
     [SerializeField] private float healAmount = 10f;
     [SerializeField] private Sprite sapling;
     [SerializeField] private Sprite ripe;
-
-    private Animator animator;
 
     enum Stages
     {
@@ -19,16 +16,11 @@ public class MendingMushroom : Building
     }
     private Stages stage;
 
-    #endregion
-
-    #region Unity
-
     protected override void Start()
     {
         base.Start();
-        
-        animator = SpriteRenderer.GetComponent<Animator>();
-        StartCoroutine("Growth");
+
+        StartCoroutine(Growth());
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -47,34 +39,28 @@ public class MendingMushroom : Building
                 return;
             }
 
-            player.TriggerAnimation("Eat");
+            player.TriggerAnimation("eat");
             player.SetStopMovement(true, 0.5f);
             player.Heal(healAmount);
             Destroy(gameObject);
         }
     }
 
-    #endregion
-
-    #region Methods
-
     private IEnumerator Growth()
     {
         stage = Stages.seed;
-        animator.SetTrigger("Seed");
+        animator.SetTrigger("seed");
 
         yield return new WaitForSeconds(5);
         stage = Stages.sapling;
-        animator.SetTrigger("Sapling");
+        animator.SetTrigger("sapling");
 
         yield return new WaitForSeconds(5);
         stage = Stages.ripe;
-        animator.SetTrigger("Ripe");
+        animator.SetTrigger("ripe");
 
         yield return new WaitForSeconds(1);
-        animator.SetTrigger("Ripe Idle");
+        animator.SetTrigger("ripe_idle");
     }
-
-    #endregion
 
 }

@@ -6,14 +6,17 @@ using UnityEngine.EventSystems;
 public class PlayerController : Unit
 {
 
-    [SerializeField] private InputController inputController;
-    [SerializeField] private ResourceManager resourceManager;
-    [SerializeField] private BuildingSystem  buildingSystem;
-    [SerializeField] private UIManager       uiManager;
-    [SerializeField] private Animator        animator;
-    [SerializeField] private Animator        effectsAnimator;
-    [SerializeField] private Animator        attackEffectsAnimator;
-    [SerializeField] private Transform       attackEffectsArm;
+    [SerializeField] private InputController  inputController;
+    [SerializeField] private ResourceManager  resourceManager;
+    [SerializeField] private BuildingSystem   buildingSystem;
+    [SerializeField] private UIManager        uiManager;
+    [SerializeField] private Animator         animator;
+    [SerializeField] private Animator         effectsAnimator;
+    [SerializeField] private Animator         attackEffectsAnimator;
+    [SerializeField] private Transform        attackEffectsArm;
+    [SerializeField] private ArrowProjectile  bowProjectile;
+    [SerializeField] private MagicProjectile magicStaffProjectile;
+
 
     public InputController InputController { get { return inputController; } }
     public ResourceManager ResourceManager { get { return resourceManager; } }
@@ -38,7 +41,17 @@ public class PlayerController : Unit
 
     [HideInInspector] public bool axeUpgrade;
     [HideInInspector] public bool pickaxeUpgrade;
-    
+
+    public bool       bowUpgrade;
+    public bool       magicStaffUpgrade;
+    public enum EquippedWeapon
+    {
+        Fists,
+        Bow,
+        MagicStaff
+    }
+    public EquippedWeapon equippedWeapon = EquippedWeapon.Fists;
+
     private float timeSinceLastAttack;
     private float attackCooldown      = 1.0f;
     private float attackRadius        = 1.8f;
@@ -76,21 +89,6 @@ public class PlayerController : Unit
 
     private void Update()
     {
-        //// DEBUG MOUSE RAYCAST HIT
-        //if (Input.GetKeyDown(KeyCode.Mouse0))
-        //{
-        //    Utilities.GetRaycastAllOnMousePoint(out RaycastHit2D[] results);
-        //    for (int i = 0; i < results.Length; i++)
-        //    {
-        //        Debug.Log($"Raycast: {results[i].transform.name}");
-        //    }
-
-        //    // DEBUG MOUSE UI EVENT DATA
-        //    PointerEventData pointerEventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
-        //    Debug.Log($"pointerEventData: {pointerEventData.selectedObject}");
-        //}
-        //// DEBUG
-
         ForceReduceVelocity();
 
         if (IsDead || GameManager.Instance.HasLost || GameManager.Instance.HasWon)
@@ -131,11 +129,11 @@ public class PlayerController : Unit
 
         if (horizontalInput != 0 || verticalInput != 0)
         {
-            animator.SetFloat("Run", 1);
+            animator.SetFloat("movement_speed", 1);
         }
         else
         {
-            animator.SetFloat("Run", 0);
+            animator.SetFloat("movement_speed", 0);
         }
     }
 
@@ -200,30 +198,25 @@ public class PlayerController : Unit
                     return;
                 }
             }
-            Attack();
+            PlayerAttack();
         }
     }
 
     private void Gather(ResourceNode resourceNode)
     {
-        animator.SetTrigger("Attack");
+        animator.SetTrigger("attack");
         resourceNode.Gather();
     }
 
-    public override void Attack()
+    private void PlayerAttack()
     {
+
         if (timeSinceLastAttack <= attackCooldown || BuildingSystem.BuildMode ||  IsMouseOverSelectableTarget())
         {
             return;
         }
 
         Utilities.ResetTimer(ref timeSinceLastAttack);
-
-        Vector2 offsetPos = new Vector2
-        (
-            transform.position.x + mouseDirectionFromPlayer.x * offsetPosMultiplier,
-            transform.position.y + mouseDirectionFromPlayer.y * offsetPosMultiplier
-        );
 
         attackEffectsArm.up = mouseDirectionFromPlayer;
 
@@ -233,8 +226,30 @@ public class PlayerController : Unit
             return;
         }
 
-        attackEffectsAnimator.SetTrigger("Attack");
-        animator.SetTrigger("Attack");
+        switch (equippedWeapon)
+        {
+            case EquippedWeapon.Fists:
+                FistsAttack();
+                break;
+            case EquippedWeapon.Bow:
+                BowAttack();
+                break;
+            case EquippedWeapon.MagicStaff:
+                MagicStaffAttack();
+                break;
+        }
+    }
+
+    private void FistsAttack()
+    {
+        attackEffectsAnimator.SetTrigger("attack");
+        animator.SetTrigger("attack");
+
+        Vector2 offsetPos = new Vector2
+        (
+            transform.position.x + mouseDirectionFromPlayer.x * offsetPosMultiplier,
+            transform.position.y + mouseDirectionFromPlayer.y * offsetPosMultiplier
+        );
 
         RaycastHit2D[] hits = Physics2D.CircleCastAll(offsetPos, attackRadius, mouseDirectionFromPlayer, attackDistance);
         for (int i = 0; i < hits.Length; i++)
@@ -246,12 +261,29 @@ public class PlayerController : Unit
             
             if (hits[i].transform.TryGetComponent(out Enemy enemy) && !enemy.IsDead)
             {
-                enemy.TakeDamage(this, Random.Range(AttackDamage * 0.5f, AttackDamage * 2));
+                enemy.TakeDamage(this, GetDamageRoll());
                 enemy.Blink(Color.red);
                 enemy.AddForce(mouseDirectionFromPlayer, 10);
                 enemy.PausePathing(0.2f);
             }
         }
+    }
+
+    private void BowAttack()
+    {
+        animator.SetTrigger("attack");
+        bowProjectile.Spawn(this, mouseDirectionFromPlayer);
+    }
+
+    private void MagicStaffAttack()
+    {
+        animator.SetTrigger("attack");
+        magicStaffProjectile.Spawn(this, mouseDirectionFromPlayer);
+    }
+
+    public float GetDamageRoll()
+    {
+        return Random.Range(AttackDamage * 0.5f, AttackDamage * 2);
     }
 
     public override bool TakeDamage(float value)
@@ -420,11 +452,27 @@ public class PlayerController : Unit
         }
     }
 
+    public void ChangeWeapon(string weaponName)
+    {
+        switch (weaponName)
+        {
+            case "fists":
+                equippedWeapon = EquippedWeapon.Fists;
+                break;
+            case "bow":
+                equippedWeapon = EquippedWeapon.Bow;
+                break;
+            case "magic_staff":
+                equippedWeapon = EquippedWeapon.MagicStaff;
+                break;
+        }
+    }
+
     public override void Die(float destroyDelaySeconds)
     {
         base.Die(destroyDelaySeconds);
         stopMovement = true;
-        animator.SetTrigger("Dead");
+        animator.SetTrigger("die");
         GameManager.Instance.LoseGame();
     }
 

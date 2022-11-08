@@ -18,4 +18,4 @@ MonoBehaviour:
   faction: 1
   type: 7
   maxHealth: 25
-  movementSpeed: 1.25
+  movementSpeed: 1

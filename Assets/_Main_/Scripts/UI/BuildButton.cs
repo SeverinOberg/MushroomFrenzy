@@ -5,33 +5,14 @@ public class BuildButton : MonoBehaviour
 {
 
     [SerializeField] private GameObject buildingPrefab;
-    private Building building;
     private PlayerController player;
-    
-    private Button button;
-
-    #region Unity
+    private Building building;
 
     private void Awake()
     {
-        button = GetComponent<Button>();
         building = buildingPrefab.GetComponent<Building>();
         player = GetComponentInParent<PlayerController>();
     }
-
-    private void OnEnable()
-    {
-        button.onClick.AddListener(BuildButtonClicked);
-    }
-
-    private void OnDisable()
-    {
-        button.onClick.RemoveAllListeners();
-    }
-
-    #endregion
-
-    #region Methods
 
     public void BuildButtonClicked()
     {
@@ -47,7 +28,7 @@ public class BuildButton : MonoBehaviour
         (
             building.Title, 
             building.Description,
-            $"Wood: {building.buildingSO.woodCost} Stone: {building.buildingSO.stoneCost} Iron Bars: {building.buildingSO.ironBarCost}"
+            BuildResourceTooltip()
         );
     }
 
@@ -56,5 +37,30 @@ public class BuildButton : MonoBehaviour
         player.BuildingSystem.buildingTooltip.OnTooltip?.Invoke("", "", "");
     }
 
-    #endregion
+    private string BuildResourceTooltip()
+    {
+        string resourceTooltip = "";
+        if (building.buildingSO.spiritEssenceCost > 0)
+        {
+            resourceTooltip += $"Spirit Essence: {building.buildingSO.spiritEssenceCost} ";
+        }
+        if (building.buildingSO.woodCost > 0)
+        {
+            resourceTooltip += $"Wood: {building.buildingSO.woodCost} ";
+        }
+        if (building.buildingSO.stoneCost > 0)
+        {
+            resourceTooltip += $"Stone: {building.buildingSO.stoneCost} ";
+        }
+        if (building.buildingSO.ironOreCost > 0)
+        {
+            resourceTooltip += $"Iron Ore: {building.buildingSO.ironOreCost} ";
+        }
+        if (building.buildingSO.ironBarCost > 0)
+        {
+            resourceTooltip += $"Iron Bars: {building.buildingSO.ironBarCost} ";
+        }
+        return resourceTooltip;
+    }
+
 }

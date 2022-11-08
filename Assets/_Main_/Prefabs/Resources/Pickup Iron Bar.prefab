@@ -160,12 +160,13 @@ MonoBehaviour:
   _collision: {fileID: 9018870859546146966}
   body: {fileID: 3174750564383473523}
   shadow: {fileID: 5254090585482052990}
+  pickupClip: {fileID: 8300000, guid: b9dff0afff9282542b194f95a9e78a7d, type: 3}
   impactPS: {fileID: 0}
   amount: 1
   destroyAfter: 120
   type: 4
   animate: 1
-  spawnDirection: 4
+  spawnDirection: 2
   spawnForce: 1.2
 --- !u!1 &5254090585482052990
 GameObject:

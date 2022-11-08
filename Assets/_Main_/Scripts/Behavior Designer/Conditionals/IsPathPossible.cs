@@ -11,7 +11,7 @@ public class IsPathPossible : Conditional
     {
         if (!aiDestinationSetter.target)
         {
-            Debug.LogError("aiDestinationSetter.target not set!");
+            Debug.LogError($"{Owner.name}: aiDestinationSetter.target not set!");
             return TaskStatus.Failure;
         }
 

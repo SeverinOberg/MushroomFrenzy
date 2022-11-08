@@ -246,6 +246,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Load Button
       objectReference: {fileID: 0}
+    - target: {fileID: 3755816434837721778, guid: c36c74843cdb8a84bac4662a1b195e11, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5397851197869619921, guid: c36c74843cdb8a84bac4662a1b195e11, type: 3}
       propertyPath: m_text
       value: Load
@@ -494,6 +498,10 @@ PrefabInstance:
     - target: {fileID: 3755816434837721778, guid: c36c74843cdb8a84bac4662a1b195e11, type: 3}
       propertyPath: m_Name
       value: Settings Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 3755816434837721778, guid: c36c74843cdb8a84bac4662a1b195e11, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5397851197869619921, guid: c36c74843cdb8a84bac4662a1b195e11, type: 3}
       propertyPath: m_text
