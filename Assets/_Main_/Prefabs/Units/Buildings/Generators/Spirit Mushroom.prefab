@@ -115,7 +115,7 @@ MonoBehaviour:
   selectionSize: {x: 2, y: 2.5}
   spiritEssencePrefab: {fileID: 5092453427305243391, guid: bceec4be1ca2b764fa07317583494fc5, type: 3}
   spawnPoint: {fileID: 88346941062530482}
-  spawnDelay: 5
+  spawnDelay: 25
 --- !u!114 &4714015234518784732
 MonoBehaviour:
   m_ObjectHideFlags: 0

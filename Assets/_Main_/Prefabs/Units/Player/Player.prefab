@@ -8683,7 +8683,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6102420083341186469
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13810,7 +13810,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!50 &1310340907
 Rigidbody2D:
@@ -15142,7 +15142,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 130, y: -85}
+  m_AnchoredPosition: {x: 240, y: -85}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7926116780352415160
@@ -16779,7 +16779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 350, y: -85}
+  m_AnchoredPosition: {x: 460, y: -85}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &9073899706833393620
@@ -20219,7 +20219,7 @@ PrefabInstance:
     - target: {fileID: 6846977373300424478, guid: 87cf94a04db19c144bd22e67d2df0c14, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: edcbd57032ccbd44e9f228cdd323ab50, type: 3}
+      objectReference: {fileID: 21300000, guid: d5d7f95582604484a87a97c246803bc7, type: 3}
     - target: {fileID: 6846977373300424478, guid: 87cf94a04db19c144bd22e67d2df0c14, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -21192,7 +21192,7 @@ PrefabInstance:
     - target: {fileID: 6846977373300424478, guid: 87cf94a04db19c144bd22e67d2df0c14, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2c523fa3ca4e1fc4b9a5713e504e6cce, type: 3}
+      objectReference: {fileID: 21300000, guid: 0992a265021480b4c86ab30bb14bd807, type: 3}
     - target: {fileID: 6846977373300424478, guid: 87cf94a04db19c144bd22e67d2df0c14, type: 3}
       propertyPath: m_Color.b
       value: 1

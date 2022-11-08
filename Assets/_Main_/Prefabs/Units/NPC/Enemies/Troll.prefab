@@ -74,12 +74,12 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 7526db53bdf28a54ba50210dd15038bc, type: 3}
-  m_Color: {r: 1, g: 0.5518868, b: 0.6244107, a: 1}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: -7385789195546760866, guid: c1cdd26cc09ad224884556bc4d8296ae, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 1
+  m_DrawMode: 0
   m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -115,7 +115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5594728459152701680}
-  - component: {fileID: 3043525033479484219}
+  - component: {fileID: 7491487252883370096}
   - component: {fileID: -39698797755197262}
   - component: {fileID: 257178543884637222}
   - component: {fileID: 8866549508346112974}
@@ -139,7 +139,7 @@ Transform:
   m_GameObject: {fileID: 4550206164777577080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3126367661890983761}
@@ -147,8 +147,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &3043525033479484219
-CapsuleCollider2D:
+--- !u!58 &7491487252883370096
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -160,9 +160,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.3}
-  m_Size: {x: 1.5, y: 2.25}
-  m_Direction: 0
+  m_Offset: {x: 0, y: -0.5}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!50 &-39698797755197262
 Rigidbody2D:
   serializedVersion: 4
@@ -287,13 +287,14 @@ MonoBehaviour:
     data:
     - prefab: {fileID: 5092453427305243391, guid: bceec4be1ca2b764fa07317583494fc5, type: 3}
       dropChance: 100
-    - prefab: {fileID: 5092453427305243391, guid: 60e896d396c037b4f95553ed7ef10d0c, type: 3}
-      dropChance: 15
-  collision: {fileID: 3043525033479484219}
+  collision: {fileID: 0}
   animator: {fileID: 3829017153016117781}
   aiPath: {fileID: 7851971259387985865}
   aiDestinationSetter: {fileID: 7851971259387985864}
   behaviorTree: {fileID: 257178543884637222}
+  meleeAttackTriggers:
+  - attack_1
+  - attack_2
 --- !u!114 &2836422623283600677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 5
-  radius: 0.5
+  radius: 1
   height: 2
   canMove: 1
   maxSpeed: 0.25
@@ -359,7 +360,7 @@ MonoBehaviour:
   rotationSpeed: 32400
   slowdownDistance: 0.6
   pickNextWaypointDist: 2
-  endReachedDistance: 0.5
+  endReachedDistance: 1.5
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
@@ -417,7 +418,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7781444607916574300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.047, y: -1.98, z: 0}
+  m_LocalPosition: {x: 0, y: -1.62, z: 0}
   m_LocalScale: {x: 0.995259, y: 0.21875, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -561,7 +562,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8889997835679883008, guid: 4cf3e0ad43a8f6c49a638d101e73a81b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8889997835679883008, guid: 4cf3e0ad43a8f6c49a638d101e73a81b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

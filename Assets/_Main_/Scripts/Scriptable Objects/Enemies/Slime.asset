@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44221f33b0864644a86899cb19d0f57f, type: 3}
+  m_Name: Slime
+  m_EditorClassIdentifier: 
+  type: 1
+  scanRange: 12
+  isMelee: 1
+  meleeAttackRange: 2
+  meleeAttackSpeed: 4
+  minMeleeDamage: 2
+  maxMeleeDamage: 5
+  meleeKnockbackForce: 2.5
+  isRanged: 0
+  rangedAttackRange: 0
+  rangedAttackSpeed: 0
+  minRangedDamage: 0
+  maxRangedDamage: 0
+  rangedKnockbackForce: 0
+  minRangedAccuracyOffset: 0
+  maxRangedAccuracyOffset: 0

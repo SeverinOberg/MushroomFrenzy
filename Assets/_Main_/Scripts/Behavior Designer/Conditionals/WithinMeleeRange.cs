@@ -15,7 +15,7 @@ public class WithinMeleeRange : Conditional
             return TaskStatus.Failure;
         }
 
-        if (Vector2.Distance(transform.position, aiDestinationSetter.target.transform.position) <= self.Value.MeleeAttackRange)
+        if (Vector2.Distance(transform.position, aiDestinationSetter.target.position) <= self.Value.MeleeAttackRange)
         {
             return TaskStatus.Success;
         }

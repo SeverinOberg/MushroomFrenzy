@@ -29,8 +29,8 @@ Transform:
   m_LocalScale: {x: 1.8110936, y: 0.21875, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5594728459152701680}
-  m_RootOrder: 1
+  m_Father: {fileID: 8807226640992776207}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7551694711254924515
 SpriteRenderer:
@@ -113,7 +113,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6165340828974819632}
   m_Father: {fileID: 5594728459152701680}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -226,7 +227,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8807226640992776207}
-  - {fileID: 6165340828974819632}
   - {fileID: 1743338731727415408}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -246,7 +246,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.6
 --- !u!50 &7989776902710437401
 Rigidbody2D:
   serializedVersion: 4
@@ -371,13 +371,13 @@ MonoBehaviour:
     data:
     - prefab: {fileID: 5092453427305243391, guid: bceec4be1ca2b764fa07317583494fc5, type: 3}
       dropChance: 75
-    - prefab: {fileID: 5092453427305243391, guid: 60e896d396c037b4f95553ed7ef10d0c, type: 3}
-      dropChance: 5
   collision: {fileID: 2676034398448640683}
   animator: {fileID: 5192009391815070794}
   aiPath: {fileID: 7851971259387985865}
   aiDestinationSetter: {fileID: 7851971259387985864}
   behaviorTree: {fileID: 6363095149491552189}
+  meleeAttackTriggers:
+  - attack_1
 --- !u!114 &2836422623283600677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 5
-  radius: 0.5
+  radius: 1
   height: 2
   canMove: 1
   maxSpeed: 1
@@ -442,8 +442,8 @@ MonoBehaviour:
   maxAcceleration: -2.5
   rotationSpeed: 360
   slowdownDistance: 0.2
-  pickNextWaypointDist: 3
-  endReachedDistance: 0.2
+  pickNextWaypointDist: 1
+  endReachedDistance: 1
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
@@ -501,7 +501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8889997835679883008, guid: 4cf3e0ad43a8f6c49a638d101e73a81b, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8889997835679883008, guid: 4cf3e0ad43a8f6c49a638d101e73a81b, type: 3}
       propertyPath: m_AnchorMax.x

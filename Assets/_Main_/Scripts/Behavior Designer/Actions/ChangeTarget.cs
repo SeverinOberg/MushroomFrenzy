@@ -26,7 +26,7 @@ public class ChangeTarget : Action
         }
 
         aiDestinationSetter.target = target.Value;
-        self.Value.MeleeAttackRange = target.Value.GetComponent<Collider2D>().bounds.size.x * 0.5f + initialMeleeAttackRange;
+        self.Value.AddToMeleeAttackRange(target.Value.GetComponent<Collider2D>().bounds.size.x * 0.5f);
 
         if (clearSharedTargetAfterComplete)
         {

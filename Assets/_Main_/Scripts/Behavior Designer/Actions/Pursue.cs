@@ -37,7 +37,7 @@ public class Pursue : Action
 
     private bool IsTargetTooFarAway()
     {
-        if (Vector2.Distance(transform.position, aiDestinationSetter.target.transform.position) > self.Value.ScanRange)
+        if (Vector2.Distance(transform.position, aiDestinationSetter.target.position) > self.Value.ScanRange)
         {
             return true;
         }

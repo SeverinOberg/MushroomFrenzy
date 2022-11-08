@@ -10,6 +10,7 @@ public class Enemy : Unit
     public enum EnemyTypes
     {
         Boar,
+        Slime,
         Goblin,
         Troll
     }
@@ -22,6 +23,8 @@ public class Enemy : Unit
     [SerializeField] private AIPath              aiPath;
     [SerializeField] private AIDestinationSetter aiDestinationSetter;
     [SerializeField] private BehaviorTree        behaviorTree;
+    [SerializeField] private string[]            meleeAttackTriggers;
+
 
     private float meleeAttackRange;
 
@@ -229,7 +232,7 @@ public class Enemy : Unit
             canAttack = false;
             StartCoroutine(DoResetCanAttack());
 
-            animator.SetTrigger("attack");
+            animator.SetTrigger(meleeAttackTriggers[Random.Range(0, meleeAttackTriggers.Length)]);
 
             bool isDead = target.TakeDamage(Utilities.GetRandomFromMinMax(MinMeleeDamage, MaxMeleeDamage));
             if (isDead)
